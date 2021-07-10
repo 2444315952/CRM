@@ -1,0 +1,25 @@
+{
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --port 8085",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@antv/data-set": "^0.11.8",
+    "@antv/g2plot": "^2.3.26",
+    "axios": "^0.21.1",
+    "element-plus": "^1.0.2-beta.55",
+    "moment": "^2.29.1",
+    "qs": "^6.10.1",
+    "vue": "^3.0.5",
+    "vue-axios": "^3.2.4",
+    "vue-router": "^4.0.10",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.4",
+    "@vue/compiler-sfc": "^3.0.5",
+    "vite": "^2.4.0"
+  }
+}
