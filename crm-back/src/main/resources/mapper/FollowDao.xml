@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.FollowDao">
+
+    <resultMap id="BaseResultMap" type="com.crm.entity.Follow">
+        <!--@Table follow-->
+        <result property="followId" column="follow_id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="followType" column="follow_type" jdbcType="VARCHAR"/>
+        <result property="followContent" column="follow_content" jdbcType="VARCHAR"/>
+        <result property="followTime" column="follow_time" jdbcType="TIMESTAMP"/>
+        <result property="addtime" column="addtime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          follow_id, emp_id, follow_type, follow_content, follow_time, addtime
+        from CRM_Project.follow
+        where follow_id = #{followId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          follow_id, emp_id, follow_type, follow_content, follow_time, addtime
+        from CRM_Project.follow
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          follow_id, emp_id, follow_type, follow_content, follow_time, addtime
+        from CRM_Project.follow
+        <where>
+            <if test="followId != null">
+                and follow_id = #{followId}
+            </if>
+            <if test="empId != null">
+                and emp_id = #{empId}
+            </if>
+            <if test="followType != null and followType != ''">
+                and follow_type = #{followType}
+            </if>
+            <if test="followContent != null and followContent != ''">
+                and follow_content = #{followContent}
+            </if>
+            <if test="followTime != null">
+                and follow_time = #{followTime}
+            </if>
+            <if test="addtime != null">
+                and addtime = #{addtime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="followId" useGeneratedKeys="true">
+        insert into CRM_Project.follow(emp_id, follow_type, follow_content, follow_time, addtime)
+        values (#{empId}, #{followType}, #{followContent}, #{followTime}, #{addtime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.follow
+        <set>
+            <if test="empId != null">
+                emp_id = #{empId},
+            </if>
+            <if test="followType != null and followType != ''">
+                follow_type = #{followType},
+            </if>
+            <if test="followContent != null and followContent != ''">
+                follow_content = #{followContent},
+            </if>
+            <if test="followTime != null">
+                follow_time = #{followTime},
+            </if>
+            <if test="addtime != null">
+                addtime = #{addtime},
+            </if>
+        </set>
+        where follow_id = #{followId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from CRM_Project.follow where follow_id = #{followId}
+    </delete>
+
+</mapper>
