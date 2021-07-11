@@ -14,14 +14,14 @@ import lombok.ToString;
  * (CollectionRecord)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:45
+ * @since 2021-07-11 11:28:28
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class CollectionRecord implements Serializable {
-    private static final long serialVersionUID = -22848602494512360L;
+    private static final long serialVersionUID = 715840366765813487L;
 
     private Integer collectionId;
 

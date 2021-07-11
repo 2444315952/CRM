@@ -11,14 +11,14 @@ import java.io.Serializable;
  * (RecordStatic)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:47
+ * @since 2021-07-11 11:28:32
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class RecordStatic implements Serializable {
-    private static final long serialVersionUID = -27535015551554019L;
+    private static final long serialVersionUID = 719264206991310829L;
 
     private Integer recordStaticId;
 

@@ -11,14 +11,14 @@ import java.io.Serializable;
  * (Publicpond)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:47
+ * @since 2021-07-11 11:28:31
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class Publicpond implements Serializable {
-    private static final long serialVersionUID = 285507745730253927L;
+    private static final long serialVersionUID = 877850296063600695L;
 
     private Integer publicpondId;
 

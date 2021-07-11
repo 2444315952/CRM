@@ -12,14 +12,14 @@ import java.math.BigDecimal;
  * (Receipt)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:47
+ * @since 2021-07-11 11:28:31
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class Receipt implements Serializable {
-    private static final long serialVersionUID = 615113379031295585L;
+    private static final long serialVersionUID = -54965752138827853L;
 
     private Integer receiptId;
 

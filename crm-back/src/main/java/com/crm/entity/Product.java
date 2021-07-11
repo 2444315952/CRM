@@ -6,20 +6,21 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * (Product)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:47
+ * @since 2021-07-11 11:28:31
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class Product implements Serializable {
-    private static final long serialVersionUID = -45802613789779943L;
+    private static final long serialVersionUID = -74460450556658894L;
 
     private Integer proId;
 
@@ -27,7 +28,7 @@ public class Product implements Serializable {
 
     private String proName;
 
-    private Integer proPrice;
+    private BigDecimal proPrice;
 
     private Integer proNum;
 

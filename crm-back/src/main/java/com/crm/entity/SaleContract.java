@@ -12,14 +12,14 @@ import java.util.Date;
  * (SaleContract)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:47
+ * @since 2021-07-11 11:28:32
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class SaleContract implements Serializable {
-    private static final long serialVersionUID = 666438837009980198L;
+    private static final long serialVersionUID = -25905836751928758L;
 
     private Integer saleContractId;
 
@@ -28,6 +28,8 @@ public class SaleContract implements Serializable {
     private Integer leadId;
 
     private Integer empId;
+
+    private Integer customerId;
 
     private String contractName;
 

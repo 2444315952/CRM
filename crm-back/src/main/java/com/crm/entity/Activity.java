@@ -14,14 +14,14 @@ import lombok.ToString;
  * (Activity)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:45
+ * @since 2021-07-11 11:28:27
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class Activity implements Serializable {
-    private static final long serialVersionUID = -73571679899325497L;
+    private static final long serialVersionUID = -28731547927454180L;
 
     private Integer activityId;
 

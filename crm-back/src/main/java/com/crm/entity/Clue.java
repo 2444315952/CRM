@@ -12,14 +12,14 @@ import lombok.ToString;
  * (Clue)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:45
+ * @since 2021-07-11 11:28:28
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class Clue implements Serializable {
-    private static final long serialVersionUID = 238581704934637018L;
+    private static final long serialVersionUID = 714697424970679126L;
 
     private Integer activityId;
 

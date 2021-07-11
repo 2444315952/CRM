@@ -13,20 +13,22 @@ import java.util.Date;
  * (SaleReturn)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:47
+ * @since 2021-07-11 11:28:33
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class SaleReturn implements Serializable {
-    private static final long serialVersionUID = -15744689802812507L;
+    private static final long serialVersionUID = -41795661627925744L;
 
     private Integer saleReturnId;
 
     private Integer saleOrderId;
 
     private Integer empId;
+
+    private Integer customerId;
 
     private String saleReturnName;
 

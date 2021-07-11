@@ -14,20 +14,24 @@ import lombok.ToString;
  * (SaleOrder)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:47
+ * @since 2021-07-11 11:28:32
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @ToString
 public class SaleOrder implements Serializable {
-    private static final long serialVersionUID = 745208800292957595L;
+    private static final long serialVersionUID = -62176361724571938L;
 
     private Integer saleOrderId;
 
     private Integer leadId;
 
     private Integer empId;
+
+    private Integer customerId;
+
+    private Integer activityId;
 
     private String saleOrderName;
 
