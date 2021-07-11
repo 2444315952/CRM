@@ -5,6 +5,7 @@ import {
 
 import Login from '../components/Login.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
+import Activity from '../components/MarketCustomers/Activity.vue'
 
 const routes = [{
 		path: '/',
@@ -18,7 +19,8 @@ const routes = [{
 	{
 		path: '/SaleLead',
 		name: "SaleLead",
-		component: SaleLead
+		// component: SaleLead,
+		component: Activity
 	}
 ]
 
