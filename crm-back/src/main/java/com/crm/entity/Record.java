@@ -1,19 +1,24 @@
 package com.crm.entity;
 
 import java.util.Date;
+import java.math.BigDecimal;
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
-@Data
 /**
  * (Record)实体类
  *
  * @author makejava
- * @since 2021-07-11 11:35:19
+ * @since 2021-07-11 14:45:31
  */
+@AllArgsConstructor
+@Data
 public class Record implements Serializable {
-    private static final long serialVersionUID = 133828751188484290L;
+    private static final long serialVersionUID = -62794600115028051L;
 
     private Integer recordId;
 
@@ -26,54 +31,4 @@ public class Record implements Serializable {
     private String recordName;
 
     private Date recordTime;
-
-
-    public Integer getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
-    }
-
-    public Integer getFollowId() {
-        return followId;
-    }
-
-    public void setFollowId(Integer followId) {
-        this.followId = followId;
-    }
-
-    public String getRecordType() {
-        return recordType;
-    }
-
-    public void setRecordType(String recordType) {
-        this.recordType = recordType;
-    }
-
-    public String getRecordContent() {
-        return recordContent;
-    }
-
-    public void setRecordContent(String recordContent) {
-        this.recordContent = recordContent;
-    }
-
-    public String getRecordName() {
-        return recordName;
-    }
-
-    public void setRecordName(String recordName) {
-        this.recordName = recordName;
-    }
-
-    public Date getRecordTime() {
-        return recordTime;
-    }
-
-    public void setRecordTime(Date recordTime) {
-        this.recordTime = recordTime;
-    }
-
 }

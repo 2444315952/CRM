@@ -1,19 +1,24 @@
 package com.crm.entity;
 
 import java.util.Date;
+import java.math.BigDecimal;
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
-@Data
 /**
  * (Follow)实体类
  *
  * @author makejava
- * @since 2021-07-11 11:35:19
+ * @since 2021-07-11 14:45:28
  */
+@AllArgsConstructor
+@Data
 public class Follow implements Serializable {
-    private static final long serialVersionUID = -42134548551664379L;
+    private static final long serialVersionUID = -21799474009538548L;
 
     private Integer followId;
 
@@ -26,54 +31,4 @@ public class Follow implements Serializable {
     private Date followTime;
 
     private Date addtime;
-
-
-    public Integer getFollowId() {
-        return followId;
-    }
-
-    public void setFollowId(Integer followId) {
-        this.followId = followId;
-    }
-
-    public Integer getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(Integer empId) {
-        this.empId = empId;
-    }
-
-    public String getFollowType() {
-        return followType;
-    }
-
-    public void setFollowType(String followType) {
-        this.followType = followType;
-    }
-
-    public String getFollowContent() {
-        return followContent;
-    }
-
-    public void setFollowContent(String followContent) {
-        this.followContent = followContent;
-    }
-
-    public Date getFollowTime() {
-        return followTime;
-    }
-
-    public void setFollowTime(Date followTime) {
-        this.followTime = followTime;
-    }
-
-    public Date getAddtime() {
-        return addtime;
-    }
-
-    public void setAddtime(Date addtime) {
-        this.addtime = addtime;
-    }
-
 }

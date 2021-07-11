@@ -1,18 +1,21 @@
 package com.crm.entity;
 
-import java.io.Serializable;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 /**
  * (Receipt)实体类
  *
  * @author makejava
- * @since 2021-07-11 11:35:20
+ * @since 2021-07-11 14:45:31
  */
+@AllArgsConstructor
+@Data
 public class Receipt implements Serializable {
-    private static final long serialVersionUID = -29665470809352375L;
+    private static final long serialVersionUID = -44043475067171791L;
 
     private Integer receiptId;
 
@@ -22,77 +25,11 @@ public class Receipt implements Serializable {
 
     private String receiptName;
 
-    private Double receiptMoney;
+    private BigDecimal receiptMoney;
 
     private String billTitle;
 
     private String payTaxes;
 
     private String remarks;
-
-
-    public Integer getReceiptId() {
-        return receiptId;
-    }
-
-    public void setReceiptId(Integer receiptId) {
-        this.receiptId = receiptId;
-    }
-
-    public Integer getCollectionId() {
-        return collectionId;
-    }
-
-    public void setCollectionId(Integer collectionId) {
-        this.collectionId = collectionId;
-    }
-
-    public Integer getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(Integer empId) {
-        this.empId = empId;
-    }
-
-    public String getReceiptName() {
-        return receiptName;
-    }
-
-    public void setReceiptName(String receiptName) {
-        this.receiptName = receiptName;
-    }
-
-    public Double getReceiptMoney() {
-        return receiptMoney;
-    }
-
-    public void setReceiptMoney(Double receiptMoney) {
-        this.receiptMoney = receiptMoney;
-    }
-
-    public String getBillTitle() {
-        return billTitle;
-    }
-
-    public void setBillTitle(String billTitle) {
-        this.billTitle = billTitle;
-    }
-
-    public String getPayTaxes() {
-        return payTaxes;
-    }
-
-    public void setPayTaxes(String payTaxes) {
-        this.payTaxes = payTaxes;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
 }

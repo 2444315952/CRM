@@ -1,38 +1,22 @@
 package com.crm.entity;
 
-import java.io.Serializable;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+import java.io.Serializable;
+
 /**
  * (RecordStatic)实体类
  *
  * @author makejava
- * @since 2021-07-11 11:35:19
+ * @since 2021-07-11 14:45:32
  */
+@AllArgsConstructor
+@Data
 public class RecordStatic implements Serializable {
-    private static final long serialVersionUID = 250357776797179975L;
+    private static final long serialVersionUID = -11185542756503528L;
 
     private Integer recordStaticId;
 
     private String recordStaticName;
-
-
-    public Integer getRecordStaticId() {
-        return recordStaticId;
-    }
-
-    public void setRecordStaticId(Integer recordStaticId) {
-        this.recordStaticId = recordStaticId;
-    }
-
-    public String getRecordStaticName() {
-        return recordStaticName;
-    }
-
-    public void setRecordStaticName(String recordStaticName) {
-        this.recordStaticName = recordStaticName;
-    }
-
 }

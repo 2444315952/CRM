@@ -12,14 +12,12 @@ import lombok.ToString;
  * (ReturnProduct)实体类
  *
  * @author makejava
- * @since 2021-07-11 14:24:40
+ * @since 2021-07-11 14:45:32
  */
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
-@ToString
 public class ReturnProduct implements Serializable {
-    private static final long serialVersionUID = 122397266473173903L;
+    private static final long serialVersionUID = -81597185193473319L;
 
     private Integer returnProductId;
 

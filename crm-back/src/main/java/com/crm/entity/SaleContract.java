@@ -1,19 +1,21 @@
 package com.crm.entity;
 
-import java.util.Date;
-import java.io.Serializable;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * (SaleContract)实体类
  *
  * @author makejava
- * @since 2021-07-11 11:35:17
+ * @since 2021-07-11 14:45:32
  */
+@AllArgsConstructor
+@Data
 public class SaleContract implements Serializable {
-    private static final long serialVersionUID = 222911046149977429L;
+    private static final long serialVersionUID = 878360724937631178L;
 
     private Integer saleContractId;
 
@@ -34,86 +36,4 @@ public class SaleContract implements Serializable {
     private Date startDate;
 
     private Date endDate;
-
-
-    public Integer getSaleContractId() {
-        return saleContractId;
-    }
-
-    public void setSaleContractId(Integer saleContractId) {
-        this.saleContractId = saleContractId;
-    }
-
-    public Integer getSaleOrderId() {
-        return saleOrderId;
-    }
-
-    public void setSaleOrderId(Integer saleOrderId) {
-        this.saleOrderId = saleOrderId;
-    }
-
-    public Integer getLeadId() {
-        return leadId;
-    }
-
-    public void setLeadId(Integer leadId) {
-        this.leadId = leadId;
-    }
-
-    public Integer getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(Integer empId) {
-        this.empId = empId;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getContractName() {
-        return contractName;
-    }
-
-    public void setContractName(String contractName) {
-        this.contractName = contractName;
-    }
-
-    public Date getContractDate() {
-        return contractDate;
-    }
-
-    public void setContractDate(Date contractDate) {
-        this.contractDate = contractDate;
-    }
-
-    public String getContractSate() {
-        return contractSate;
-    }
-
-    public void setContractSate(String contractSate) {
-        this.contractSate = contractSate;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
 }

@@ -1,48 +1,24 @@
 package com.crm.entity;
 
-import java.io.Serializable;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+import java.io.Serializable;
+
 /**
  * (Publicpond)实体类
  *
  * @author makejava
- * @since 2021-07-11 11:35:17
+ * @since 2021-07-11 14:45:30
  */
+@AllArgsConstructor
+@Data
 public class Publicpond implements Serializable {
-    private static final long serialVersionUID = 484963459796783337L;
+    private static final long serialVersionUID = -61468589232030265L;
 
     private Integer publicpondId;
 
     private Integer empId;
 
     private String publicpondName;
-
-
-    public Integer getPublicpondId() {
-        return publicpondId;
-    }
-
-    public void setPublicpondId(Integer publicpondId) {
-        this.publicpondId = publicpondId;
-    }
-
-    public Integer getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(Integer empId) {
-        this.empId = empId;
-    }
-
-    public String getPublicpondName() {
-        return publicpondName;
-    }
-
-    public void setPublicpondName(String publicpondName) {
-        this.publicpondName = publicpondName;
-    }
-
 }

@@ -1,18 +1,20 @@
 package com.crm.entity;
 
-import java.io.Serializable;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+import java.io.Serializable;
+
 /**
  * (Contacts)实体类
  *
  * @author makejava
- * @since 2021-07-11 11:35:17
+ * @since 2021-07-11 14:45:25
  */
+@AllArgsConstructor
+@Data
 public class Contacts implements Serializable {
-    private static final long serialVersionUID = -78433300770158662L;
+    private static final long serialVersionUID = 700514545094853962L;
 
     private Integer contactsId;
 
@@ -21,38 +23,4 @@ public class Contacts implements Serializable {
     private String contactsPhone;
 
     private Integer contactsType;
-
-
-    public Integer getContactsId() {
-        return contactsId;
-    }
-
-    public void setContactsId(Integer contactsId) {
-        this.contactsId = contactsId;
-    }
-
-    public String getContactsName() {
-        return contactsName;
-    }
-
-    public void setContactsName(String contactsName) {
-        this.contactsName = contactsName;
-    }
-
-    public String getContactsPhone() {
-        return contactsPhone;
-    }
-
-    public void setContactsPhone(String contactsPhone) {
-        this.contactsPhone = contactsPhone;
-    }
-
-    public Integer getContactsType() {
-        return contactsType;
-    }
-
-    public void setContactsType(Integer contactsType) {
-        this.contactsType = contactsType;
-    }
-
 }

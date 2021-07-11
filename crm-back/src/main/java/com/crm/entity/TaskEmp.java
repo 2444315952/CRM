@@ -1,48 +1,27 @@
 package com.crm.entity;
 
+import java.math.BigDecimal;
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
-@Data
 /**
  * (TaskEmp)实体类
  *
  * @author makejava
- * @since 2021-07-11 11:35:18
+ * @since 2021-07-11 14:45:34
  */
+@AllArgsConstructor
+@Data
 public class TaskEmp implements Serializable {
-    private static final long serialVersionUID = -59631348652048805L;
+    private static final long serialVersionUID = -58912315732539138L;
 
     private Integer id;
 
     private Integer empId;
 
     private Integer taskId;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(Integer empId) {
-        this.empId = empId;
-    }
-
-    public Integer getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
-    }
-
 }

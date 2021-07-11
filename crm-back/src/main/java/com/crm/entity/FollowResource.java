@@ -1,18 +1,23 @@
 package com.crm.entity;
 
+import java.math.BigDecimal;
 import java.io.Serializable;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
-@Data
 /**
  * (FollowResource)实体类
  *
  * @author makejava
- * @since 2021-07-11 11:35:19
+ * @since 2021-07-11 14:45:29
  */
+@AllArgsConstructor
+@Data
 public class FollowResource implements Serializable {
-    private static final long serialVersionUID = 930115888604535914L;
+    private static final long serialVersionUID = -46151448344619071L;
 
     private Integer followResourceId;
 
@@ -21,38 +26,4 @@ public class FollowResource implements Serializable {
     private String resourceType;
 
     private Integer resourceId;
-
-
-    public Integer getFollowResourceId() {
-        return followResourceId;
-    }
-
-    public void setFollowResourceId(Integer followResourceId) {
-        this.followResourceId = followResourceId;
-    }
-
-    public Integer getFollowId() {
-        return followId;
-    }
-
-    public void setFollowId(Integer followId) {
-        this.followId = followId;
-    }
-
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    public Integer getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(Integer resourceId) {
-        this.resourceId = resourceId;
-    }
-
 }
