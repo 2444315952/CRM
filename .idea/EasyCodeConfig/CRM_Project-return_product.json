@@ -1,10 +1,10 @@
 {
   "name" : "ReturnProduct",
-  "preName" : null,
+  "preName" : "",
   "comment" : null,
-  "templateGroupName" : null,
+  "templateGroupName" : "Mysql",
   "fullColumn" : [ {
-    "name" : "íë»õµ¥²úæ·id",
+    "name" : "returnProductId",
     "comment" : null,
     "type" : null,
     "shortType" : null,
