@@ -1,27 +1,18 @@
 package com.crm.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.math.BigDecimal;
 import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
 
+@Data
 /**
  * (Activity)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:45
+ * @since 2021-07-11 11:35:17
  */
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-@ToString
 public class Activity implements Serializable {
-    private static final long serialVersionUID = -73571679899325497L;
+    private static final long serialVersionUID = 834017473749501246L;
 
     private Integer activityId;
 
@@ -39,11 +30,109 @@ public class Activity implements Serializable {
 
     private Integer activityState;
 
-    private BigDecimal planincome;
+    private Double planincome;
 
-    private BigDecimal actualincome;
+    private Double actualincome;
 
-    private BigDecimal profitloss;
+    private Double profitloss;
 
     private String activityPlan;
+
+
+    public Integer getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Integer activityId) {
+        this.activityId = activityId;
+    }
+
+    public Integer getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(Integer empId) {
+        this.empId = empId;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(Integer activityType) {
+        this.activityType = activityType;
+    }
+
+    public Integer getActivityState() {
+        return activityState;
+    }
+
+    public void setActivityState(Integer activityState) {
+        this.activityState = activityState;
+    }
+
+    public Double getPlanincome() {
+        return planincome;
+    }
+
+    public void setPlanincome(Double planincome) {
+        this.planincome = planincome;
+    }
+
+    public Double getActualincome() {
+        return actualincome;
+    }
+
+    public void setActualincome(Double actualincome) {
+        this.actualincome = actualincome;
+    }
+
+    public Double getProfitloss() {
+        return profitloss;
+    }
+
+    public void setProfitloss(Double profitloss) {
+        this.profitloss = profitloss;
+    }
+
+    public String getActivityPlan() {
+        return activityPlan;
+    }
+
+    public void setActivityPlan(String activityPlan) {
+        this.activityPlan = activityPlan;
+    }
+
 }
