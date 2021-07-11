@@ -1,6 +1,256 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.SaleLeadDao">
 
-</beans>
+    <resultMap type="com.crm.entity.SaleLead" id="SaleLeadMap">
+        <result property="leadId" column="lead_id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="customerId" column="Customer_Id" jdbcType="INTEGER"/>
+        <result property="activityId" column="Activity_Id" jdbcType="INTEGER"/>
+        <result property="leadName" column="lead_name" jdbcType="VARCHAR"/>
+        <result property="leadAmount" column="lead_amount" jdbcType="VARCHAR"/>
+        <result property="transactionDate" column="transaction_date" jdbcType="TIMESTAMP"/>
+        <result property="leadStage" column="lead_stage" jdbcType="VARCHAR"/>
+        <result property="leadType" column="lead_type" jdbcType="VARCHAR"/>
+        <result property="leadSource" column="lead_source" jdbcType="VARCHAR"/>
+        <result property="leadRemark" column="lead_remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="SaleLeadCol">
+        lead_id, emp_id, Customer_Id, Activity_Id, lead_name, lead_amount, transaction_date, lead_stage, lead_type, lead_source, lead_remark    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SaleLeadMap">
+        select
+        <include refid="SaleLeadCol"></include>
+        from CRM_Project.sale_lead
+        where lead_id = #{leadId}
+    </select>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="SaleLeadMap">
+        select
+        <include refid="SaleLeadCol"></include>
+        from CRM_Project.sale_lead order by lead_id desc
+    </select>
+
+    <!--通过实体作为或者条件查询-->
+    <select id="queryOrByPojo" resultMap="SaleLeadMap">
+        select
+        <include refid="SaleLeadCol"></include>
+        from CRM_Project.sale_lead
+
+        <where>
+            <if test="leadId != null">
+                or lead_id like '%'||#{leadId}||'%'
+            </if>
+            <if test="empId != null">
+                or emp_id like '%'||#{empId}||'%'
+            </if>
+            <if test="customerId != null">
+                or Customer_Id like '%'||#{customerId}||'%'
+            </if>
+            <if test="activityId != null">
+                or Activity_Id like '%'||#{activityId}||'%'
+            </if>
+            <if test="leadName != null and leadName != ''">
+                or lead_name like '%'||#{leadName}||'%'
+            </if>
+            <if test="leadAmount != null">
+                or lead_amount like '%'||#{leadAmount}||'%'
+            </if>
+            <if test="transactionDate != null">
+                or transaction_date like '%'||#{transactionDate}||'%'
+            </if>
+            <if test="leadStage != null and leadStage != ''">
+                or lead_stage like '%'||#{leadStage}||'%'
+            </if>
+            <if test="leadType != null and leadType != ''">
+                or lead_type like '%'||#{leadType}||'%'
+            </if>
+            <if test="leadSource != null and leadSource != ''">
+                or lead_source like '%'||#{leadSource}||'%'
+            </if>
+            <if test="leadRemark != null and leadRemark != ''">
+                or lead_remark like '%'||#{leadRemark}||'%'
+            </if>
+        </where>
+        order by lead_id desc
+    </select>
+
+    <!--通过实体作为并且条件查询-->
+    <select id="queryAndByPojo" resultMap="SaleLeadMap">
+        select
+        <include refid="SaleLeadCol"></include>
+        from CRM_Project.sale_lead
+
+        <where>
+            <if test="leadId != null">
+                and lead_id = #{leadId}
+            </if>
+            <if test="empId != null">
+                and emp_id = #{empId}
+            </if>
+            <if test="customerId != null">
+                and Customer_Id = #{customerId}
+            </if>
+            <if test="activityId != null">
+                and Activity_Id = #{activityId}
+            </if>
+            <if test="leadName != null and leadName != ''">
+                and lead_name = #{leadName}
+            </if>
+            <if test="leadAmount != null">
+                and lead_amount = #{leadAmount}
+            </if>
+            <if test="transactionDate != null">
+                and transaction_date = #{transactionDate}
+            </if>
+            <if test="leadStage != null and leadStage != ''">
+                and lead_stage = #{leadStage}
+            </if>
+            <if test="leadType != null and leadType != ''">
+                and lead_type = #{leadType}
+            </if>
+            <if test="leadSource != null and leadSource != ''">
+                and lead_source = #{leadSource}
+            </if>
+            <if test="leadRemark != null and leadRemark != ''">
+                and lead_remark = #{leadRemark}
+            </if>
+        </where>
+        order by lead_id desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="leadId" useGeneratedKeys="true">
+        insert into CRM_Project.sale_lead
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            lead_id,
+            <if test="empId != null">
+                emp_id,
+            </if>
+            <if test="customerId != null">
+                Customer_Id,
+            </if>
+            <if test="activityId != null">
+                Activity_Id,
+            </if>
+            <if test="leadName != null">
+                lead_name,
+            </if>
+            <if test="leadAmount != null">
+                lead_amount,
+            </if>
+            <if test="transactionDate != null">
+                transaction_date,
+            </if>
+            <if test="leadStage != null">
+                lead_stage,
+            </if>
+            <if test="leadType != null">
+                lead_type,
+            </if>
+            <if test="leadSource != null">
+                lead_source,
+            </if>
+            <if test="leadRemark != null">
+                lead_remark,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{leadId},
+            <if test="empId != null">
+                #{empId},
+            </if>
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="activityId != null">
+                #{activityId},
+            </if>
+            <if test="leadName != null">
+                #{leadName},
+            </if>
+            <if test="leadAmount != null">
+                #{leadAmount},
+            </if>
+            <if test="transactionDate != null">
+                #{transactionDate},
+            </if>
+            <if test="leadStage != null">
+                #{leadStage},
+            </if>
+            <if test="leadType != null">
+                #{leadType},
+            </if>
+            <if test="leadSource != null">
+                #{leadSource},
+            </if>
+            <if test="leadRemark != null">
+                #{leadRemark},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.sale_lead
+        <set>
+            <if test="empId != null">
+                emp_id = #{empId},
+            </if>
+            <if test="customerId != null">
+                Customer_Id = #{customerId},
+            </if>
+            <if test="activityId != null">
+                Activity_Id = #{activityId},
+            </if>
+            <if test="leadName != null">
+                lead_name = #{leadName},
+            </if>
+            <if test="leadAmount != null">
+                lead_amount = #{leadAmount},
+            </if>
+            <if test="transactionDate != null">
+                transaction_date = #{transactionDate},
+            </if>
+            <if test="leadStage != null">
+                lead_stage = #{leadStage},
+            </if>
+            <if test="leadType != null">
+                lead_type = #{leadType},
+            </if>
+            <if test="leadSource != null">
+                lead_source = #{leadSource},
+            </if>
+            <if test="leadRemark != null">
+                lead_remark = #{leadRemark},
+            </if>
+        </set>
+        where lead_id = #{leadId}
+    </update>
+
+    <!--通过主键删除数据-->
+    <delete id="deleteById">
+        delete from CRM_Project.sale_lead where lead_id = #{leadId}
+    </delete>
+
+    <!--通过主键列表批量删除数据-->
+    <delete id="deleteBatch">
+        delete from CRM_Project.sale_lead where lead_id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--通过实体列表批量删除数据-->
+    <delete id="deleteBatchByEntities">
+        delete from CRM_Project.sale_lead where lead_id in
+        <foreach collection="list" item="entity" open="(" separator="," close=")">
+            #{entity.leadId}
+        </foreach>
+    </delete>
+</mapper>
+
