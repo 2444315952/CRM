@@ -8,6 +8,7 @@ public class CustomError extends RuntimeException {
 
     private CustomError(){}
 
+    private CustomError(){}
     public CustomError(CustomErrorType exceptionTypeEnum, String message) {
         this.code = exceptionTypeEnum.getCode();
         this.message = message;
@@ -17,6 +18,9 @@ public class CustomError extends RuntimeException {
         return code;
     }
 
+    public int getCode() {
+        return code;
+    }
     @Override
     public String getMessage() {
         return message;

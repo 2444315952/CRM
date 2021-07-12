@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.EmployeeDao">
+
+    <resultMap type="com.crm.entity.Employee" id="EmployeeMap">
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
+        <result property="empPhone" column="emp_phone" jdbcType="VARCHAR"/>
+        <result property="empPwd" column="emp_pwd" jdbcType="VARCHAR"/>
+        <result property="empQuantity" column="emp_quantity" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="EmployeeCol">
+        emp_id, emp_name, emp_phone, emp_pwd, emp_quantity    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EmployeeMap">
+        select
+        <include refid="EmployeeCol"></include>
+        from CRM_Project.employee
+        where emp_id = #{empId}
+    </select>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="EmployeeMap">
+        select
+        <include refid="EmployeeCol"></include>
+        from CRM_Project.employee order by emp_id desc
+    </select>
+
+    <!-- 登录验证 -->
+    <select id="loginAuth" resultMap="EmployeeMap">
+        select
+        <include refid="EmployeeCol"></include>
+        from CRM_Project.employee where emp_name = #{empName} and emp_pwd = #{empPwd}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="empId" useGeneratedKeys="true">
+        insert into CRM_Project.employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            emp_id,
+            <if test="empName != null">
+                emp_name,
+            </if>
+            <if test="empPhone != null">
+                emp_phone,
+            </if>
+            <if test="empPwd != null">
+                emp_pwd,
+            </if>
+            <if test="empQuantity != null">
+                emp_quantity,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{empId},
+            <if test="empName != null">
+                #{empName},
+            </if>
+            <if test="empPhone != null">
+                #{empPhone},
+            </if>
+            <if test="empPwd != null">
+                #{empPwd},
+            </if>
+            <if test="empQuantity != null">
+                #{empQuantity},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
+

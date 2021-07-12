@@ -28,9 +28,11 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.eims.mybatis.entity
+  type-aliases-package: com.entity
 
 pagehelper:
   helperDialect: oracle
+  helperDialect: mysql
   reasonable: true
   supportMethodsArguments: true
   params: count=countS
