@@ -35,6 +35,7 @@ public class SaleOrder implements Serializable {
 
     private BigDecimal saleOrderAmount;
 
+    private Date createdate;
     private Date transactionDate;
 
     private Date startDate;

@@ -22,7 +22,7 @@ public class CollectionRecord implements Serializable {
     private static final long serialVersionUID = 998671494441812382L;
 
     private Integer collectionId;
-
+    private Integer state;
     private Integer recordId;
 
     private Integer recordStaticId;

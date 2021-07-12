@@ -1,7 +1,5 @@
 package com.crm.controller;
 
-import com.crm.entity.Product;
-import com.crm.entity.Task;
 import com.crm.entity.TaskEmp;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
