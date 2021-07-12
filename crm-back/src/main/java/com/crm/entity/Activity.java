@@ -13,18 +13,20 @@ import org.springframework.validation.annotation.Validated;
 /**
  * activity
  * @author 
+<<<<<<< HEAD
  * (Activity)实体类
  *
  * @author makejava
  * @since 2021-07-11 14:45:21
  * @since 2021-07-11 17:51:17
+=======
+>>>>>>> main
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class Activity implements Serializable {
-
     private Integer activityId;
 
     private Integer empId;

@@ -6,6 +6,8 @@ import {
 import Login from '../components/Login.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
 import Activity from '../components/MarketCustomers/Activity.vue'
+import outInStore from '../components/produce/outInStore.vue'
+import Product from '../components/product/Product.vue'
 
 const routes = [{
 		path: '/',
@@ -21,6 +23,16 @@ const routes = [{
 		name: "SaleLead",
 		// component: SaleLead,
 		component: Activity
+		component: SaleLead
+	},{
+		path: '/outInStore',
+		name: "outInStore",
+		component: outInStore
+	},
+	{
+		path:'/product',
+		name:"Product",
+		component:Product
 	}
 ]
 

@@ -11,14 +11,17 @@ import java.util.Date;
  * (Handle)实体类
  *
  * @author makejava
- * @since 2021-07-11 14:45:29
  * @since 2021-07-11 17:51:29
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Handle implements Serializable {
+<<<<<<< HEAD
     private static final long serialVersionUID = 647865356585165357L;
+=======
+    private static final long serialVersionUID = 627358582953802963L;
+>>>>>>> main
 
     private Integer hid;
 
