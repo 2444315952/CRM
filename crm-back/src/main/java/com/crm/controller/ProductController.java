@@ -1,10 +1,12 @@
 package com.crm.controller;
 import com.crm.entity.Product;
 import com.crm.service.ProductService;
+import com.crm.vo.AjaxResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /*
@@ -55,10 +57,10 @@ public class ProductController {
     /*
     *通过主键id修改产品信息
     * */
-//    @RequestMapping(value = "/updateProduct/{id}",method = RequestMethod.PUT)
-//    public String updatePro(@PathVariable("id") @RequestBody  Product product){
-//       productService.update(product);
-//       return "Success";
-//    }
+    @PatchMapping("/updateProduct")
+    public AjaxResponse updatePro(@RequestBody @Valid Product product){
+       productService.update(product);
+       return AjaxResponse.success(product);
+    }
 
 }

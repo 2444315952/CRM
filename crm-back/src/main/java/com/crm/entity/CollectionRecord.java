@@ -22,7 +22,7 @@ import lombok.ToString;
 @Data
 public class CollectionRecord implements Serializable {
     private static final long serialVersionUID = 998671494441812382L;
-    private static final long serialVersionUID = 334127977617979894L;
+    //private static final long serialVersionUID = 334127977617979894L;
 
     private Integer collectionId;
     private Integer state;
