@@ -13,11 +13,14 @@ import lombok.ToString;
  *
  * @author makejava
  * @since 2021-07-11 14:45:34
+ * @since 2021-07-11 17:51:34
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class TaskEmp implements Serializable {
     private static final long serialVersionUID = -58912315732539138L;
+    private static final long serialVersionUID = 840628857076350266L;
 
     private Integer id;
 

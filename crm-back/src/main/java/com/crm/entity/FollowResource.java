@@ -13,11 +13,14 @@ import lombok.ToString;
  *
  * @author makejava
  * @since 2021-07-11 14:45:29
+ * @since 2021-07-11 17:51:28
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class FollowResource implements Serializable {
     private static final long serialVersionUID = -46151448344619071L;
+    private static final long serialVersionUID = -61530713056468388L;
 
     private Integer followResourceId;
 

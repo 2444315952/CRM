@@ -2,6 +2,7 @@ package com.crm.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -10,11 +11,14 @@ import java.io.Serializable;
  *
  * @author makejava
  * @since 2021-07-11 14:45:27
+ * @since 2021-07-11 17:51:27
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Customer implements Serializable {
     private static final long serialVersionUID = -81257947186624513L;
+    private static final long serialVersionUID = -42673888224932048L;
 
     private Integer activityId;
 

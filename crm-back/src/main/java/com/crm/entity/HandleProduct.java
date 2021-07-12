@@ -13,11 +13,14 @@ import lombok.ToString;
  *
  * @author makejava
  * @since 2021-07-11 14:45:29
+ * @since 2021-07-11 17:51:29
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class HandleProduct implements Serializable {
     private static final long serialVersionUID = -54144300619572176L;
+    private static final long serialVersionUID = 780495895042856823L;
 
     private Integer handleProductId;
 

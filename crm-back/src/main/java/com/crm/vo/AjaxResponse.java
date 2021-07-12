@@ -15,6 +15,14 @@ public class AjaxResponse {
     private AjaxResponse() {
 
     }
+
+    public static AjaxResponse data(Object object){
+        if(object==null)
+            return error(new CustomError(CustomErrorType.SYSTEM_ERROR,""));
+        else
+            return success();
+    }
+
     /**
      * 请求出现异常时的响应数据封装
      * @param e:异常

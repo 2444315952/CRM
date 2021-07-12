@@ -12,12 +12,13 @@ import lombok.ToString;
  * (LeadProduct)实体类
  *
  * @author makejava
- * @since 2021-07-11 14:45:30
+ * @since 2021-07-11 17:51:29
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class LeadProduct implements Serializable {
-    private static final long serialVersionUID = -20120203891110316L;
+    private static final long serialVersionUID = 999337272700157693L;
 
     private Integer leadProductId;
 
