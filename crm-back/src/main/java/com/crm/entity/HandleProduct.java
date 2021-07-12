@@ -1,17 +1,30 @@
-﻿package com.crm.entity;
+package com.crm.entity;
 
+import java.math.BigDecimal;
 import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 /**
- * 出入库办理明细实体类
+ * (HandleProduct)实体类
+ *
+ * @author makejava
+ * @since 2021-07-11 17:51:29
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class HandleProduct implements Serializable {
-    private Integer handleProductId;//出入库明细id
-    private Integer proId;//绑定的产品表的id
-    private Integer hid;//绑定的出入库办理表的id
-    private Integer handNum;//单件产品的出入库数量
+    private static final long serialVersionUID = 780495895042856823L;
+
+    private Integer handleProductId;
+
+    private Integer proId;
+
+    private Integer hid;
+
+    private Integer handNum;
 }
