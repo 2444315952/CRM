@@ -18,11 +18,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Data
 public class HandleProduct implements Serializable {
-<<<<<<< HEAD
-    private static final long serialVersionUID = -54144300619572176L;
-=======
     private static final long serialVersionUID = 780495895042856823L;
->>>>>>> main
 
     private Integer handleProductId;
 

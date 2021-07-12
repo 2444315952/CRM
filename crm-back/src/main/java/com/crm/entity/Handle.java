@@ -17,11 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class Handle implements Serializable {
-<<<<<<< HEAD
     private static final long serialVersionUID = 647865356585165357L;
-=======
-    private static final long serialVersionUID = 627358582953802963L;
->>>>>>> main
 
     private Integer hid;
 

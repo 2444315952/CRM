@@ -125,7 +125,7 @@
 					if (valid) {
 						const _this = this
 						this.ActFrom.person = this.LoginName;
-						this.axios.post("http://localhost:8089/Training/addActivity", this.ActFrom)
+						this.axios.post("http://localhost:8089/addActivity", this.ActFrom)
 							.then(function(response) {
 								_this.addDialog = false;
 								_this.$message({
@@ -154,7 +154,7 @@
 		},
 		created() {
 			const _this = this
-			this.axios.get("http://localhost:8089/Training/selectByActivitys")
+			this.axios.get("http://localhost:8089/selectByActivitys")
 				.then(function(response) {
 					_this.tableData = response.data.list
 					console.log(_this.tableData);
