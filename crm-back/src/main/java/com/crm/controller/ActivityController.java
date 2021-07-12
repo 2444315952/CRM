@@ -28,12 +28,10 @@ public class ActivityController {
     }
 
     @GetMapping("/selectByActivitys")
-    public PageInfo<Activity> selectByActivitys(@RequestParam("currentPage")int currentPage, @RequestParam("pagesize")int pageSize){
-        PageHelper.startPage(currentPage,pageSize);
-        List<Activity> list = activityService.selectByActivitys();
-        PageInfo<Activity> pageInfo = new PageInfo<>(list);
-        return  pageInfo;
+    public List<Activity> selectByActivitys(){
+        return activityService.selectByActivitys();
     }
+
 
 
 

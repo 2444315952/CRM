@@ -1,4 +1,6 @@
 server:
+  servlet:
+    context-path: /Training
   port: 8089
 spring:
   datasource:

@@ -58,7 +58,7 @@
 			return {
 				form: {
 					username: "",
-					password: ""
+					password: "",
 					empName: "",
 					empPwd: ""
 				}
@@ -97,7 +97,6 @@
 				}).catch(err => {
 
 				}) */
-				})
 			}
 		}
 	};
@@ -139,4 +138,4 @@
 	.bg-indigo-500 {
 		background-color: #667eea;
 	}
-</style> -->
+</style>

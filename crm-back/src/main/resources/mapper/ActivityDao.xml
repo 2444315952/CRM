@@ -15,6 +15,7 @@
     <result column="ProfitLoss" jdbcType="DECIMAL" property="profitloss" />
     <result column="Activity_Plan" jdbcType="VARCHAR" property="activityPlan" />
     <result column="TimeLiness" jdbcType="INTEGER" property="timeliness" />
+    <result column="Person" jdbcType="VARCHAR" property="person" />
     <association property="employee" javaType="com.crm.entity.Employee">
       <id column="emp_id" jdbcType="INTEGER" property="empId" />
       <result column="emp_name" jdbcType="INTEGER" property="empName"/>
@@ -22,7 +23,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     a.Activity_Id, a.emp_id, a.Activity_Name, a.Add_Time, a.End_Time, a.Address, a.Activity_Type, a.Activity_State,
-    a.PlanIncome, a.ActualIncome, a.ProfitLoss, a.Activity_Plan, a.TimeLiness
+    a.PlanIncome, a.ActualIncome, a.ProfitLoss, a.Activity_Plan, a.TimeLiness,a.Person
   </sql>
   <select id="selectByActivityKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -42,12 +43,13 @@
     insert into activity (emp_id, Activity_Name, Add_Time, 
       End_Time, Address, Activity_Type, 
       PlanIncome, ActualIncome,
-      ProfitLoss, Activity_Plan, TimeLiness
+      ProfitLoss, Activity_Plan, TimeLiness, Person
       )
     values (#{empId,jdbcType=INTEGER}, #{activityName,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{activityType,jdbcType=INTEGER}, 
       #{planincome,jdbcType=DECIMAL}, #{actualincome,jdbcType=DECIMAL},
-      #{profitloss,jdbcType=DECIMAL}, #{activityPlan,jdbcType=VARCHAR}, #{timeliness,jdbcType=INTEGER}
+      #{profitloss,jdbcType=DECIMAL}, #{activityPlan,jdbcType=VARCHAR}, #{timeliness,jdbcType=INTEGER},
+      #{person,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByActivityKeySelective" parameterType="com.crm.entity.Activity">
@@ -88,6 +90,9 @@
       </if>
       <if test="timeliness != null">
         TimeLiness = #{timeliness,jdbcType=INTEGER},
+      </if>
+      <if test="person != null">
+        Person = #{person,jdbcType=VARCHAR},
       </if>
     </set>
     where Activity_Id = #{activityId,jdbcType=INTEGER}

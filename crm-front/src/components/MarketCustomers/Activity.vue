@@ -25,7 +25,7 @@
 				</el-table-column>
 				<el-table-column prop="profitloss" label="活动盈亏" align="center" min-width="80">
 				</el-table-column>
-				<el-table-column prop="Employee.empName" label="活动负责人" align="center" min-width="60">
+				<el-table-column prop="person" label="活动负责人" align="center" min-width="60">
 				</el-table-column>
 				<el-table-column label="操作" align="center" min-width="100">
 					<template #default="scope">
@@ -59,7 +59,7 @@
 			</el-table>
 		</el-tab-pane>
 		<el-dialog title="新建活动计划" v-model="addDialog" width="30%" center :before-close="handleClose">
-			<el-form ref="ActFrom" :rules="rules" :model="ActFrom" label-width="100px" size="mini">
+			<el-form ref="ActFrom" :model="ActFrom" label-width="100px" size="mini">
 				<el-form-item label="活动名称" prop="ActivityName">
 					<el-input style="width: 200px;" v-model="ActFrom.activityName" placeholder="请输入活动名称"></el-input>
 				</el-form-item>
@@ -95,7 +95,7 @@
 				activeName: 'first',
 				input: '',
 				addDialog: false,
-				LoginName: "JFC", //默认测试姓名数据
+				LoginName: "焦凡超", //默认测试姓名数据
 				tableData: [],
 				ActFrom: {
 					activityId: '',
@@ -110,6 +110,7 @@
 					profitloss: '',
 					activityPlan: '',
 					timeliness: '',
+					person: '',
 					empId: ''
 				}
 			};
@@ -123,8 +124,8 @@
 				this.$refs[ActFrom].validate((valid) => {
 					if (valid) {
 						const _this = this
-						this.ActFrom.empId = 1;
-						this.axios.post("http://localhost:8080/Training/addActivity", this.ActFrom)
+						this.ActFrom.person = this.LoginName;
+						this.axios.post("http://localhost:8089/Training/addActivity", this.ActFrom)
 							.then(function(response) {
 								_this.addDialog = false;
 								_this.$message({
@@ -153,12 +154,11 @@
 		},
 		created() {
 			const _this = this
-			this.axios.get("http://localhost:8080/Training/selectByActivitys", {
-					params: this.pageInfo
-				})
+			this.axios.get("http://localhost:8089/Training/selectByActivitys")
 				.then(function(response) {
 					_this.tableData = response.data.list
-					_this.pageInfo.total = response.data.total
+					console.log(_this.tableData);
+					console.log("我在这");
 				}).catch(function(error) {
 					console.log(error)
 				})
