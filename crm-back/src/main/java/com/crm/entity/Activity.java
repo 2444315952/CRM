@@ -1,31 +1,28 @@
 package com.crm.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.math.BigDecimal;
-import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.validation.annotation.Validated;
 
 /**
- * (Activity)实体类
- *
- * @author makejava
- * @since 2021-07-11 02:52:45
+ * activity
+ * @author 
  */
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @ToString
 public class Activity implements Serializable {
-    private static final long serialVersionUID = -73571679899325497L;
-
     private Integer activityId;
 
     private Integer empId;
+    private Employee employee;
 
     private String activityName;
 
@@ -46,4 +43,8 @@ public class Activity implements Serializable {
     private BigDecimal profitloss;
 
     private String activityPlan;
+
+    private Integer timeliness;
+
+    private static final long serialVersionUID = 1L;
 }
