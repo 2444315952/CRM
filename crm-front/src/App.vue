@@ -61,6 +61,10 @@
 		  			</template>
 		  			<el-menu-item-group>
 						<el-menu-item index="5-1">产品库</el-menu-item>
+						<el-menu-item index="5-1">
+					  	<router-link to="/product">产品库</router-link>
+						</el-menu-item>
+						
 		  			</el-menu-item-group>
 		  		  </el-submenu>
 		  		</el-menu>

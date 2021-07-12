@@ -5,6 +5,7 @@ import {
 
 import Login from '../components/Login.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
+import Product from '../components/product/Product.vue'
 
 const routes = [{
 		path: '/',
@@ -19,6 +20,11 @@ const routes = [{
 		path: '/SaleLead',
 		name: "SaleLead",
 		component: SaleLead
+	},
+	{
+		path:'/product',
+		name:"Product",
+		component:Product
 	}
 ]
 
