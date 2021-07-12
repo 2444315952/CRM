@@ -1,4 +1,4 @@
-package com.crm.entity;
+﻿package com.crm.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -11,8 +11,14 @@ import java.util.Date;
 
 /**
  * 出入库办理实体类
+ * (Handle)实体类
+ *
+ * @author makejava
+ * @since 2021-07-11 14:45:29
+ * @since 2021-07-11 17:51:29
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @NoArgsConstructor
 public class Handle implements Serializable {

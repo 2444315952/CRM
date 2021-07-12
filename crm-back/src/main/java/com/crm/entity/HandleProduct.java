@@ -1,4 +1,4 @@
-package com.crm.entity;
+﻿package com.crm.entity;
 
 import java.io.Serializable;
 import lombok.Data;
@@ -6,6 +6,8 @@ import lombok.Data;
 /**
  * 出入库办理明细实体类
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class HandleProduct implements Serializable {
     private Integer handleProductId;//出入库明细id

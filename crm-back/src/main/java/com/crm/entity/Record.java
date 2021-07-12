@@ -13,12 +13,13 @@ import lombok.ToString;
  * (Record)实体类
  *
  * @author makejava
- * @since 2021-07-11 14:45:31
+ * @since 2021-07-11 17:51:31
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Record implements Serializable {
-    private static final long serialVersionUID = -62794600115028051L;
+    private static final long serialVersionUID = 958605497634352859L;
 
     private Integer recordId;
 

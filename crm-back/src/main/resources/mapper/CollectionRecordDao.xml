@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.CollectionRecordDao">
+
+    <resultMap type="com.crm.entity.CollectionRecord" id="CollectionRecordMap">
+        <result property="collectionId" column="collection_id" jdbcType="INTEGER"/>
+        <result property="recordId" column="record_id" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="recordStaticId" column="record_static_id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="paymentMoney" column="payment_money" jdbcType="NUMERIC"/>
+        <result property="paymentDate" column="payment_date" jdbcType="TIMESTAMP"/>
+        <result property="paymentMode" column="payment_mode" jdbcType="VARCHAR"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CollectionRecordMap">
+        select
+          collection_id, record_id, record_static_id, emp_id, payment_money, payment_date, payment_mode, remarks
+        from CRM_Project.collection_record
+        where record_id = #{recordId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CollectionRecordMap">
+        select
+          collection_id, record_id, record_static_id, emp_id, payment_money, payment_date, payment_mode, remarks
+        from CRM_Project.collection_record
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CollectionRecordMap">
+        select
+        collection_id, record_id, record_static_id, emp_id, payment_money, payment_date, payment_mode, remarks
+        from CRM_Project.collection_record
+        <where>
+            <if test="collectionId != null">
+                and collection_id = #{collectionId}
+            </if>
+            <if test="recordId != null">
+                and record_id = #{recordId}
+            </if>
+            <if test="recordStaticId != null">
+                and record_static_id = #{recordStaticId}
+            </if>
+            <if test="empId != null">
+                and emp_id = #{empId}
+            </if>
+            <if test="paymentMoney != null">
+                and payment_money = #{paymentMoney}
+            </if>
+            <if test="paymentDate != null">
+                and payment_date = #{paymentDate}
+            </if>
+            <if test="paymentMode != null and paymentMode != ''">
+                and payment_mode = #{paymentMode}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="recordId" useGeneratedKeys="true">
+        insert into CRM_Project.collection_record(collection_id, record_static_id, emp_id, payment_money, payment_date, payment_mode, remarks)
+        values (#{collectionId}, #{recordStaticId}, #{empId}, #{paymentMoney}, #{paymentDate}, #{paymentMode}, #{remarks})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="recordId" useGeneratedKeys="true">
+        insert into CRM_Project.collection_record(collection_id, record_static_id, emp_id, payment_money, payment_date,
+        payment_mode, remarks)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.collectionId}, #{entity.recordStaticId}, #{entity.empId}, #{entity.paymentMoney},
+            #{entity.paymentDate}, #{entity.paymentMode}, #{entity.remarks})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="recordId" useGeneratedKeys="true">
+        insert into CRM_Project.collection_record(collection_id, record_static_id, emp_id, payment_money, payment_date,
+        payment_mode, remarks)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.collectionId}, #{entity.recordStaticId}, #{entity.empId}, #{entity.paymentMoney},
+            #{entity.paymentDate}, #{entity.paymentMode}, #{entity.remarks})
+        </foreach>
+        on duplicate key update
+        collection_id = values(collection_id) , record_static_id = values(record_static_id) , emp_id = values(emp_id) ,
+        payment_money = values(payment_money) , payment_date = values(payment_date) , payment_mode =
+        values(payment_mode) , remarks = values(remarks)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.collection_record
+        <set>
+            <if test="collectionId != null">
+                collection_id = #{collectionId},
+            </if>
+            <if test="recordStaticId != null">
+                record_static_id = #{recordStaticId},
+            </if>
+            <if test="empId != null">
+                emp_id = #{empId},
+            </if>
+            <if test="paymentMoney != null">
+                payment_money = #{paymentMoney},
+            </if>
+            <if test="paymentDate != null">
+                payment_date = #{paymentDate},
+            </if>
+            <if test="paymentMode != null and paymentMode != ''">
+                payment_mode = #{paymentMode},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+        </set>
+        where record_id = #{recordId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from CRM_Project.collection_record where record_id = #{recordId}
+    </delete>
+
+</mapper>
+

@@ -15,14 +15,17 @@ import lombok.ToString;
  *
  * @author makejava
  * @since 2021-07-11 14:45:25
+ * @since 2021-07-11 17:51:26
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class CollectionRecord implements Serializable {
     private static final long serialVersionUID = 998671494441812382L;
+    private static final long serialVersionUID = 334127977617979894L;
 
     private Integer collectionId;
-
+    private Integer state;
     private Integer recordId;
 
     private Integer recordStaticId;

@@ -20,6 +20,7 @@ import lombok.ToString;
 @Data
 public class CollectionPeriod implements Serializable {
     private static final long serialVersionUID = -69226594092377851L;
+    private Integer saleorderIid;
 
     private Integer collectionId;
 
