@@ -22,7 +22,7 @@ const routes = [{
 		path: '/SaleLead',
 		name: "SaleLead",
 		// component: SaleLead,
-		component: Activity
+		component: Activity,
 		component: SaleLead
 	},{
 		path: '/outInStore',
