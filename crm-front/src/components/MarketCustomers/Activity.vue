@@ -69,13 +69,13 @@
 				<el-form-item label="活动成本:" prop="Address">
 					<el-input style="width: 200px;" v-model="ActFrom.planincome"></el-input>
 				</el-form-item>
-				<el-form-item label="活动负责人" prop="empId">
+				<!-- <el-form-item label="活动负责人" prop="empId">
 					<el-select v-model="ActFrom.empId" placeholder="请选择" style="width: 200px;">
 						<el-option v-for="item in EmpData" :key="item.Employee.empId"
 							:label="item.Employee.empName" :value="item.Employee.empId">
 						</el-option>
 					</el-select>
-				</el-form-item>
+				</el-form-item> -->
 				<el-form-item size="large">
 					<el-button type="primary" @click="AddDialog('ActFrom')">确 定</el-button>
 					<el-button @click="addDialog = false">取 消</el-button>
@@ -95,6 +95,7 @@
 				activeName: 'first',
 				input: '',
 				addDialog: false,
+				LoginName: "JFC", //默认测试姓名数据
 				tableData: [],
 				ActFrom: {
 					activityId: '',
@@ -122,8 +123,6 @@
 				this.$refs[ActFrom].validate((valid) => {
 					if (valid) {
 						const _this = this
-						this.ActFrom.addname = this.$store.state.userInfo.empName
-						this.pageInfo.empId = 1;
 						this.ActFrom.empId = 1;
 						this.axios.post("http://localhost:8080/Training/addActivity", this.ActFrom)
 							.then(function(response) {
@@ -151,6 +150,18 @@
 					})
 					.catch(_ => {});
 			}
+		},
+		created() {
+			const _this = this
+			this.axios.get("http://localhost:8080/Training/selectByActivitys", {
+					params: this.pageInfo
+				})
+				.then(function(response) {
+					_this.tableData = response.data.list
+					_this.pageInfo.total = response.data.total
+				}).catch(function(error) {
+					console.log(error)
+				})
 		}
 	};
 </script>
