@@ -1,14 +1,11 @@
 package com.crm.exception;
 
-import com.crm.entity.AjaxResponse;
-import io.jsonwebtoken.SignatureException;
-
 import com.crm.vo.AjaxResponse;
+import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,13 +29,8 @@ public class GlobalExceptionHandler {
             return AjaxResponse.error(new CustomError(CustomErrorType.SIGNATURE_ERROR,e.getMessage()));
         }
         log.info("系统产生了异常");
-            return AjaxResponse.error(new CustomError(CustomErrorType.SYSTEM_ERROR,e.getMessage()));
+        return AjaxResponse.error(new CustomError(CustomErrorType.SYSTEM_ERROR,e.getMessage()));
 
 
-        }else if(e instanceof MaxUploadSizeExceededException) {
-            log.info("文件超出指定大小异常");
-            return AjaxResponse.error(new CustomError(CustomErrorType.FILE_MAX_ERROR, e.getMessage()));
-        }
-        return AjaxResponse.error(new CustomError(CustomErrorType.SYSTEM_ERROR,""));
     }
 }

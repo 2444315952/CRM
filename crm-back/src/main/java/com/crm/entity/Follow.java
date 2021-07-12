@@ -21,7 +21,6 @@ import lombok.ToString;
 @Data
 public class Follow implements Serializable {
     private static final long serialVersionUID = -21799474009538548L;
-    private static final long serialVersionUID = 729109743495919106L;
 
     private Integer followId;
 

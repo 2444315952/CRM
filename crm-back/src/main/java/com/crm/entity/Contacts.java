@@ -18,7 +18,6 @@ import java.io.Serializable;
 @Data
 public class Contacts implements Serializable {
     private static final long serialVersionUID = 700514545094853962L;
-    private static final long serialVersionUID = -64762813450268090L;
 
     private Integer contactsId;
 

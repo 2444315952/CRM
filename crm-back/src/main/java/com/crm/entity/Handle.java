@@ -19,7 +19,6 @@ import java.util.Date;
 @Data
 public class Handle implements Serializable {
     private static final long serialVersionUID = 647865356585165357L;
-    private static final long serialVersionUID = 627358582953802963L;
 
     private Integer hid;
 

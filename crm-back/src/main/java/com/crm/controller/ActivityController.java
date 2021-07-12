@@ -1,8 +1,8 @@
 package com.crm.controller;
 
 import com.crm.entity.Activity;
-import com.crm.entity.AjaxResponse;
 import com.crm.service.ActivityService;
+import com.crm.vo.AjaxResponse;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
