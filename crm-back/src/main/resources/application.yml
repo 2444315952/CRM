@@ -27,10 +27,12 @@ spring:
       filters: stat,wall
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.eims.mybatis.entity
+  type-aliases-package: com.crm.entity
+  configuration:
+    map-underscore-to-camel-case: true
 
 pagehelper:
-  helperDialect: oracle
+  helperDialect: mysql
   reasonable: true
   supportMethodsArguments: true
   params: count=countS
