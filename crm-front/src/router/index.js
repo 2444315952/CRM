@@ -5,6 +5,7 @@ import {
 
 import Login from '../components/Login.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
+import outInStore from '../components/produce/outInStore.vue'
 
 const routes = [{
 		path: '/',
@@ -19,6 +20,10 @@ const routes = [{
 		path: '/SaleLead',
 		name: "SaleLead",
 		component: SaleLead
+	},{
+		path: '/outInStore',
+		name: "outInStore",
+		component: outInStore
 	}
 ]
 
