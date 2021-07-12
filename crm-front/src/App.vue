@@ -6,8 +6,8 @@
 				<el-button icon="el-icon-user-solid" circle id="content" style="float: right;margin-top: 6px;"></el-button> 
 			  <template #dropdown>
 			    <el-dropdown-menu>
-			      <el-dropdown-item>石松炼</el-dropdown-item>
-			      <el-dropdown-item>退出登录</el-dropdown-item>
+			      <el-dropdown-item>{{$store.getters.empName}}</el-dropdown-item>
+			      <el-dropdown-item><router-link :to="{name:'Login'}">退出登录</router-link></el-dropdown-item>
 			    </el-dropdown-menu>
 			  </template>
 			</el-dropdown> 
@@ -44,7 +44,7 @@
 		  			  <span>销售过程管理</span>
 		  			</template>
 		  			<el-menu-item-group>	
-		  				<el-menu-item index="3-1">销售机会</el-menu-item>
+		  				<el-menu-item index="3-1"><router-link :to="{name:'SaleLeadList'}">销售机会</router-link></el-menu-item>
 		  			</el-menu-item-group>
 		  		  </el-submenu>
 		  		  <el-submenu index="4">

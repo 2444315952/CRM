@@ -43,4 +43,9 @@ public class SaleLead implements Serializable {
     private String leadSource;
 
     private String leadRemark;
+
+
+    private String customerName;
+
+    private String empName;
 }

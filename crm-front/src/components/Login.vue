@@ -71,6 +71,7 @@
 					
 					if (res.data.success) {
 						this.$store.commit("updateUserInfo", res.data.record)
+						console.log(this.$store.getters.empName);
 						this.$router.push({
 							name: 'SaleLead'
 						})

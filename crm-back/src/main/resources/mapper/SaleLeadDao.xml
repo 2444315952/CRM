@@ -14,31 +14,35 @@
         <result property="leadType" column="lead_type" jdbcType="VARCHAR"/>
         <result property="leadSource" column="lead_source" jdbcType="VARCHAR"/>
         <result property="leadRemark" column="lead_remark" jdbcType="VARCHAR"/>
+
+        <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
+        <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="SaleLeadCol">
-        lead_id, emp_id, Customer_Id, Activity_Id, lead_name, lead_amount, transaction_date, lead_stage, lead_type, lead_source, lead_remark    </sql>
+        i.lead_id ,i.emp_id ,i.Customer_Id ,i.Activity_Id ,i.lead_name ,i.lead_amount ,i.transaction_date ,i.lead_stage ,i.lead_type ,i.lead_source ,i.lead_remark     </sql>
 
     <!--查询单个-->
     <select id="queryById" resultMap="SaleLeadMap">
         select
         <include refid="SaleLeadCol"></include>
-        from CRM_Project.sale_lead
+        from CRM_Project.sale_lead i
         where lead_id = #{leadId}
     </select>
 
     <!--查询所有-->
     <select id="queryAll" resultMap="SaleLeadMap">
         select
-        <include refid="SaleLeadCol"></include>
-        from CRM_Project.sale_lead order by lead_id desc
+        <include refid="SaleLeadCol"></include>,e.emp_name,c.customer_name
+        from sale_lead i left join employee e on i.emp_id = e.emp_id
+        left join customer c on i.customer_id = c.customer_id order by lead_id desc
     </select>
 
     <!--通过实体作为或者条件查询-->
     <select id="queryOrByPojo" resultMap="SaleLeadMap">
         select
         <include refid="SaleLeadCol"></include>
-        from CRM_Project.sale_lead
+        from CRM_Project.sale_lead i
 
         <where>
             <if test="leadId != null">
@@ -82,7 +86,7 @@
     <select id="queryAndByPojo" resultMap="SaleLeadMap">
         select
         <include refid="SaleLeadCol"></include>
-        from CRM_Project.sale_lead
+        from CRM_Project.sale_lead i
 
         <where>
             <if test="leadId != null">

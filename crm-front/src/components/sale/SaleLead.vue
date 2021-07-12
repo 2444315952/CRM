@@ -1,393 +1,682 @@
 <template>
-
 	<div id="SaleLead">
 
-		<el-row>
-			<el-breadcrumb separator-class="el-icon-arrow-right" style="padding-bottom: 16px">
-				<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-				<el-breadcrumb-item><a href="/PurchaseList">销售机会列表</a></el-breadcrumb-item>
-			</el-breadcrumb>
-		</el-row>
+		<el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"
+			class="demo-ruleForm">
 
-		<el-container style="background-color: white;padding-top: 15px;">
+			<el-row>
+				<el-col :span="12">
+					<el-breadcrumb separator-class="el-icon-arrow-right" style="padding-bottom: 16px">
+						<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+						<el-breadcrumb-item><a href="/SaleLeadList">销售机会列表</a></el-breadcrumb-item>
+						<el-breadcrumb-item><a href="/">销售机会</a></el-breadcrumb-item>
+					</el-breadcrumb>
+				</el-col>
 
-			<el-header style="height: 30px;">
-				<el-row>
+				<el-col :span="12">
+					<el-button style="float: right;position: relative;bottom:8px;right: 3px;" size="medium"
+						type="primary" @click="submitForm('ruleForm')">保存</el-button>
+				</el-col>
 
-					<el-col :span="16">
-						<el-input style="width: 290px;float: left;" placeholder="请输入销售机会名称"
-							v-model="searchInput">
-							<template #append>
-								<el-button icon="el-icon-search" size="small" @click="handleSearch"></el-button>
+			</el-row>
+
+			<el-container style="background-color: white;padding-top: 15px;">
+
+				<el-main style="background-color: white;">
+					<el-row>
+						<el-col :span="8">
+							<el-form-item label="单据编号" style="float: left;" prop="purchDocunum">
+								<el-input v-model="ruleForm.purchDocunum" size="medium" disabled></el-input>
+							</el-form-item>
+						</el-col>
+
+						<el-col :span="8">
+							<el-form-item label="单据日期" style="float: left;" prop="documentDate" required>
+								<el-date-picker type="datetime" placeholder="选择日期" size="medium"
+									v-model="ruleForm.documentDate" style="width: 206px;"></el-date-picker>
+							</el-form-item>
+						</el-col>
+
+						<el-col :span="8">
+							<el-form-item label="业务员" style="float: left;" prop="employeeId" required>
+								<el-select @click="clickEmployeeSelect()" @change="changeEmployeeSelect"
+									v-model="ruleForm.employeeName" style="width: 206px;" placeholder="请选择业务员">
+									<el-option v-for="e in employeeSelectValue" :label="e.employeeName"
+										:value="e.employeeName"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span="8">
+							<el-form-item label="供应商" style="float: left;" prop="supplierName" required>
+								<el-input v-model="ruleForm.supplierName" size="medium" disabled>
+									<template #append>
+										<el-button icon="el-icon-plus" size="small"
+											@click="supplier.dialogVisible = true;supplierLoadData()">
+										</el-button>
+									</template>
+								</el-input>
+							</el-form-item>
+						</el-col>
+
+						<el-dialog title="供应商" v-model="supplier.dialogVisible">
+							<el-row type="flex" justify="end" style="padding-bottom: 12px;">
+								<el-col :span="7.5">
+									<el-input v-model="supplier.searchInput" placeholder="请搜索供应商名称" size="small">
+										<template #append>
+											<el-button @click="supplierLoadData()" icon="el-icon-search" size="mini">
+											</el-button>
+										</template>
+									</el-input>
+								</el-col>
+
+							</el-row>
+
+							<el-table :data="supplier.tableData" max-height="286" style="height: 286px;"
+								highlight-current-row @current-change="supplierSelectionChange">
+								<el-table-column property="supplierName" label="供应商名称"></el-table-column>
+								<el-table-column property="contact" label="联系人"></el-table-column>
+								<el-table-column property="contactNumber" label="联系电话"></el-table-column>
+								<el-table-column property="contactAddress" label="联系地址"></el-table-column>
+							</el-table>
+							<el-row>
+								<el-col :span="24">
+									<el-pagination style="float: right;margin-top: 15px;"
+										@size-change="supplierSizeChange" @current-change="supplierCurrentChange"
+										:page-sizes="[10,20,40,80]" :page-size="supplier.pageParam.pageSize"
+										layout="total, sizes, prev, pager, next, jumper" :total="supplier.tableTotal">
+									</el-pagination>
+								</el-col>
+							</el-row>
+
+							<template #footer>
+								<span class="dialog-footer">
+									<el-button @click="supplier.dialogVisible = false" size="medium">取 消</el-button>
+									<el-button type="primary" @click="supplierConfirmButton" size="medium">确 定
+									</el-button>
+								</span>
 							</template>
-						</el-input>
+						</el-dialog>
 
-					</el-col>
-
-					<el-col :span="3">
-						<el-button v-show="showDeleteButton" style="float: right;" size="medium" type="primary"
-							@click="handleDelete()">删除</el-button>
-					</el-col>
-
-					<el-col :span="2">
-						<el-button style="float: right;" size="medium" type="primary"
-							@click="screenDialogVisible = true">筛选</el-button>
-					</el-col>
-
-					<el-dialog title="筛选条件" v-model="screenDialogVisible">
-						<el-form :model="screenCondition">
-							<el-form-item label="入库状态：" label-width="120px">
-								<el-radio-group v-model="screenCondition.inStorage">
-									<el-radio>不限</el-radio>
-									<el-radio label="0">未入库</el-radio>
-									<el-radio label="1">已入库</el-radio>
-								</el-radio-group>
+						<el-col :span="8">
+							<el-form-item label="入库仓库" style="float: left;" prop="warehouseName">
+								<el-input v-model="ruleForm.warehouseName" size="medium" disabled>
+									<template #append>
+										<el-button icon="el-icon-plus" size="small"
+											@click="warehouse.dialogVisible = true;warehouseLoadData()"></el-button>
+									</template>
+								</el-input>
 							</el-form-item>
+						</el-col>
 
-							<el-form-item label="审核状态：" label-width="120px">
-								<el-radio-group v-model="screenCondition.audited">
-									<el-radio>不限</el-radio>
-									<el-radio label="0">未审核</el-radio>
-									<el-radio label="1">已审核</el-radio>
-								</el-radio-group>
-							</el-form-item>
+						<el-dialog title="仓库" v-model="warehouse.dialogVisible">
+							<el-row type="flex" justify="end" style="padding-bottom: 12px;">
+								<el-col :span="7.5">
+									<el-input v-model="warehouse.searchInput" placeholder="请搜索仓库名称" size="small">
+										<template #append>
+											<el-button icon="el-icon-search" @click="warehouseLoadData()" size="mini">
+											</el-button>
+										</template>
+									</el-input>
+								</el-col>
 
-							<el-form-item label="付款状态：" label-width="120px">
-								<el-radio-group v-model="screenCondition.paymentStatus">
-									<el-radio>不限</el-radio>
-									<el-radio label="0">未付款</el-radio>
-									<el-radio label="1">部分付款</el-radio>
-									<el-radio label="2">全部付款</el-radio>
-								</el-radio-group>
-							</el-form-item>
+							</el-row>
 
-							<el-form-item label="退货状态：" label-width="120px">
-								<el-radio-group v-model="screenCondition.returnState">
-									<el-radio>不限</el-radio>
-									<el-radio label="0">未退货</el-radio>
-									<el-radio label="1">部分退货</el-radio>
-									<el-radio label="2">全部退货</el-radio>
-								</el-radio-group>
-							</el-form-item>
-						</el-form>
+							<el-table :data="warehouse.tableData" max-height="286" style="height: 286px;"
+								highlight-current-row @current-change="warehouseSelectionChange">
+								<el-table-column property="warehouseName" label="仓库名称"></el-table-column>
+								<el-table-column property="employeeName" label="联系人"></el-table-column>
+								<el-table-column property="phone" label="联系电话"></el-table-column>
+								<el-table-column property="warehouseAddress" label="联系地址"></el-table-column>
+							</el-table>
+							<el-row>
+								<el-col :span="24">
+									<el-pagination style="float: right;margin-top: 15px;"
+										@size-change="warehouseSizeChange" @current-change="warehouseCurrentChange"
+										:page-sizes="[10,20,40,80]" :page-size="warehouse.pageParam.pageSize"
+										layout="total, sizes, prev, pager, next, jumper" :total="warehouse.tableTotal">
+									</el-pagination>
+								</el-col>
+							</el-row>
+
+							<template #footer>
+								<span class="dialog-footer">
+									<el-button @click="warehouse.dialogVisible = false" size="medium">取 消</el-button>
+									<el-button type="primary" @click="warehouseConfirmButton" size="medium">确 定
+									</el-button>
+								</span>
+							</template>
+						</el-dialog>
+
+					</el-row>
+
+					<el-table :data="ruleForm.purchaseDetailList" show-summary max-height="402"
+						style="width: 100%;height:402px;">
+						<el-table-column label="产品名称" prop="productName">
+							<template #default="scope">
+								<el-input v-model="ruleForm.purchaseDetailList[scope.$index].productName"
+									style="width: 170px" size="small" disabled>
+									<template #append>
+										<el-button icon="el-icon-plus" size="mini"
+											@click="productOpenDialog(scope.$index)">
+										</el-button>
+									</template>
+								</el-input>
+							</template>
+						</el-table-column>
+						<el-table-column label="规格型号" prop="specModel">
+						</el-table-column>
+						<el-table-column label="产品单位" prop="productUnit">
+						</el-table-column>
+						<el-table-column label="采购价" prop="purchasePrice">
+							<template #default="scope">
+								<el-input-number v-model="ruleForm.purchaseDetailList[scope.$index].purchasePrice"
+									@change="changePriceOrQuantity(scope.$index)" controls-position="right" size="small"
+									style="width: 130px;" :precision="2">
+								</el-input-number>
+							</template>
+						</el-table-column>
+						<el-table-column label="采购数量" prop="purchaseQuantity">
+							<template #default="scope">
+								<el-input-number v-model="ruleForm.purchaseDetailList[scope.$index].purchaseQuantity"
+									@change="changePriceOrQuantity(scope.$index)" size="small" :min="1" :precision="0">
+								</el-input-number>
+							</template>
+						</el-table-column>
+						<el-table-column label="小计" prop="purchaseSubtotal">
+						</el-table-column>
+						<el-table-column label="操作" width="100">
+							<template #default="scope">
+								<el-button type="primary" icon="el-icon-plus" size="mini" @click="addRow()" circle>
+								</el-button>
+								<el-button type="primary" icon="el-icon-minus" size="mini"
+									@click="removeRow(scope.$index)" circle></el-button>
+							</template>
+						</el-table-column>
+					</el-table>
+
+					<el-dialog title="产品" v-model="product.dialogVisible">
+						<el-row type="flex" justify="end" style="padding-bottom: 12px;">
+							<el-col :span="7.5">
+								<el-input v-model="product.searchInput" placeholder="请搜索产品名称" size="small">
+									<template #append>
+										<el-button @click="productLoadData" icon="el-icon-search" size="mini">
+										</el-button>
+									</template>
+								</el-input>
+							</el-col>
+
+						</el-row>
+
+						<el-table :data="product.tableData" max-height="286" style="height: 286px;"
+							@selection-change="productSelectionChange">
+							<el-table-column type="selection" width="25">
+							</el-table-column>
+							<el-table-column property="productName" label="产品名称"></el-table-column>
+							<el-table-column property="specModel" label="规格型号"></el-table-column>
+							<el-table-column property="productUnit" label="产品单位"></el-table-column>
+							<el-table-column property="referCost" label="参考成本价"></el-table-column>
+							<el-table-column property="marketPrice" label="市场价"></el-table-column>
+						</el-table>
+						<el-row>
+							<el-col :span="24">
+								<el-pagination style="float: right;margin-top: 15px;" @size-change="productSizeChange"
+									@current-change="productCurrentChange" :page-sizes="[10,20,40,80]"
+									:page-size="product.pageParam.pageSize"
+									layout="total, sizes, prev, pager, next, jumper" :total="product.tableTotal">
+								</el-pagination>
+							</el-col>
+						</el-row>
+
 						<template #footer>
 							<span class="dialog-footer">
-								<el-button @click="screenDialogVisible = false">取 消</el-button>
-								<el-button type="primary" @click="handleScreen()">确 定</el-button>
+								<el-button @click="product.dialogVisible = false" size="medium">取 消</el-button>
+								<el-button type="primary" @click="productConfirmButton" size="medium">确 定
+								</el-button>
 							</span>
 						</template>
 					</el-dialog>
+				</el-main>
+				<el-footer style="height: 56;">
+				</el-footer>
 
-					<el-col :span="3">
-
-						<el-button style="float: right;" icon="el-icon-plus" size="medium" type="primary"
-							@click="toDetail()">新增销售机会</el-button>
-
-					</el-col>
-				</el-row>
-			</el-header>
-
-			<el-main style="background-color: white;">
-				<el-table :data="tableData" max-height="477" style="width: 100%;height:477px;"
-					@selection-change="handleSelectionChange">
-					<el-table-column type="selection">
-					</el-table-column>
-					<el-table-column label="单据编号" width="162">
-						<template #default="scope">
-							<router-link :to="{name:'Purchase',params:{purchId:scope.row.purchId}}">
-								{{scope.row.purchDocunum}}
-							</router-link>
-						</template>
-					</el-table-column>
-					<el-table-column label="单据日期" prop="documentDate" width="135" :formatter="dateFormat">
-					</el-table-column>
-					<el-table-column label="供应商" prop="supplierName">
-					</el-table-column>
-					<el-table-column label="业务员" prop="employeeName">
-					</el-table-column>
-					<el-table-column label="入库状态">
-						<template #default="scope">
-							<p v-if="tableData[scope.$index].inStorage == 0">未入库</p>
-							<p v-if="tableData[scope.$index].inStorage == 1">已入库</p>
-						</template>
-					</el-table-column>
-					<el-table-column label="仓库" prop="warehouseName">
-					</el-table-column>
-					<el-table-column label="审核状态" prop="audited">
-						<template #default="scope">
-							<p v-if="tableData[scope.$index].audited == 0">未审核</p>
-							<p v-if="tableData[scope.$index].audited == 1">已审核</p>
-						</template>
-					</el-table-column>
-					<el-table-column label="付款状态" prop="paymentStatus">
-						<template #default="scope">
-							<p v-if="tableData[scope.$index].paymentStatus == 0">未付款</p>
-							<p v-if="tableData[scope.$index].paymentStatus == 1">已付款</p>
-						</template>
-					</el-table-column>
-					<el-table-column label="退货状态" prop="returnState">
-						<template #default="scope">
-							<p v-if="tableData[scope.$index].returnState == 0">未退货</p>
-							<p v-if="tableData[scope.$index].returnState == 1">部分退货</p>
-							<p v-if="tableData[scope.$index].returnState == 2">全部退货</p>
-						</template>
-					</el-table-column>
-					<el-table-column label="交易金额" prop="transactionAmount">
-					</el-table-column>
-					<el-table-column fixed="right" label="操作" width="100">
-						<template #default="scope">
-							<el-button v-if="tableData[scope.$index].audited == 0"
-								@click="handleAudit(scope.row.purchId)" type="text">审核</el-button>
-						</template>
-					</el-table-column>
-				</el-table>
-
-			</el-main>
-			<el-footer>
-				<div class="block" style="float: right;">
-					<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-						:page-sizes="[10,20,40,80]" :page-size="pageParam.pageSize"
-						layout="total, sizes, prev, pager, next, jumper" :total="tableTotal">
-					</el-pagination>
-				</div>
-			</el-footer>
-		</el-container>
+			</el-container>
+		</el-form>
 
 	</div>
-
 </template>
 
 <script>
-	import qs from 'qs'
-	import moment from 'moment'
-
 	export default {
 		name: "SaleLead",
 		data() {
 			return {
-				tableData: [],
-				tableTotal: 0,
-				multipleSelection: [],
-				pageParam: {
-					"pageNum": 1,
-					"pageSize": 10
+				isAdd: true,
+				ruleForm: {
+					purchaseDetailList: [{}]
 				},
-				searchInput: '',
-				screenCondition: {
+				rules: {
+					purchDocunum: [{
+						required: true,
+						message: '请输入单据编号',
+						trigger: 'change'
+					}],
+					documentDate: [{
+						type: 'date',
+						required: true,
+						message: '请选择单据日期',
+						trigger: 'blur'
+					}],
+					employeeId: [{
+						required: true,
+						message: '请选择业务员',
+						trigger: 'blur'
+					}],
+					supplierName: [{
+						required: true,
+						message: '请选择供应商',
+						trigger: 'change'
+					}]
+				},
 
+				docuNumSequence: '',
+				employeeSelectValue: [],
+				supplier: {
+					dialogVisible: false,
+					searchInput: '',
+					tableData: [],
+					tableTotal: '',
+					singleSelection: {},
+					pageParam: {
+						"pageNum": 1,
+						"pageSize": 10
+					}
 				},
-				screenDialogVisible: false,
-				showDeleteButton: false,
-				queryType: 'all'
-			}
-		},
-		computed: {
-			searchCondition() {
-				return {
-					"purchDocunum": this.searchInput,
-					"supplierName": this.searchInput,
-					"warehouseName": this.searchInput,
-					"employeeName": this.searchInput
+				warehouse: {
+					dialogVisible: false,
+					searchInput: '',
+					tableData: [],
+					tableTotal: '',
+					singleSelection: {},
+					pageParam: {
+						"pageNum": 1,
+						"pageSize": 10
+					}
+				},
+				product: {
+					dialogVisible: false,
+					searchInput: '',
+					tableData: [],
+					tableTotal: '',
+					multipleSelection: [],
+					pageParam: {
+						"pageNum": 1,
+						"pageSize": 10
+					},
+					sourceRowIndex: 0
 				}
 			}
 		},
 		methods: {
-			dateFormat(row, column) {
-				var date = row[column.property];
-				if (date == undefined) {
-					return ''
-				};
-				return moment(date).format("YYYY-MM-DD HH:mm")
-			},
-			loadData() {
+			loadData(){
 				this.axios({
-					url: "http://localhost:8089/eims/purchase",
-					method: 'get',
-					params: this.pageParam
-				}).then((response) => {
-					this.tableData = response.data.list
-					this.tableTotal = response.data.total
-				}).catch((error) => {
-
-				})
-			},
-			handleSelectionChange(val) {
-				this.multipleSelection = val
-
-				if (val.length > 0)
-					this.showDeleteButton = true
-				else
-					this.showDeleteButton = false
-			},
-			handleSizeChange(val) {
-				this.pageParam.pageSize = val
-
-				if (this.queryType == 'all')
-					this.loadData()
-				else if (this.queryType == 'search')
-					this.handleSearch()
-				else if (this.queryType == 'screen')
-					this.handleScreen()
-			},
-			handleCurrentChange(val) {
-				this.pageParam.pageNum = val
-
-				if (this.queryType == 'all')
-					this.loadData()
-				else if (this.queryType == 'search')
-					this.handleSearch()
-				else if (this.queryType == 'screen')
-					this.handleScreen()
-			},
-			handleAudit(val) {
-				this.$confirm('此操作将通过审核，是否继续？', '提示', {
-					confirmButtonTest: '确定',
-					cancelButtonTest: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.axios({
-						url: "http://localhost:8089/eims/purchase",
-						method: "put",
-						data: {purchId:val,audited:1}
-					}).then(response => {
-						this.loadData()
-						this.$message({
-							type: 'success',
-							message: '审核成功'
-						})
-					}).catch(error => {
-
-					})
-				}).catch(() => {
-					this.$message({
-						type: 'info',
-						message: '已取消操作'
-					})
-				})
-
-			},
-			handleDelete() {
-				var isHaveAudited = false
+					url: "http://localhost:8089/eims/purchase/one",
+					method: "get",
+					params: {
+						"id": this.ruleForm.purchId
+					}
+				}).then(response => {
+					this.ruleForm = response.data
+				}).catch(error => {
 				
-				for(var i=0;i<this.multipleSelection.length;i++){
-					
-					if(this.multipleSelection[i].audited == 1){
+				})
+			},
+			getDocuNum(prefix) {
+				const nowDate = new Date()
+
+				var month = nowDate.getMonth() + 1
+				month = month > 10 ? month : '0' + month
+
+				var date = nowDate.getDate()
+				date = date > 10 ? date : '0' + date
+
+				this.ruleForm.purchDocunum = prefix + "-" + nowDate.getFullYear() + month + date + "-"
+
+				this.axios({
+					url: 'http://localhost:8089/eims/purchase/search',
+					method: 'get',
+					params: {
+						'purchDocunum': this.ruleForm.purchDocunum
+					}
+				}).then(response => {
+					console.log(response)
+					const docuNumSequence = (Array(5).join(0) + (response.data.list.length + 1)).slice(-5)
+					this.ruleForm.purchDocunum = this.ruleForm.purchDocunum + docuNumSequence
+				}).catch(error => {
+
+				})
+
+			},
+			clickEmployeeSelect() {
+				if (this.employeeSelectValue.length > 0)
+					return false
+
+				this.axios({
+					url: 'http://localhost:8089/eims/employee',
+					method: 'get'
+				}).then(response => {
+					this.employeeSelectValue = response.data.list
+				}).catch(error => {
+
+				})
+			},
+			changeEmployeeSelect() {
+				this.employeeSelectValue.forEach(e => {
+					if (e.employeeName == this.ruleForm.employeeName)
+						this.ruleForm.employeeId = e.employeeId
+				})
+			},
+			supplierLoadData() {
+				this.axios({
+					url: 'http://localhost:8089/eims/supplier/search',
+					method: 'get',
+					params: Object.assign({
+						'supplierName': this.supplier.searchInput
+					}, this.supplier.pageParam)
+				}).then(response => {
+					this.supplier.tableData = response.data.list
+					this.supplier.tableTotal = response.data.total
+				}).catch(error => {
+
+				})
+			},
+			supplierSelectionChange(val) {
+				this.supplier.singleSelection = val
+			},
+			supplierSizeChange(val) {
+				this.supplier.pageParam.pageSize = val
+				this.supplierLoadData()
+			},
+			supplierCurrentChange(val) {
+				this.supplier.pageParam.pageNum = val
+				this.supplierLoadData()
+			},
+			supplierConfirmButton() {
+				this.supplier.dialogVisible = false
+				this.ruleForm.supplierId = this.supplier.singleSelection.supplierId
+				this.ruleForm.supplierName = this.supplier.singleSelection.supplierName
+			},
+			productOpenDialog(index) {
+				this.product.sourceRowIndex = index
+				this.product.dialogVisible = true
+				this.productLoadData()
+			},
+			productLoadData() {
+				this.axios({
+					url: 'http://localhost:8089/eims/product/search',
+					method: 'get',
+					params: Object.assign({
+						'productName': this.product.searchInput
+					}, this.product.pageParam)
+				}).then(response => {
+					this.product.tableData = response.data.list
+					this.product.tableTotal = response.data.total
+				}).catch(error => {
+
+				})
+			},
+			productSelectionChange(val) {
+				this.product.multipleSelection = val
+			},
+			productSizeChange(val) {
+				this.product.pageParam.pageSize = val
+				this.productLoadData()
+			},
+			productCurrentChange(val) {
+				this.product.pageParam.pageNum = val
+				this.productLoadData()
+			},
+			productConfirmButton() {
+				this.product.dialogVisible = false
+
+				//属性名 参考成本价替换为采购价
+				var newData = JSON.parse(JSON.stringify(this.product.multipleSelection).replace(/referCost/g,
+					"purchasePrice"))
+
+				newData.forEach(detail => {
+					//设置明细默认的采购量和小计，和采购单据编号
+					detail.purchaseQuantity = 1
+					detail.purchaseSubtotal = detail.purchasePrice
+					detail.purchDocunum = this.ruleForm.purchDocunum
+
+					this.ruleForm.purchaseDetailList[this.product.sourceRowIndex] = detail
+					this.product.sourceRowIndex++
+
+				})
+
+				//计算交易金额
+				this.calcTransactionAmount();
+
+			},
+			warehouseLoadData() {
+				this.axios({
+					url: 'http://localhost:8089/eims/warehouse/search',
+					method: 'get',
+					params: Object.assign({
+						'warehouseName': this.warehouse.searchInput
+					}, this.warehouse.pageParam)
+				}).then(response => {
+					this.warehouse.tableData = response.data.list
+					this.warehouse.tableTotal = response.data.total
+				}).catch(error => {
+
+				})
+			},
+			warehouseSelectionChange(val) {
+				this.warehouse.singleSelection = val
+			},
+			warehouseSizeChange(val) {
+				this.warehouse.pageParam.pageSize = val
+				this.warehouseLoadData()
+			},
+			warehouseCurrentChange(val) {
+				this.warehouse.pageParam.pageNum = val
+				this.warehouseLoadData()
+			},
+			warehouseConfirmButton() {
+				this.warehouse.dialogVisible = false
+				this.ruleForm.warehouseId = this.warehouse.singleSelection.warehouseId
+				this.ruleForm.warehouseName = this.warehouse.singleSelection.warehouseName
+			},
+			addRow() {
+				this.ruleForm.purchaseDetailList.push({});
+			},
+			removeRow(index) {
+				if (this.ruleForm.purchaseDetailList.length > 1)
+					this.ruleForm.purchaseDetailList.splice(index, 1);
+			},
+			changePriceOrQuantity(index) {
+				const detail = this.ruleForm.purchaseDetailList[index]
+				const subtotal = detail.purchasePrice * detail.purchaseQuantity
+				this.ruleForm.purchaseDetailList[index].purchaseSubtotal = subtotal
+
+				//计算交易金额
+				this.calcTransactionAmount()
+			},
+			calcTransactionAmount() {
+				var transactionAmount = 0
+				this.ruleForm.purchaseDetailList.forEach(detail => {
+					transactionAmount += detail.purchaseSubtotal
+				})
+				this.ruleForm.transactionAmount = transactionAmount
+			},
+			submitForm(formName) {
+
+				const list = this.ruleForm.purchaseDetailList
+				for(var i=0;i<list.length;i++){
+					if (typeof(list[i].productId) == "undefined" || list[i].purchasePrice == "") {
 						this.$message({
-							type:'info',
-							message:'已审核的数据无法删除'
+							type: 'warning',
+							message: '请选择采购产品'
 						})
 						return false
-					}else if(this.multipleSelection[i].inStorage == 1){
+					} else if (typeof(list[i].purchasePrice) == "undefined" || list[i].purchasePrice == "") {
 						this.$message({
-							type:'info',
-							message:'已入库的数据无法删除'
+							type: 'warning',
+							message: '请填写采购价'
 						})
 						return false
-					}else if(this.multipleSelection[i].paymentStatus == 1){
+					} else if (typeof(list[i].purchaseQuantity) == "undefined" || list[i].purchaseQuantity == "") {
 						this.$message({
-							type:'info',
-							message:'已付款的数据无法删除'
-						})
-						return false
-					}else if(this.multipleSelection[i].returnState == 1 || this.multipleSelection[i].returnState == 2){
-						this.$message({
-							type:'info',
-							message:'已退货的数据无法删除'
+							type: 'warning',
+							message: '请填写采购数量'
 						})
 						return false
 					}
 				}
 
-				this.$confirm('此操作将永久删除文件，是否继续？', '提示', {
-					confirmButtonTest: '确定',
-					cancelButtonTest: '取消',
-					type: 'warning'
-				}).then(() => {
-					var ids = new Array()
-					for (let i = 0; i < this.multipleSelection.length; i++)
-						ids.push(this.multipleSelection[i].purchId)
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
 
-					this.axios({
-						url: "http://localhost:8089/eims/purchase/batch",
-						method: "delete",
-						data: ids
-					}).then(response => {
-						this.loadData()
-						this.$message({
-							type: 'success',
-							message: '删除成功'
-						});
-					}).catch(error => {
+						if (this.isAdd) {
+							this.axios({
+								url: 'http://localhost:8089/eims/purchase',
+								method: 'post',
+								data: this.ruleForm
+							}).then(response => {
+								this.$message({
+									type: 'success',
+									message: '采购单数据新增成功！'
+								})
 
-					})
-				}).catch(() => {
-					this.$message({
-						type: 'info',
-						message: '已取消操作'
-					})
-				})
+								this.$router.push({
+									name: 'PurchaseList'
+								})
+							}).catch(error => {
 
-			},
-			handleSearch() {
+							})
+						} else {
+						
+							if(this.ruleForm.audited == 1){
+								this.$message({
+									type:'info',
+									message:'已审核的数据无法更改'
+								})
+								this.loadData()
+								return false
+							}else if(this.ruleForm.inStorage == 1){
+								this.$message({
+									type:'info',
+									message:'已入库的数据无法更改'
+								})
+								this.loadData()
+								return false
+							}else if(this.ruleForm.paymentStatus == 1 || this.ruleForm.paymentStatus == 2){
+								this.$message({
+									type:'info',
+									message:'已付款的数据无法更改'
+								})
+								this.loadData()
+								return false
+							}else if(this.ruleForm.returnState == 1 || this.ruleForm.returnState == 2){
+								this.$message({
+									type:'info',
+									message:'已退货的数据无法更改'
+								})
+								this.loadData()
+								return false
+							}
+						
+							this.axios({
+								url:'http://localhost:8089/eims/purchase/detail',
+								method:'put',
+								data:this.ruleForm
+							}).then(response=>{
+								this.$message({
+									type:'success',
+									message:'采购单信息更改成功！'
+								})
+								
+								this.$router.push({
+									name:'PurchaseList'
+								})
+							}).catch(error=>{
+								
+							})
 
-				this.queryType = 'search'
+						}
 
-				var searchForm = Object.assign(this.searchCondition,this.pageParam)
-				console.log(this.pageParam)
-				this.axios({
-					url: "http://localhost:8089/eims/purchase/search",
-					method: "get",
-					params: searchForm
-				}).then(response => {
-					this.tableData = response.data.list
-					this.tableTotal = response.data.total
-				}).catch(error => {
-
-				})
-			},
-			handleScreen() {
-				this.queryType = 'screen'
-
-				var screenForm = Object.assign(this.screenCondition,this.pageParam)
-				console.log(this.pageParam)
-				this.axios({
-					url: "http://localhost:8089/eims/purchase/screen",
-					method: "get",
-					params: screenForm
-				}).then(response => {
-					this.tableData = response.data.list
-					this.tableTotal = response.data.total
-				}).catch(error => {
-
-				})
-
-				this.screenDialogVisible = false
-			},
-			toDetail() {
-				this.$router.push({
-					name: 'Purchase'
-				})
+					} else {
+						return false;
+					}
+				});
 			}
 		},
 		created() {
-			this.loadData()
-			
-			this.axios({
-				url:'http://localhost:8089/eims/warehouse',
-				method:'get'
-			}).then(response=>{
-				console.log(response.data.list)
-			}).catch(error=>{
-				
-			})
+			this.ruleForm.purchId = this.$route.params.purchId
+			this.isAdd = typeof(this.ruleForm.purchId) == "undefined" || this.ruleForm.purchId == ""
+
+			if (this.isAdd)
+				this.getDocuNum("CGD")
+			else 
+				this.loadData()
 		}
 	}
 </script>
 
 <style>
-	#PurchaseList .el-table .cell .el-button {
-		padding: 0px;
-		min-height: 22px;
-		height: 22px;
+	/* 表头与表行对齐 */
+	#SaleLead .cell {
+		padding-left: 0px;
+	}
+
+	/* 加号按钮 */
+	#SaleLead .el-input-group__append,
+	.el-input-group__prepend {
+		padding: 0px 18px;
+	}
+
+	#SaleLead .el-table .el-input-group__append,
+	.el-input-group__prepend {
+		padding: 0px 15px;
+	}
+
+	#SaleLead .el-table {
+		padding: 0px 10px;
+	}
+
+	#SaleLead .el-table td,
+	#SaleLead .el-table th {
+		padding: 6px 0px;
+	}
+
+	#SaleLead .el-dialog .el-table td,
+	#SaleLead .el-dialog .el-table th {
+		padding: 9px 0px;
+	}
+
+	#SaleLead .el-footer {
+		padding-bottom: 20px;
+	}
+
+	#SaleLead .el-main {
+		padding: 15px;
+	}
+
+	.underline-input {
+		border: 0px;
+		outline: none;
+		width: 105px;
+		padding: 1px 0px;
+		border-bottom: 1px solid rgb(204, 204, 204);
+	}
+
+	.underline-input:hover {
+		border-bottom: 1px solid rgb(35, 134, 238);
+	}
+
+	#SaleLead .el-dialog .el-dialog__body {
+		padding: 20px;
 	}
 </style>

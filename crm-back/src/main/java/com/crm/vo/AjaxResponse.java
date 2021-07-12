@@ -20,7 +20,7 @@ public class AjaxResponse {
         if(object==null)
             return error(new CustomError(CustomErrorType.SYSTEM_ERROR,""));
         else
-            return success();
+            return success(object);
     }
 
     /**

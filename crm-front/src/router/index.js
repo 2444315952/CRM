@@ -4,6 +4,7 @@ import {
 } from 'vue-router'
 
 import Login from '../components/Login.vue'
+import SaleLeadList from '../components/sale/SaleLeadList.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
 
 const routes = [{
@@ -14,6 +15,11 @@ const routes = [{
 		path: '/Login',
 		name: "Login",
 		component: Login
+	},
+	{
+		path: '/SaleLeadList',
+		name: "SaleLeadList",
+		component: SaleLeadList
 	},
 	{
 		path: '/SaleLead',
