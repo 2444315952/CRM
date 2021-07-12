@@ -40,7 +40,12 @@
         from CRM_Project.collection_period
         limit #{offset}, #{limit}
     </select>
-
+    <select id="queryByorderid" resultMap="com.alibaba.fastjson.JSONObject">
+        SELECT * FROM `receipt` rp
+        LEFT JOIN `collection_period` clp ON clp.collection_id = rp.`collection_id`
+        LEFT JOIN `sale_order` od ON od.sale_order_id = clp.sale_order_id
+        WHERE od.sale_order_id = 1
+    </select>
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="CollectionPeriodMap">
         select
