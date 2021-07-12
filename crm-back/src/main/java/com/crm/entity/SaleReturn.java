@@ -20,7 +20,6 @@ import java.util.Date;
 @Data
 public class SaleReturn implements Serializable {
     private static final long serialVersionUID = 969176808502558418L;
-    private static final long serialVersionUID = 944429798187585324L;
 
     private Integer saleReturnId;
 

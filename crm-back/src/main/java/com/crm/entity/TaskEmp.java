@@ -20,7 +20,6 @@ import lombok.ToString;
 @Data
 public class TaskEmp implements Serializable {
     private static final long serialVersionUID = -58912315732539138L;
-    private static final long serialVersionUID = 840628857076350266L;
 
     private Integer id;
 
