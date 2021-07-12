@@ -21,7 +21,6 @@ import lombok.ToString;
 @Data
 public class Task implements Serializable {
     private static final long serialVersionUID = -93501790784305872L;
-    private static final long serialVersionUID = -75162818237855776L;
 
     private Integer taskId;
 

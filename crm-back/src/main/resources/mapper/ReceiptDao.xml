@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.ReceiptDao">
+
+    <resultMap type="com.crm.entity.Receipt" id="ReceiptMap">
+        <result property="receiptId" column="receipt_id" jdbcType="INTEGER"/>
+        <result property="collectionId" column="collection_id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="receiptName" column="receipt_name" jdbcType="VARCHAR"/>
+        <result property="receiptMoney" column="receipt_money" jdbcType="NUMERIC"/>
+        <result property="billTitle" column="Bill_title" jdbcType="VARCHAR"/>
+        <result property="payTaxes" column="pay_taxes" jdbcType="VARCHAR"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ReceiptMap">
+        select
+          receipt_id, collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes, remarks
+        from CRM_Project.receipt
+        where receipt_id = #{receiptId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ReceiptMap">
+        select
+          receipt_id, collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes, remarks
+        from CRM_Project.receipt
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ReceiptMap">
+        select
+        receipt_id, collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes, remarks
+        from CRM_Project.receipt
+        <where>
+            <if test="receiptId != null">
+                and receipt_id = #{receiptId}
+            </if>
+            <if test="collectionId != null">
+                and collection_id = #{collectionId}
+            </if>
+            <if test="empId != null">
+                and emp_id = #{empId}
+            </if>
+            <if test="receiptName != null and receiptName != ''">
+                and receipt_name = #{receiptName}
+            </if>
+            <if test="receiptMoney != null">
+                and receipt_money = #{receiptMoney}
+            </if>
+            <if test="billTitle != null and billTitle != ''">
+                and Bill_title = #{billTitle}
+            </if>
+            <if test="payTaxes != null and payTaxes != ''">
+                and pay_taxes = #{payTaxes}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="receiptId" useGeneratedKeys="true">
+        insert into CRM_Project.receipt(collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes, remarks)
+        values (#{collectionId}, #{empId}, #{receiptName}, #{receiptMoney}, #{billTitle}, #{payTaxes}, #{remarks})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="receiptId" useGeneratedKeys="true">
+        insert into CRM_Project.receipt(collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes,
+        remarks)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.collectionId}, #{entity.empId}, #{entity.receiptName}, #{entity.receiptMoney},
+            #{entity.billTitle}, #{entity.payTaxes}, #{entity.remarks})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="receiptId" useGeneratedKeys="true">
+        insert into CRM_Project.receipt(collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes,
+        remarks)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.collectionId}, #{entity.empId}, #{entity.receiptName}, #{entity.receiptMoney},
+            #{entity.billTitle}, #{entity.payTaxes}, #{entity.remarks})
+        </foreach>
+        on duplicate key update
+        collection_id = values(collection_id) , emp_id = values(emp_id) , receipt_name = values(receipt_name) ,
+        receipt_money = values(receipt_money) , Bill_title = values(Bill_title) , pay_taxes = values(pay_taxes) ,
+        remarks = values(remarks)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.receipt
+        <set>
+            <if test="collectionId != null">
+                collection_id = #{collectionId},
+            </if>
+            <if test="empId != null">
+                emp_id = #{empId},
+            </if>
+            <if test="receiptName != null and receiptName != ''">
+                receipt_name = #{receiptName},
+            </if>
+            <if test="receiptMoney != null">
+                receipt_money = #{receiptMoney},
+            </if>
+            <if test="billTitle != null and billTitle != ''">
+                Bill_title = #{billTitle},
+            </if>
+            <if test="payTaxes != null and payTaxes != ''">
+                pay_taxes = #{payTaxes},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+        </set>
+        where receipt_id = #{receiptId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from CRM_Project.receipt where receipt_id = #{receiptId}
+    </delete>
+
+</mapper>
+

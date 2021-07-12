@@ -22,7 +22,6 @@ import lombok.ToString;
 @Data
 public class SaleOrder implements Serializable {
     private static final long serialVersionUID = -89716817745234612L;
-    private static final long serialVersionUID = -40931795027851171L;
 
     private Integer saleOrderId;
 

@@ -20,7 +20,6 @@ import lombok.ToString;
 @Data
 public class Clue implements Serializable {
     private static final long serialVersionUID = -50495695225016762L;
-    private static final long serialVersionUID = 500982595892292905L;
 
     private Integer activityId;
 

@@ -22,7 +22,7 @@ public class Receipt implements Serializable {
     private Integer receiptId;
 
     private Integer collectionId;
-
+    private Integer sale_order_id;
     private Integer empId;
 
     private String receiptName;

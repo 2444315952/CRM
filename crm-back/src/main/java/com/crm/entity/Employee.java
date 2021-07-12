@@ -22,7 +22,6 @@ import lombok.ToString;
 @Data
 public class Employee implements Serializable {
     private static final long serialVersionUID = 730654864761359122L;
-    private static final long serialVersionUID = -46552626403382783L;
 
     private Integer empId;
 
