@@ -3,7 +3,6 @@ package com.crm.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,14 +11,13 @@ import java.util.Date;
  * (SaleContract)实体类
  *
  * @author makejava
- * @since 2021-07-11 02:52:47
+ * @since 2021-07-11 17:51:32
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@ToString
 public class SaleContract implements Serializable {
-    private static final long serialVersionUID = 666438837009980198L;
+    private static final long serialVersionUID = 704628740964775904L;
 
     private Integer saleContractId;
 
@@ -28,6 +26,8 @@ public class SaleContract implements Serializable {
     private Integer leadId;
 
     private Integer empId;
+
+    private Integer customerId;
 
     private String contractName;
 

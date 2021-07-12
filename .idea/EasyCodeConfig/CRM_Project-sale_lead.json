@@ -1,8 +1,10 @@
 {
   "name" : "SaleLead",
   "preName" : null,
+  "preName" : "",
   "comment" : null,
   "templateGroupName" : null,
+  "templateGroupName" : "Mysql",
   "fullColumn" : [ {
     "name" : "leadId",
     "comment" : null,
@@ -12,6 +14,20 @@
     "ext" : { }
   }, {
     "name" : "empId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "customerId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "activityId",
     "comment" : null,
     "type" : null,
     "shortType" : null,
@@ -71,5 +87,7 @@
   "otherColumn" : null,
   "savePackageName" : "",
   "savePath" : "./crm-back/src/main/java",
+  "savePackageName" : "com.crm",
+  "savePath" : "./crm-back/src/main/java/com/crm",
   "saveModelName" : "crm-back"
 }
