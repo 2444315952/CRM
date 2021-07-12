@@ -11,6 +11,7 @@
         <result property="billTitle" column="Bill_title" jdbcType="VARCHAR"/>
         <result property="payTaxes" column="pay_taxes" jdbcType="VARCHAR"/>
         <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="apply" column="apply" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
@@ -59,6 +60,7 @@
             <if test="remarks != null and remarks != ''">
                 and remarks = #{remarks}
             </if>
+
         </where>
     </select>
 
@@ -70,26 +72,26 @@
 
     <insert id="insertBatch" keyProperty="receiptId" useGeneratedKeys="true">
         insert into CRM_Project.receipt(collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes,
-        remarks)
+        remarks,apply)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.collectionId}, #{entity.empId}, #{entity.receiptName}, #{entity.receiptMoney},
-            #{entity.billTitle}, #{entity.payTaxes}, #{entity.remarks})
+            #{entity.billTitle}, #{entity.payTaxes}, #{entity.remarks},#{entity.apply})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="receiptId" useGeneratedKeys="true">
         insert into CRM_Project.receipt(collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes,
-        remarks)
+        remarks,apply)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.collectionId}, #{entity.empId}, #{entity.receiptName}, #{entity.receiptMoney},
-            #{entity.billTitle}, #{entity.payTaxes}, #{entity.remarks})
+            #{entity.billTitle}, #{entity.payTaxes}, #{entity.remarks},#{entity.apply})
         </foreach>
         on duplicate key update
         collection_id = values(collection_id) , emp_id = values(emp_id) , receipt_name = values(receipt_name) ,
         receipt_money = values(receipt_money) , Bill_title = values(Bill_title) , pay_taxes = values(pay_taxes) ,
-        remarks = values(remarks)
+        remarks = values(remarks) , apply = values(apply)
     </insert>
 
     <!--通过主键修改数据-->
@@ -116,6 +118,9 @@
             </if>
             <if test="remarks != null and remarks != ''">
                 remarks = #{remarks},
+            </if>
+            <if test="apply != null and apply != ''">
+                apply = #{apply},
             </if>
         </set>
         where receipt_id = #{receiptId}

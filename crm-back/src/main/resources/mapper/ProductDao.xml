@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.ProductDao">
+
+    <resultMap type="com.crm.entity.Product" id="ProductMap">
+        <result property="proId" column="pro_id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="proName" column="pro_name" jdbcType="VARCHAR"/>
+        <result property="proPrice" column="pro_price" jdbcType="NUMERIC"/>
+        <result property="proNum" column="pro_num" jdbcType="INTEGER"/>
+        <result property="proStatus" column="pro_status" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="proType" column="pro_type" jdbcType="VARCHAR"/>
+        <result property="proDes" column="pro_des" jdbcType="VARCHAR"/>
+        <result property="emp" column="emp" jdbcType="VARCHAR"/>
+        <result property="proUnit" column="pro_unit" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ProductMap">
+        select
+          pro_id, emp_id, pro_name, pro_price, pro_num, pro_status, createTime, pro_type, pro_des, emp, pro_unit
+        from CRM_Project.product
+        where pro_id = #{proId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ProductMap">
+        select
+          pro_id, emp_id, pro_name, pro_price, pro_num, pro_status, createTime, pro_type, pro_des, emp, pro_unit
+        from CRM_Project.product
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ProductMap">
+        select
+        pro_id, emp_id, pro_name, pro_price, pro_num, pro_status, createTime, pro_type, pro_des, emp, pro_unit
+        from CRM_Project.product
+        <where>
+            <if test="proId != null">
+                and pro_id = #{proId}
+            </if>
+            <if test="empId != null">
+                and emp_id = #{empId}
+            </if>
+            <if test="proName != null and proName != ''">
+                and pro_name = #{proName}
+            </if>
+            <if test="proPrice != null">
+                and pro_price = #{proPrice}
+            </if>
+            <if test="proNum != null">
+                and pro_num = #{proNum}
+            </if>
+            <if test="proStatus != null and proStatus != ''">
+                and pro_status = #{proStatus}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="proType != null and proType != ''">
+                and pro_type = #{proType}
+            </if>
+            <if test="proDes != null and proDes != ''">
+                and pro_des = #{proDes}
+            </if>
+            <if test="emp != null and emp != ''">
+                and emp = #{emp}
+            </if>
+            <if test="proUnit != null and proUnit != ''">
+                and pro_unit = #{proUnit}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="proId" useGeneratedKeys="true">
+        insert into CRM_Project.product(emp_id, pro_name, pro_price, pro_num, pro_status, createTime, pro_type, pro_des, emp, pro_unit)
+        values (#{empId}, #{proName}, #{proPrice}, #{proNum}, #{proStatus}, #{createtime}, #{proType}, #{proDes}, #{emp}, #{proUnit})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="proId" useGeneratedKeys="true">
+        insert into CRM_Project.product(emp_id, pro_name, pro_price, pro_num, pro_status, createTime, pro_type, pro_des,
+        emp, pro_unit)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.empId}, #{entity.proName}, #{entity.proPrice}, #{entity.proNum}, #{entity.proStatus},
+            #{entity.createtime}, #{entity.proType}, #{entity.proDes}, #{entity.emp}, #{entity.proUnit})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="proId" useGeneratedKeys="true">
+        insert into CRM_Project.product(emp_id, pro_name, pro_price, pro_num, pro_status, createTime, pro_type, pro_des,
+        emp, pro_unit)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.empId}, #{entity.proName}, #{entity.proPrice}, #{entity.proNum}, #{entity.proStatus},
+            #{entity.createtime}, #{entity.proType}, #{entity.proDes}, #{entity.emp}, #{entity.proUnit})
+        </foreach>
+        on duplicate key update
+        emp_id = values(emp_id) , pro_name = values(pro_name) , pro_price = values(pro_price) , pro_num =
+        values(pro_num) , pro_status = values(pro_status) , createTime = values(createTime) , pro_type =
+        values(pro_type) , pro_des = values(pro_des) , emp = values(emp) , pro_unit = values(pro_unit)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.product
+        <set>
+            <if test="empId != null">
+                emp_id = #{empId},
+            </if>
+            <if test="proName != null and proName != ''">
+                pro_name = #{proName},
+            </if>
+            <if test="proPrice != null">
+                pro_price = #{proPrice},
+            </if>
+            <if test="proNum != null">
+                pro_num = #{proNum},
+            </if>
+            <if test="proStatus != null and proStatus != ''">
+                pro_status = #{proStatus},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime},
+            </if>
+            <if test="proType != null and proType != ''">
+                pro_type = #{proType},
+            </if>
+            <if test="proDes != null and proDes != ''">
+                pro_des = #{proDes},
+            </if>
+            <if test="emp != null and emp != ''">
+                emp = #{emp},
+            </if>
+            <if test="proUnit != null and proUnit != ''">
+                pro_unit = #{proUnit},
+            </if>
+        </set>
+        where pro_id = #{proId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from CRM_Project.product where pro_id = #{proId}
+    </delete>
+
+    <!--查询全部产品-->
+    <select id="getAll" resultMap="ProductMap">
+        select * from CRM_Project.product
+    </select>
+
+</mapper>
+

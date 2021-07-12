@@ -34,4 +34,5 @@ public class Receipt implements Serializable {
     private String payTaxes;
 
     private String remarks;
+    private Integer apply;
 }
