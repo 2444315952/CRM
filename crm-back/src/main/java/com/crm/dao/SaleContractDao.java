@@ -1,73 +1,74 @@
 package com.crm.dao;
 
-import com.crm.entity.SaleLead;
+import com.crm.entity.SaleContract;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * (SaleLead)表数据库访问层
+ * (SaleContract)表数据库访问层
  *
  * @author makejava
- * @since 2021-07-11 16:27:47
+ * @since 2021-07-13 16:02:47
  */
 @Mapper
-public interface SaleLeadDao {
+public interface SaleContractDao {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param leadId 主键
+     * @param saleContractId 主键
      * @return 实例对象
      */
-    SaleLead queryById(Integer leadId);
+    SaleContract queryById(Integer saleContractId);
 
     /**
      * 查询所有数据
+     *
      * @return 实例对象
      */
-    List<SaleLead> queryAll();
+    List<SaleContract> queryAll();
 
     /**
      * 通过实体作为或者条件查询
      *
-     * @param saleLead 实例对象
+     * @param saleContract 实例对象
      * @return 对象列表
      */
-    List<SaleLead> queryOrByPojo(SaleLead saleLead);
+    List<SaleContract> queryOrByPojo(SaleContract saleContract);
 
     /**
      * 通过实体作为并且条件查询
      *
-     * @param saleLead 实例对象
+     * @param saleContract 实例对象
      * @return 对象列表
      */
-    List<SaleLead> queryAndByPojo(SaleLead saleLead);
+    List<SaleContract> queryAndByPojo(SaleContract saleContract);
 
     /**
      * 新增数据
      *
-     * @param saleLead 实例对象
+     * @param saleContract 实例对象
      * @return 影响行数
      */
-    int insert(SaleLead saleLead);
+    int insert(SaleContract saleContract);
 
     /**
      * 修改数据
      *
-     * @param saleLead 实例对象
+     * @param saleContract 实例对象
      * @return 影响行数
      */
-    int update(SaleLead saleLead);
+    int update(SaleContract saleContract);
 
     /**
      * 通过主键删除数据
      *
-     * @param leadId 主键
+     * @param saleContractId 主键
      * @return 影响行数
      */
-    int deleteById(Integer leadId);
+    int deleteById(Integer saleContractId);
 
     /**
      * 通过主键列表删除数据
@@ -80,9 +81,9 @@ public interface SaleLeadDao {
     /**
      * 批量对象列表删除数据
      *
-     * @param saleLeadList 实例对象列表
+     * @param saleContractList 实例对象列表
      * @return 影响行数
      */
-    int deleteBatchByEntities(List<SaleLead> saleLeadList);
+    int deleteBatchByEntities(List<SaleContract> saleContractList);
 }
 

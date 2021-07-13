@@ -38,13 +38,11 @@ public class EmployeeController {
 
     /**
      * 查询所有数据
-     *
-     * @param employee 实例对象
      * @return 实例对象
      */
     @GetMapping("/employee")
-    public AjaxResponse queryAll(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "0") Integer pageSize, Employee employee) {
-        return AjaxResponse.success(this.employeeService.queryAll(employee, pageNum, pageSize));
+    public AjaxResponse queryAll(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "0") Integer pageSize) {
+        return AjaxResponse.success(this.employeeService.queryAll(pageNum, pageSize));
     }
 
     /**

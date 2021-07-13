@@ -1,8 +1,8 @@
 {
   "name" : "LeadProduct",
-  "preName" : null,
+  "preName" : "",
   "comment" : null,
-  "templateGroupName" : null,
+  "templateGroupName" : "Mysql",
   "fullColumn" : [ {
     "name" : "leadProductId",
     "comment" : null,
@@ -19,6 +19,27 @@
     "ext" : { }
   }, {
     "name" : "leadId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "unitPrice",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "quantity",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "subtotal",
     "comment" : null,
     "type" : null,
     "shortType" : null,

@@ -4,9 +4,14 @@ import {
 } from 'vue-router'
 
 import Login from '../components/Login.vue'
+import SaleLeadList from '../components/sale/SaleLeadList.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
 import outInStore from '../components/produce/outInStore.vue'
 import product from '../components/product/Product.vue'
+import SaleOrderList from '../components/sale/SaleOrderList.vue'
+import SaleOrder from '../components/sale/SaleOrder.vue'
+import SaleContract from '../components/sale/SaleContract.vue'
+
 const routes = [{
 		path: '/',
 		redirect: '/Login'
@@ -17,7 +22,12 @@ const routes = [{
 		component: Login
 	},
 	{
-		path: '/SaleLead',
+		path: '/SaleLeadList',
+		name: "SaleLeadList",
+		component: SaleLeadList
+	},
+	{
+		path: '/SaleLead/:leadId?',
 		name: "SaleLead",
 		component: SaleLead
 	},{
@@ -29,6 +39,17 @@ const routes = [{
 		path:'/product',
 		name:"product",
 		component:product
+		path: '/SaleOrderList',
+		name: "SaleOrderList",
+		component: SaleOrderList
+	},{
+		path: '/SaleOrder',
+		name: "SaleOrder",
+		component: SaleOrder
+	},{
+		path: '/SaleContract',
+		name: "SaleContract",
+		component: SaleContract
 	}
 ]
 

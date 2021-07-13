@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.LeadProductDao">
+
+    <resultMap type="com.crm.entity.LeadProduct" id="LeadProductMap">
+        <result property="leadProductId" column="lead_product_id" jdbcType="INTEGER"/>
+        <result property="proId" column="pro_id" jdbcType="INTEGER"/>
+        <result property="leadId" column="lead_id" jdbcType="INTEGER"/>
+        <result property="unitPrice" column="unit_price" jdbcType="VARCHAR"/>
+        <result property="quantity" column="quantity" jdbcType="INTEGER"/>
+        <result property="subtotal" column="subtotal" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="LeadProductCol">
+        i.lead_product_id ,i.pro_id ,i.lead_id ,i.unit_price ,i.quantity ,i.subtotal     </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LeadProductMap">
+        select
+        <include refid="LeadProductCol"></include>
+        from CRM_Project.lead_product i
+        where lead_product_id = #{leadProductId}
+    </select>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="LeadProductMap">
+        select
+        <include refid="LeadProductCol"></include>
+        from CRM_Project.lead_product i order by lead_product_id desc
+    </select>
+
+    <!--通过实体作为或者条件查询-->
+    <select id="queryOrByPojo" resultMap="LeadProductMap">
+        select
+        <include refid="LeadProductCol"></include>
+        from CRM_Project.lead_product i
+
+        <where>
+            <if test="leadProductId != null">
+                or lead_product_id like '%'||#{leadProductId}||'%'
+            </if>
+            <if test="proId != null">
+                or pro_id like '%'||#{proId}||'%'
+            </if>
+            <if test="leadId != null">
+                or lead_id like '%'||#{leadId}||'%'
+            </if>
+            <if test="unitPrice != null">
+                or unit_price like '%'||#{unitPrice}||'%'
+            </if>
+            <if test="quantity != null">
+                or quantity like '%'||#{quantity}||'%'
+            </if>
+            <if test="subtotal != null">
+                or subtotal like '%'||#{subtotal}||'%'
+            </if>
+        </where>
+        order by lead_product_id desc
+    </select>
+
+    <!--通过实体作为并且条件查询-->
+    <select id="queryAndByPojo" resultMap="LeadProductMap">
+        select
+        <include refid="LeadProductCol"></include>
+        from CRM_Project.lead_product i
+
+        <where>
+            <if test="leadProductId != null">
+                and lead_product_id = #{leadProductId}
+            </if>
+            <if test="proId != null">
+                and pro_id = #{proId}
+            </if>
+            <if test="leadId != null">
+                and lead_id = #{leadId}
+            </if>
+            <if test="unitPrice != null">
+                and unit_price = #{unitPrice}
+            </if>
+            <if test="quantity != null">
+                and quantity = #{quantity}
+            </if>
+            <if test="subtotal != null">
+                and subtotal = #{subtotal}
+            </if>
+        </where>
+        order by lead_product_id desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="leadProductId" useGeneratedKeys="true">
+        insert into CRM_Project.lead_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            lead_product_id,
+            <if test="proId != null">
+                pro_id,
+            </if>
+            <if test="leadId != null">
+                lead_id,
+            </if>
+            <if test="unitPrice != null">
+                unit_price,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="subtotal != null">
+                subtotal,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{leadProductId},
+            <if test="proId != null">
+                #{proId},
+            </if>
+            <if test="leadId != null">
+                #{leadId},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="subtotal != null">
+                #{subtotal},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.lead_product
+        <set>
+            <if test="proId != null">
+                pro_id = #{proId},
+            </if>
+            <if test="leadId != null">
+                lead_id = #{leadId},
+            </if>
+            <if test="unitPrice != null">
+                unit_price = #{unitPrice},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity},
+            </if>
+            <if test="subtotal != null">
+                subtotal = #{subtotal},
+            </if>
+        </set>
+        where lead_product_id = #{leadProductId}
+    </update>
+
+    <!--通过主键删除数据-->
+    <delete id="deleteById">
+        delete from CRM_Project.lead_product where lead_product_id = #{leadProductId}
+    </delete>
+
+    <!--通过主键列表批量删除数据-->
+    <delete id="deleteBatch">
+        delete from CRM_Project.lead_product where lead_product_id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--通过实体列表批量删除数据-->
+    <delete id="deleteBatchByEntities">
+        delete from CRM_Project.lead_product where lead_product_id in
+        <foreach collection="list" item="entity" open="(" separator="," close=")">
+            #{entity.leadProductId}
+        </foreach>
+    </delete>
+</mapper>
+

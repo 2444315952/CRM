@@ -38,13 +38,11 @@ public class SaleLeadController {
 
     /**
      * 查询所有数据
-     *
-     * @param saleLead 实例对象
      * @return 实例对象
      */
     @GetMapping("/saleLead")
-    public AjaxResponse queryAll(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "0") Integer pageSize, SaleLead saleLead) {
-        return AjaxResponse.success(this.saleLeadService.queryAll(saleLead, pageNum, pageSize));
+    public AjaxResponse queryAll(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "0") Integer pageSize) {
+        return AjaxResponse.success(this.saleLeadService.queryAll(pageNum, pageSize));
     }
 
     /**
@@ -55,7 +53,7 @@ public class SaleLeadController {
      */
     @GetMapping("/saleLead/search")
     public AjaxResponse queryBySearch(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "0") Integer pageSize, SaleLead saleLead) {
-        return AjaxResponse.success(this.saleLeadService.queryAll(saleLead, pageNum, pageSize));
+        return AjaxResponse.success(this.saleLeadService.queryBySearch(saleLead, pageNum, pageSize));
     }
 
     /**
@@ -66,7 +64,7 @@ public class SaleLeadController {
      */
     @GetMapping("/saleLead/screen")
     public AjaxResponse queryByScreen(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "0") Integer pageSize, SaleLead saleLead) {
-        return AjaxResponse.success(this.saleLeadService.queryAll(saleLead, pageNum, pageSize));
+        return AjaxResponse.success(this.saleLeadService.queryByScreen(saleLead, pageNum, pageSize));
     }
 
     /**

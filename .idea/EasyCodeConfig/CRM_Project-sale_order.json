@@ -25,6 +25,20 @@
     "custom" : false,
     "ext" : { }
   }, {
+    "name" : "customerId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "activityId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
     "name" : "saleOrderName",
     "comment" : null,
     "type" : null,
@@ -33,6 +47,13 @@
     "ext" : { }
   }, {
     "name" : "saleOrderAmount",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "createDate",
     "comment" : null,
     "type" : null,
     "shortType" : null,

@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.math.BigDecimal;
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -48,4 +49,11 @@ public class SaleLead implements Serializable {
     private String leadSource;
 
     private String leadRemark;
+
+
+    private String customerName;
+
+    private String empName;
+
+    private List<LeadProduct> leadProductList;
 }

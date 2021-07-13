@@ -25,11 +25,9 @@ public interface EmployeeDao {
 
     /**
      * 查询所有数据
-     *
-     * @param employee 实例对象
      * @return 实例对象
      */
-    List<Employee> queryAll(Employee employee);
+    List<Employee> queryAll();
 
     /**
      * 登录验证

@@ -5,6 +5,9 @@
   "comment" : null,
   "templateGroupName" : null,
   "templateGroupName" : "Default",
+  "preName" : "",
+  "comment" : null,
+  "templateGroupName" : "Mysql",
   "fullColumn" : [ {
     "name" : "proId",
     "comment" : null,
@@ -89,5 +92,7 @@
   "savePath" : "./crm-back/src/main/java",
   "savePackageName" : "com.crm",
   "savePath" : "D:/crm/crm-back/src/main/java/com/crm",
+  "savePackageName" : "com.crm",
+  "savePath" : "./crm-back/src/main/java/com/crm",
   "saveModelName" : "crm-back"
 }
