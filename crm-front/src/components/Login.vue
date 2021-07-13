@@ -58,7 +58,7 @@
 			return {
 				form: {
 					username: "",
-					password: ""
+					password: "",
 					empName: "",
 					empPwd: ""
 				}
@@ -97,7 +97,7 @@
 				}).catch(err => {
 
 				}) */
-				})
+				
 			}
 		}
 	};

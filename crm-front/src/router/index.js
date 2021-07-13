@@ -5,12 +5,8 @@ import {
 
 import Login from '../components/Login.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
-<<<<<<< HEAD
 import outInStore from '../components/produce/outInStore.vue'
-=======
-import Product from '../components/product/Product.vue'
->>>>>>> 09d3c67beb44e15228debe9ac95eba24099e6028
-
+import product from '../components/product/Product.vue'
 const routes = [{
 		path: '/',
 		redirect: '/Login'
@@ -31,8 +27,8 @@ const routes = [{
 	},
 	{
 		path:'/product',
-		name:"Product",
-		component:Product
+		name:"product",
+		component:product
 	}
 ]
 

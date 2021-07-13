@@ -61,9 +61,9 @@ public class ProductServiceImpl implements ProductService {
      * @return 实例对象
      */
     @Override
-    public Product update(Product product) {
-        this.productDao.update(product);
-        return this.queryById(product.getProId());
+    public int update(Product product) {
+
+        return productDao.update(product);
     }
 
     /**
