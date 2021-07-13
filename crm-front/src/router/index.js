@@ -22,8 +22,6 @@ import PublicClue from '../components/MarketCustomers/PublicClue.vue'
 import PublicCustomer from '../components/MarketCustomers/PublicCustomer.vue'
 import Customer from '../components/MarketCustomers/Customer.vue'
 import Contacts from '../components/MarketCustomers/Contacts.vue'
-import outInStore from '../components/produce/outInStore.vue'
-import Product from '../components/product/Product.vue'
 
 const routes = [{
 		path: '/',
@@ -42,55 +40,72 @@ const routes = [{
 	{
 		path: '/SaleLead/:leadId?',
 		name: "SaleLead",
-		// component: SaleLead,
-		// component: Activity,
-		// component:Clue,
-		// component: Customer,
-		// component: PublicClue,
-		component: PublicCustomer,
-		// component: Contacts,
-		// component: SaleLead
-	},{
+		component: SaleLead,
+	}, {
 		path: '/outInStore',
 		name: "outInStore",
 		component: outInStore
 	},
 	{
-		path:'/product',
-		name:"product",
-		component:product
-	},{
+		path: '/product',
+		name: "product",
+		component: product
+	}, {
 		path: '/outInStoreBill',
 		name: "outInStoreBill",
 		component: outInStoreBill
-	},{
+	}, {
 		path: '/outInStoreWater',
 		name: "outInStoreWater",
 		component: outInStoreWater
-	},{
+	}, {
 		path: '/test1',
 		name: "test1",
 		component: test1
-	},{
+	}, {
 		path: '/test2',
 		name: "test2",
 		component: test2
-	},{
+	}, {
 		path: '/test3',
 		name: "test3",
 		component: test3
-	},{
+	}, {
 		path: '/SaleOrderList',
 		name: "SaleOrderList",
 		component: SaleOrderList
-	},{
+	}, {
 		path: '/SaleOrder',
 		name: "SaleOrder",
 		component: SaleOrder
-	},{
+	}, {
 		path: '/SaleContract',
 		name: "SaleContract",
 		component: SaleContract
+	}, {
+		path: '/Activity',
+		name: "Activity",
+		component: Activity
+	}, {
+		path: '/Clue',
+		name: "Clue",
+		component: Clue
+	}, {
+		path: '/PublicClue',
+		name: "PublicClue",
+		component: PublicClue
+	}, {
+		path: '/Customer',
+		name: "Customer",
+		component: Customer
+	}, {
+		path: '/PublicCustomer',
+		name: "PublicCustomer",
+		component: PublicCustomer
+	}, {
+		path: '/Contacts',
+		name: "Contacts",
+		component: Contacts
 	}
 ]
 

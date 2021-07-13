@@ -1,7 +1,6 @@
 package com.crm.service;
 
 import com.crm.entity.Clue;
-import com.crm.entity.Customer;
 import com.crm.entity.Product;
 import com.github.pagehelper.PageInfo;
 

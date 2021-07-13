@@ -36,7 +36,12 @@
 		  			  <span>市场及客户</span>
 		  			</template>
 		  			<el-menu-item-group>	
-						<el-menu-item index="2-1">市场活动</el-menu-item>
+						<el-menu-item index="2-1"><router-link :to="{name:'Activity'}">市场活动</router-link></el-menu-item>
+						<el-menu-item index="2-2"><router-link :to="{name:'Clue'}">线索</router-link></el-menu-item>
+						<el-menu-item index="2-3"><router-link :to="{name:'PublicClue'}">线索公海池</router-link></el-menu-item>
+						<el-menu-item index="2-4"><router-link :to="{name:'Customer'}">客户</router-link></el-menu-item>
+						<el-menu-item index="2-5"><router-link :to="{name:'PublicCustomer'}">客户公海池</router-link></el-menu-item>
+						<el-menu-item index="2-6"><router-link :to="{name:'Contacts'}">联系人</router-link></el-menu-item>
 		  			</el-menu-item-group>
 		  		  </el-submenu>
 		  		  <el-submenu index="3">

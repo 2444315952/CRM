@@ -242,6 +242,7 @@
 
 <script>
 	export default {
+		name:'Activity',
 		data() {
 			return {
 				activeName: 'first',
@@ -331,6 +332,7 @@
 				this.$refs[ActFrom].validate((valid) => {
 					if (valid) {
 						const _this = this
+						this.ActFrom.activityState = 0;
 						this.axios.put("http://localhost:8089/updateByActivityKeySelective", this
 								.ActFrom)
 							.then(function(response) {

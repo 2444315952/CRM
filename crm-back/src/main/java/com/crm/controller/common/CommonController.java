@@ -1,6 +1,5 @@
 package com.crm.controller.common;
 
-import com.crm.entity.Customer;
 import com.crm.service.CommonService;
 import com.crm.vo.AjaxResponse;
 import org.springframework.web.bind.annotation.GetMapping;

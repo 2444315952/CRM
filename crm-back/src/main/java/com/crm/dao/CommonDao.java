@@ -1,7 +1,6 @@
 package com.crm.dao;
 
 import com.crm.entity.Clue;
-import com.crm.entity.Customer;
 import com.crm.entity.Product;
 import org.apache.ibatis.annotations.Mapper;
 

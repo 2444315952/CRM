@@ -2,7 +2,6 @@ package com.crm.service.impl;
 
 import com.crm.dao.CommonDao;
 import com.crm.entity.Clue;
-import com.crm.entity.Customer;
 import com.crm.entity.Product;
 import com.crm.service.CommonService;
 import com.github.pagehelper.Page;
