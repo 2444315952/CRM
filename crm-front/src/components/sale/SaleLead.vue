@@ -175,7 +175,7 @@
 					</el-row>
 					
 					<el-tabs v-if="!isAdd" v-model="activeName" type="border-card" @tab-click="handleClick">
-						<el-tab-pane label="销售订单" name="first">
+						<el-tab-pane :label="saleTabLabel" name="first">
 							<el-table :data="saleTableData" max-height="477" style="width: 100%;height:477px;"
 								highlight-current-row @current-change="handleCurrentChange">
 								<el-table-column label="订单名称" prop="saleOrderName">
@@ -200,7 +200,7 @@
 								</el-table-column>
 							</el-table>
 						</el-tab-pane>
-						<el-tab-pane label="销售合同" name="second">
+						<el-tab-pane :label="contractTabLabel" name="second">
 							<el-table :data="contractTableData" max-height="477" style="width: 100%;height:477px;"
 								highlight-current-row @current-change="handleCurrentChange">
 								<el-table-column label="合同名称" prop="contractName">
@@ -311,7 +311,9 @@
 				},
 				activeName:'first',
 				saleTableData:[],
-				contractTableData:[]
+				saleTabLabel:'',
+				contractTableData:[],
+				contractTabLabel:''
 			}
 		},
 		methods: {
@@ -343,6 +345,7 @@
 					}
 				}).then(response => {
 					this.saleTableData = response.data.record.list
+					this.saleTabLabel = "销售订单("+response.data.record.total+")"
 					
 					this.saleTableData.forEach(t=>{
 						t.owedAmount = t.saleOrderAmount - t.collectionAmount
@@ -361,6 +364,7 @@
 					}
 				}).then(response => {
 					this.contractTableData = response.data.record.list
+					this.contractTabLabel = "销售合同("+response.data.record.total+")"
 				}).catch(error => {
 				
 				})
