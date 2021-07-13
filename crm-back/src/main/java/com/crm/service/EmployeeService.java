@@ -45,4 +45,6 @@ public interface EmployeeService {
      * @return
      */
     Employee loginAuth(String empName,String empPwd);
+
+    List<Employee> selectAllEmpName();
 }

@@ -14,7 +14,14 @@ public interface ActivityDao {
 
     List<Activity> selectByActivitys();
 
+    List<Activity> selectByMyActivitys();
+
     int updateByActivityKeySelective(Activity record);
 
     int updateByActivityKey(Activity record);
+
+    int updateByStartActivity(Activity record);
+
+    int updateByEndActivity(Activity record);
+
 }

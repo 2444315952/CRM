@@ -8,48 +8,50 @@
     <result column="Add_Time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="End_Time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="Address" jdbcType="VARCHAR" property="address" />
-    <result column="Activity_Type" jdbcType="INTEGER" property="activityType" />
     <result column="Activity_State" jdbcType="INTEGER" property="activityState" />
     <result column="PlanIncome" jdbcType="DECIMAL" property="planincome" />
     <result column="ActualIncome" jdbcType="DECIMAL" property="actualincome" />
     <result column="ProfitLoss" jdbcType="DECIMAL" property="profitloss" />
     <result column="Activity_Plan" jdbcType="VARCHAR" property="activityPlan" />
     <result column="TimeLiness" jdbcType="INTEGER" property="timeliness" />
-    <result column="Person" jdbcType="VARCHAR" property="person" />
     <association property="employee" javaType="com.crm.entity.Employee">
       <id column="emp_id" jdbcType="INTEGER" property="empId" />
-      <result column="emp_name" jdbcType="INTEGER" property="empName"/>
+      <result column="emp_name" jdbcType="VARCHAR" property="empName"/>
     </association>
   </resultMap>
   <sql id="Base_Column_List">
-    a.Activity_Id, a.emp_id, a.Activity_Name, a.Add_Time, a.End_Time, a.Address, a.Activity_Type, a.Activity_State,
+    a.Activity_Id, a.emp_id, a.Activity_Name, a.Add_Time, a.End_Time, a.Address, a.Activity_State,
     a.PlanIncome, a.ActualIncome, a.ProfitLoss, a.Activity_Plan, a.TimeLiness,a.Person
   </sql>
   <select id="selectByActivityKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />,e.emp_name
+    <include refid="Base_Column_List" />,e.empName
     from activity a
     inner join employee e on e.emp_id = a.emp_id
     where a.Activity_Id = #{activityId,jdbcType=INTEGER} and a.TimeLiness=0
   </select>
   <select id="selectByActivitys" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />,e.emp_name
+    select *
     from activity a
     inner join employee e on e.emp_id = a.emp_id
     where a.TimeLiness=0
   </select>
+  <select id="selectByMyActivitys" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from activity a
+    inner join employee e on e.emp_id = a.emp_id
+    where a.TimeLiness=0 and e.emp_id = 1
+  </select>
   <insert id="addActivity" keyColumn="Activity_Id" keyProperty="activityId" parameterType="com.crm.entity.Activity" useGeneratedKeys="true">
     insert into activity (emp_id, Activity_Name, Add_Time, 
-      End_Time, Address, Activity_Type, 
+      End_Time, Address, Activity_State,
       PlanIncome, ActualIncome,
-      ProfitLoss, Activity_Plan, TimeLiness, Person
+      ProfitLoss, Activity_Plan, TimeLiness
       )
     values (#{empId,jdbcType=INTEGER}, #{activityName,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{activityType,jdbcType=INTEGER}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, #{activityState,jdbcType=INTEGER},
       #{planincome,jdbcType=DECIMAL}, #{actualincome,jdbcType=DECIMAL},
-      #{profitloss,jdbcType=DECIMAL}, #{activityPlan,jdbcType=VARCHAR}, #{timeliness,jdbcType=INTEGER},
-      #{person,jdbcType=VARCHAR}
+      #{profitloss,jdbcType=DECIMAL}, #{activityPlan,jdbcType=VARCHAR}, #{timeliness,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByActivityKeySelective" parameterType="com.crm.entity.Activity">
@@ -70,9 +72,6 @@
       <if test="address != null">
         Address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="activityType != null">
-        Activity_Type = #{activityType,jdbcType=INTEGER},
-      </if>
       <if test="activityState != null">
         Activity_State = #{activityState,jdbcType=INTEGER},
       </if>
@@ -91,16 +90,41 @@
       <if test="timeliness != null">
         TimeLiness = #{timeliness,jdbcType=INTEGER},
       </if>
-      <if test="person != null">
-        Person = #{person,jdbcType=VARCHAR},
+    </set>
+    where Activity_Id = #{activityId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByEndActivity" parameterType="com.crm.entity.Activity">
+    update activity
+    <set>
+      <if test="endTime != null">
+        End_Time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityState != null">
+        Activity_State = #{activityState,jdbcType=INTEGER},
+      </if>
+      <if test="actualincome != null">
+        ActualIncome = #{actualincome,jdbcType=DECIMAL},
+      </if>
+      <if test="profitloss != null">
+        ProfitLoss = #{profitloss,jdbcType=DECIMAL},
       </if>
     </set>
     where Activity_Id = #{activityId,jdbcType=INTEGER}
   </update>
+
   <update id="updateByActivityKey" parameterType="com.crm.entity.Activity">
     update activity
     set
       TimeLiness = #{timeliness,jdbcType=INTEGER}
     where Activity_Id = #{activityId,jdbcType=INTEGER}
   </update>
+  <update id="updateByStartActivity" parameterType="com.crm.entity.Activity">
+    update activity
+    set
+      Activity_State = #{activityState,jdbcType=INTEGER},
+      Add_Time = #{addTime,jdbcType=TIMESTAMP}
+    where Activity_Id = #{activityId,jdbcType=INTEGER}
+  </update>
+
 </mapper>

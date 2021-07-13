@@ -32,4 +32,6 @@ public class Employee implements Serializable {
     private String empPwd;
 
     private Integer empQuantity;
+
+    private Integer timeliness;
 }

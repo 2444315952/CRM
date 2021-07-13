@@ -8,10 +8,11 @@
         <result property="empPhone" column="emp_phone" jdbcType="VARCHAR"/>
         <result property="empPwd" column="emp_pwd" jdbcType="VARCHAR"/>
         <result property="empQuantity" column="emp_quantity" jdbcType="INTEGER"/>
+        <result column="TimeLiness" jdbcType="INTEGER" property="timeliness" />
     </resultMap>
 
     <sql id="EmployeeCol">
-        emp_id, emp_name, emp_phone, emp_pwd, emp_quantity    </sql>
+        emp_id, emp_name, emp_phone, emp_pwd, emp_quantity, TimeLiness  </sql>
 
     <!--查询单个-->
     <select id="queryById" resultMap="EmployeeMap">
@@ -28,12 +29,26 @@
         from CRM_Project.employee order by emp_id desc
     </select>
 
+    <!--查询所有-->
+    <select id="selectAllEmpName" resultMap="EmployeeMap">
+        select
+        <include refid="EmployeeCol"></include>
+        from CRM_Project.employee
+    </select>
+
     <!-- 登录验证 -->
     <select id="loginAuth" resultMap="EmployeeMap">
         select
         <include refid="EmployeeCol"></include>
         from CRM_Project.employee where emp_name = #{empName} and emp_pwd = #{empPwd}
     </select>
+
+<!--    <select id="selectByContKey" resultMap="EmployeeMap">-->
+<!--        select-->
+<!--        <include refid="EmployeeCol" />-->
+<!--        from CRM_Project.employee-->
+<!--        where TimeLiness=0-->
+<!--    </select>-->
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="empId" useGeneratedKeys="true">
@@ -52,6 +67,9 @@
             <if test="empQuantity != null">
                 emp_quantity,
             </if>
+            <if test="timeliness != null">
+                TimeLiness,
+            </if>
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -67,6 +85,9 @@
             </if>
             <if test="empQuantity != null">
                 #{empQuantity},
+            </if>
+            <if test="timeliness != null">
+                #{timeliness},
             </if>
         </trim>
     </insert>

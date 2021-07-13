@@ -4,24 +4,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 
-/**
- * activity
- * @author 
-<<<<<<< HEAD
- * (Activity)实体类
- *
- * @author makejava
- * @since 2021-07-11 14:45:21
- * @since 2021-07-11 17:51:17
-=======
->>>>>>> main
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,13 +24,15 @@ public class Activity implements Serializable {
 
     private String activityName;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
     private String address;
-
-    private Integer activityType;
 
     private Integer activityState;
 
@@ -53,8 +45,6 @@ public class Activity implements Serializable {
     private String activityPlan;
 
     private Integer timeliness;
-
-    private String person;
 
     private static final long serialVersionUID = 1L;
 }

@@ -1,5 +1,6 @@
 package com.crm.controller.common;
 
+import com.crm.entity.Clue;
 import com.crm.vo.AjaxResponse;
 import com.crm.entity.Employee;
 import com.crm.service.EmployeeService;
@@ -66,6 +67,12 @@ public class EmployeeController {
     @PostMapping("login")
     public AjaxResponse loginAuth(@RequestBody Employee employee) {
         return AjaxResponse.data(this.employeeService.loginAuth(employee.getEmpName(),employee.getEmpPwd()));
+    }
+
+    @GetMapping("/selectAllEmpName")
+    public List<Employee> selectAllEmpName(){
+
+        return employeeService.selectAllEmpName();
     }
 
 }

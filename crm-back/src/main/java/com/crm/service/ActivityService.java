@@ -11,7 +11,13 @@ public interface ActivityService {
 
     List<Activity> selectByActivitys();
 
+    List<Activity> selectByMyActivitys();
+
     int updateByActivityKeySelective(Activity record);
 
     int deleteByActivityKey(Activity record);
+
+    int updateByStartActivity(Activity record);
+
+    int updateByEndActivity(Activity record);
 }
