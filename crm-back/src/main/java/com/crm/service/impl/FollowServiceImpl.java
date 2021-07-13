@@ -3,7 +3,9 @@ package com.crm.service.impl;
 import com.crm.entity.Follow;
 import com.crm.dao.FollowDao;
 import com.crm.service.FollowService;
+import com.crm.vo.FollowPlanVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -17,17 +19,24 @@ import java.util.List;
 @Service("followService")
 public class FollowServiceImpl implements FollowService {
     @Resource
-    private FollowDao followDao;
+    private FollowDao dao;
 
     /**
-     * 通过ID查询单条数据
      *
-     * @param followId 主键
+     *查询所有数据
+     * @param
      * @return 实例对象
      */
+
+
     @Override
-    public Follow queryById(Integer followId) {
-        return this.followDao.queryById(followId);
+    public List<FollowPlanVo> selectAllFollow() {
+        return dao.selectAllFollow();
+    }
+
+    @Override
+    public List<FollowPlanVo> selectAllRecord() {
+        return dao.selectAllRecord();
     }
 
     /**
@@ -39,32 +48,22 @@ public class FollowServiceImpl implements FollowService {
      */
     @Override
     public List<Follow> queryAllByLimit(int offset, int limit) {
-        return this.followDao.queryAllByLimit(offset, limit);
+        return this.dao.queryAllByLimit(offset, limit);
     }
+
 
     /**
      * 新增数据
-     *
-     * @param follow 实例对象
-     * @return 实例对象
      */
     @Override
-    public Follow insert(Follow follow) {
-        this.followDao.insert(follow);
-        return follow;
+    @Transactional
+    public void addFollow(FollowPlanVo followPlanVo) {
+        dao.addFollow(followPlanVo);
     }
 
-    /**
-     * 修改数据
-     *
-     * @param follow 实例对象
-     * @return 实例对象
-     */
-    @Override
-    public Follow update(Follow follow) {
-        this.followDao.update(follow);
-        return this.queryById(follow.getFollowId());
-    }
+
+
+
 
     /**
      * 通过主键删除数据
@@ -74,6 +73,11 @@ public class FollowServiceImpl implements FollowService {
      */
     @Override
     public boolean deleteById(Integer followId) {
-        return this.followDao.deleteById(followId) > 0;
+        return this.dao.deleteById(followId) > 0;
+    }
+
+    @Override
+    public int updateRecprd(FollowPlanVo followPlanVo) {
+        return dao.updateRecprd(followPlanVo);
     }
 }

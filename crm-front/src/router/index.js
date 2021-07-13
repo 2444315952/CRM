@@ -22,9 +22,28 @@ import PublicCustomer from '../components/MarketCustomers/PublicCustomer.vue'
 import Customer from '../components/MarketCustomers/Customer.vue'
 import Contacts from '../components/MarketCustomers/Contacts.vue'
 
+import Product from '../components/product/Product.vue'
+import FollowPlan from '../components/followall/FollowPlan.vue'
+import FollowRecord from '../components/followall/FollowRecord.vue'
+import Task from '../components/followall/Task.vue'
 const routes = [{
 		path: '/',
 		redirect: '/Login'
+	},
+	{
+		path: '/Task',
+		name: "Task",
+		component: Task
+	},
+	{
+		path: '/FollowRecord',
+		name: "FollowRecord",
+		component: FollowRecord
+	},
+	{
+		path: '/FollowPlan',
+		name: "FollowPlan",
+		component: FollowPlan
 	},
 	{
 		path: '/Login',

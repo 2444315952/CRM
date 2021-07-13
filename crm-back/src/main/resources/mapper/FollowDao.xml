@@ -2,22 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crm.dao.FollowDao">
 
-    <resultMap id="BaseResultMap" type="com.crm.entity.Follow">
+    <resultMap id="BaseResultMap" type="com.crm.vo.FollowPlanVo">
         <!--@Table follow-->
         <result property="followId" column="follow_id" jdbcType="INTEGER"/>
         <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="clueId" column="Clue_Id" jdbcType="INTEGER"/>
         <result property="followType" column="follow_type" jdbcType="VARCHAR"/>
         <result property="followContent" column="follow_content" jdbcType="VARCHAR"/>
         <result property="followTime" column="follow_time" jdbcType="TIMESTAMP"/>
         <result property="addtime" column="addtime" jdbcType="TIMESTAMP"/>
+        <result property="clueName" column="Clue_Name" jdbcType="VARCHAR"/>
+        <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
     </resultMap>
 
-    <!--查询单个-->
-    <select id="queryById" resultMap="BaseResultMap">
-        select
-          follow_id, emp_id, follow_type, follow_content, follow_time, addtime
-        from CRM_Project.follow
-        where follow_id = #{followId}
+    <!--查询所有跟进计划-->
+    <select id="selectAllFollow" resultMap="BaseResultMap">
+       select  f.follow_id,f.emp_id,f.Clue_Id,f.follow_type,f.follow_content,f.follow_time,f.addtime,e.emp_name,c.Clue_Name from follow f
+           left join employee e on f.emp_id = e.emp_id
+           left join clue c on f.Clue_Id = c.Clue_Id
+           where state=0
+    </select>
+
+    <!--查询所有跟进计划-->
+    <select id="selectAllRecord" resultMap="BaseResultMap">
+       select  f.follow_id,f.emp_id,f.Clue_Id,f.follow_type,f.follow_content,f.follow_time,f.addtime,e.emp_name,c.Clue_Name from follow f
+           left join employee e on f.emp_id = e.emp_id
+           left join clue c on f.Clue_Id = c.Clue_Id
+           where state=1
     </select>
 
     <!--查询指定行数据-->
@@ -56,34 +68,21 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="followId" useGeneratedKeys="true">
-        insert into CRM_Project.follow(emp_id, follow_type, follow_content, follow_time, addtime)
-        values (#{empId}, #{followType}, #{followContent}, #{followTime}, #{addtime})
+    <insert id="addFollow">
+        insert into follow(emp_id, Clue_Id,follow_type, follow_content, addtime)
+        values (#{empId},#{clueId}, #{followType}, #{followContent}, #{addtime})
     </insert>
 
     <!--通过主键修改数据-->
-    <update id="update">
-        update CRM_Project.follow
-        <set>
-            <if test="empId != null">
+    <update id="updateRecprd">
+        update follow
+        set
                 emp_id = #{empId},
-            </if>
-            <if test="followType != null and followType != ''">
                 follow_type = #{followType},
-            </if>
-            <if test="followContent != null and followContent != ''">
                 follow_content = #{followContent},
-            </if>
-            <if test="followTime != null">
-                follow_time = #{followTime},
-            </if>
-            <if test="addtime != null">
-                addtime = #{addtime},
-            </if>
-        </set>
+                state=1
         where follow_id = #{followId}
     </update>
-
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from CRM_Project.follow where follow_id = #{followId}
