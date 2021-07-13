@@ -1,0 +1,15 @@
+.itemlabel .el-form-item__label{
+	font-size:11px;
+}
+.ttt>.el-form-item__label{
+	margin-left: -33px;
+}
+.ccc>.el-form-item__label{
+	margin-left: -24px;
+}
+.bzs>.el-form-item__label{
+	margin-left: -43px;
+}
+.forms .el-form-item{
+	margin-bottom: 11px;
+}

@@ -52,7 +52,12 @@
 		  			  <span>回款及开票</span>
 		  			</template>
 		  			<el-menu-item-group>	
-		  				<el-menu-item index="4-1">回款期次</el-menu-item>
+		  				<el-menu-item index="4-1">
+							<router-link to="/test3">订单汇总</router-link>
+						</el-menu-item>
+						<el-menu-item index="4-2">
+							<router-link to="/test2">开票查询</router-link>
+						</el-menu-item>
 		  			</el-menu-item-group>
 		  		  </el-submenu>
 		  		  <el-submenu index="5">
@@ -62,16 +67,9 @@
 		  			<el-menu-item-group>
 					  	<el-menu-item index="5-1">
 					    	<router-link to="/product">产品库</router-link>
-						  </el-menu-item>
-						  <el-menu-item index="5-2">
-							  <router-link to="/outInStore">出入库办理</router-link>
-						  </el-menu-item>
-						  <el-menu-item index="5-3">出入库单</el-menu-item>
-						  <el-menu-item index="5-4">出入库流水</el-menu-item>
-				  	</el-menu-item-group>
-						<el-menu-item index="5-1">产品库</el-menu-item>
+						</el-menu-item>
 						<el-menu-item index="5-2">
-							<router-link to="/outInStore">出入库办理</router-link>
+							  <router-link to="/outInStore">出入库办理</router-link>
 						</el-menu-item>
 						<el-menu-item index="5-3">
 							<router-link to="/outInStoreBill">出入库单</router-link>
@@ -79,10 +77,6 @@
 						<el-menu-item index="5-4">
 							<router-link to="/outInStoreWater">出入库流水</router-link>
 						</el-menu-item>
-						<el-menu-item index="5-1">
-					  		<router-link to="/product">产品库</router-link>
-						</el-menu-item>
-						
 		  			</el-menu-item-group>
 		  		  </el-submenu>
 		  		</el-menu>
