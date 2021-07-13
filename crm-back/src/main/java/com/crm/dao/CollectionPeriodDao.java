@@ -35,7 +35,9 @@ public interface CollectionPeriodDao {
      */
     List<CollectionPeriod> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
 
-
+    JSONArray queryreceiptByorderid(int id);
+    JSONArray queryByorder_idas(int id);
+    JSONArray queryByhuikjl(int id);
     /**
      * 通过实体作为筛选条件查询
      *
@@ -84,5 +86,10 @@ public interface CollectionPeriodDao {
      */
     int deleteById(Integer collectionId);
 
+    JSONArray queryByOrderid_all(int id);
+    JSONArray selectorders();
+
+    JSONArray queryhkjeandorderje(int id);
+    JSONArray querykpje(int id);
 }
 

@@ -1,7 +1,7 @@
 <template>
   <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
     <el-tab-pane name="first" label="待审批票据">
-      <p style="margin-top: 10px">
+      <p style="margin-top: 10px;margin-bottom: 10px;">
         <el-button type="primary" @click="pltg">审核通过</el-button>
         <el-button type="primary" @click="bhdj">驳回单据</el-button>
       </p>
@@ -99,7 +99,7 @@
       </el-table>
     </el-tab-pane>
     <el-tab-pane name="third" label="已驳回票据">
-      <p style="margin-top: 10px">
+      <p style="margin-top: 10px;margin-bottom: 10px;">
         <el-button type="primary" @click="plbh">撤销驳回</el-button>
       </p>
       <el-table

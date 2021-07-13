@@ -1,5 +1,6 @@
 package com.crm.dao;
 
+import com.alibaba.fastjson.JSONArray;
 import com.crm.entity.Receipt;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,6 +24,11 @@ public interface ReceiptDao {
      */
     Receipt queryById(Integer receiptId);
 
+    JSONArray selectReceipt();
+
+    JSONArray selectReceiptapplyone();
+
+    JSONArray selectReceiptapplytwo();
     /**
      * 查询指定行数据
      *
@@ -41,6 +47,11 @@ public interface ReceiptDao {
      */
     List<Receipt> queryAll(Receipt receipt);
 
+    JSONArray queryreceipt(int id);
+
+    void updatesreceiptone(int id);
+    void updatesreceipttwo(int id);
+    void updatesreceiptzero(int id);
     /**
      * 新增数据
      *

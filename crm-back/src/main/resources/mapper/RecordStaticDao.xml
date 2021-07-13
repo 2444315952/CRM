@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.RecordStaticDao">
+
+    <resultMap type="com.crm.entity.RecordStatic" id="RecordStaticMap">
+        <result property="recordStaticId" column="record_static_id" jdbcType="INTEGER"/>
+        <result property="recordStaticName" column="record_static_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="RecordStaticMap">
+        select
+          record_static_id, record_static_name
+        from CRM_Project.record_static
+        where record_static_id = #{recordStaticId}
+    </select>
+<!--  查询所有回款方式  -->
+    <select id="queryalls" resultMap="RecordStaticMap">
+        select * from record_static
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="RecordStaticMap">
+        select
+          record_static_id, record_static_name
+        from CRM_Project.record_static
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="RecordStaticMap">
+        select
+        record_static_id, record_static_name
+        from CRM_Project.record_static
+        <where>
+            <if test="recordStaticId != null">
+                and record_static_id = #{recordStaticId}
+            </if>
+            <if test="recordStaticName != null and recordStaticName != ''">
+                and record_static_name = #{recordStaticName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="recordStaticId" useGeneratedKeys="true">
+        insert into CRM_Project.record_static(record_static_name)
+        values (#{recordStaticName})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="recordStaticId" useGeneratedKeys="true">
+        insert into CRM_Project.record_static(record_static_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.recordStaticName})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="recordStaticId" useGeneratedKeys="true">
+        insert into CRM_Project.record_static(record_static_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.recordStaticName})
+        </foreach>
+        on duplicate key update
+        record_static_name = values(record_static_name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.record_static
+        <set>
+            <if test="recordStaticName != null and recordStaticName != ''">
+                record_static_name = #{recordStaticName},
+            </if>
+        </set>
+        where record_static_id = #{recordStaticId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from CRM_Project.record_static where record_static_id = #{recordStaticId}
+    </delete>
+<!--   -->
+</mapper>
+

@@ -36,6 +36,6 @@ public class CollectionRecord implements Serializable {
     private Date paymentDate;
 
     private String paymentMode;
-
+    private Integer saleorderId;
     private String remarks;
 }

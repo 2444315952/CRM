@@ -51,7 +51,6 @@ public class CollectionPeriodServiceImpl implements CollectionPeriodService {
      * @return 实例对象
      */
     @Override
-    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public CollectionPeriod insert(CollectionPeriod collectionPeriod) {
         this.collectionPeriodDao.insert(collectionPeriod);
         return collectionPeriod;
@@ -60,6 +59,21 @@ public class CollectionPeriodServiceImpl implements CollectionPeriodService {
     @Override
     public JSONArray selectorderandperiodAll() {
         return this.collectionPeriodDao.selectorderandperiodAll();
+    }
+
+    @Override
+    public JSONArray queryreceiptByorderid(int id) {
+        return this.collectionPeriodDao.queryreceiptByorderid(id);
+    }
+
+    @Override
+    public JSONArray queryByorder_idas(int id) {
+        return this.collectionPeriodDao.queryByorder_idas(id);
+    }
+
+    @Override
+    public JSONArray queryByhuikjl(int id) {
+        return this.collectionPeriodDao.queryByhuikjl(id);
     }
 
     /**
@@ -83,5 +97,25 @@ public class CollectionPeriodServiceImpl implements CollectionPeriodService {
     @Override
     public boolean deleteById(Integer collectionId) {
         return this.collectionPeriodDao.deleteById(collectionId) > 0;
+    }
+
+    @Override
+    public JSONArray queryByOrderid_all(int id) {
+        return this.collectionPeriodDao.queryByOrderid_all(id);
+    }
+
+    @Override
+    public JSONArray selectorders() {
+        return this.collectionPeriodDao.selectorders();
+    }
+
+    @Override
+    public JSONArray queryhkjeandorderje(int id) {
+        return this.collectionPeriodDao.queryhkjeandorderje(id);
+    }
+
+    @Override
+    public JSONArray querykpje(int id) {
+        return this.collectionPeriodDao.querykpje(id);
     }
 }

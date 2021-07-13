@@ -3,9 +3,11 @@ package com.crm.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.exception.DataException;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * (Receipt)实体类
@@ -35,4 +37,5 @@ public class Receipt implements Serializable {
 
     private String remarks;
     private Integer apply;
+    private Date create_date;
 }

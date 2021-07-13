@@ -10,41 +10,64 @@
         <result property="blannedMoeny" column="blanned_moeny" jdbcType="NUMERIC"/>
         <result property="blannedDate" column="blanned_date" jdbcType="TIMESTAMP"/>
         <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
-        <result property="bmountMoeny" column="bmount_moeny" jdbcType="NUMERIC"/>
-        <result property="billing" column="billing" jdbcType="NUMERIC"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="CollectionPeriodMap">
         select
-          collection_id, emp_id, beriod_name, blanned_moeny, blanned_date, remarks, bmount_moeny, billing
+          collection_id, emp_id, beriod_name, blanned_moeny, blanned_date, remarks
         from CRM_Project.collection_period
         where collection_id = #{collectionId}
     </select>
+
 <!--  查询回款及收入中的【订单汇总】  -->
     <select id="selectorderandperiodAll" resultType="com.alibaba.fastjson.JSONObject">
-        SELECT orders.sale_order_id,orders.sale_order_name,kh.Customer_Name,emp.emp_name,kh.Customer_Company,orders.sale_order_amount,srt.return_amount,SUM(cp.bmount_moeny) AS sumbmount_moeny,rp.receipt_money,orders.transaction_date,orders.`create_date` FROM `sale_order` orders
+        SELECT orders.sale_order_id,orders.sale_order_name,kh.Clue_Name,emp.emp_name,kh.Customer_Company,orders.sale_order_amount,srt.return_amount,SUM(cp.bmount_moeny) AS sumbmount_moeny,rp.receipt_money,orders.transaction_date,orders.`create_date` FROM `sale_order` orders
         LEFT JOIN `employee` emp ON orders.emp_id = emp.emp_id
         LEFT JOIN `collection_period` cp ON cp.`sale_order_id` = orders.sale_order_id
         LEFT JOIN `collection_record` cr ON cr.collection_id = cp.collection_id
         LEFT JOIN `record_static` st ON st.record_static_id = cr.record_static_id
         LEFT JOIN `receipt` rp ON rp.collection_id = cp.`collection_id`
-        LEFT JOIN `customer` kh ON kh.Customer_Id = orders.Customer_Id
+        LEFT JOIN `clue` kh ON kh.Clue_Id = orders.Customer_Id
         LEFT JOIN `sale_return` srt ON srt.sale_order_id = orders.sale_order_id
         ORDER BY orders.`create_date` DESC
     </select>
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CollectionPeriodMap">
         select
-          collection_id, emp_id, beriod_name, blanned_moeny, blanned_date, remarks, bmount_moeny, billing
+          collection_id, emp_id, beriod_name, blanned_moeny, blanned_date, remarks
         from CRM_Project.collection_period
         limit #{offset}, #{limit}
     </select>
-
+    <!--  根据期次查询开票记录  -->
+    <select id="queryreceiptByorderid" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT rp.receipt_id,rp.`receipt_name`,rp.`pay_taxes`,rp.`Bill_title`,el.emp_name,rp.`receipt_money`,od.sale_order_name FROM `receipt` rp
+        LEFT JOIN `employee` el ON el.emp_id = rp.`emp_id`
+        LEFT JOIN `collection_period` clp ON clp.collection_id = rp.`collection_id`
+        LEFT JOIN `sale_order` od ON od.sale_order_id = clp.sale_order_id
+        WHERE clp.collection_id = #{id}
+    </select>
+<!--  根据订单id查询订单的所有期次回款记录  -->
+    <select id="queryByorder_idas" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT rr.apply,cp.collection_id,cp.`sale_order_id`,el.emp_name,cp.`blanned_date`,cp.`blanned_moeny`,SUM(cr.`payment_money`) AS bmount_moeny,rr.receipt_money FROM `collection_period` cp
+        LEFT JOIN `collection_record` cr ON cr.`collection_id` = cp.`collection_id`
+        LEFT JOIN `receipt` rr ON rr.collection_id = cp.`collection_id`
+        LEFT JOIN `employee` el ON el.emp_id = cp.`emp_id`
+        WHERE cp.`sale_order_id` = #{id} GROUP BY cp.beriod_name
+    </select>
+    <select id="queryByhuikjl" resultType="com.alibaba.fastjson.JSONObject">
+        select cr.record_id,cr.`collection_id`,cp.`beriod_name`,so.sale_order_name,ct.Clue_Name,el.emp_name,cr.`payment_money`,cr.`payment_date`,cr.`remarks`,rs.record_static_name from `collection_record` cr
+        left join `collection_period` cp on cp.`collection_id` = cr.`collection_id`
+        left join `sale_order` so on so.sale_order_id = cp.`sale_order_id`
+        left join `clue` ct on ct.Clue_Id = so.Customer_Id
+        left join record_static rs on rs.record_static_id = cr.`record_static_id`
+        left join employee el on el.emp_id = cr.`emp_id`
+        where cr.`collection_id` = #{id}
+    </select>
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="CollectionPeriodMap">
         select
-        collection_id, emp_id, beriod_name, blanned_moeny, blanned_date, remarks, bmount_moeny, billing
+        collection_id, emp_id, beriod_name, blanned_moeny, blanned_date, remarks
         from CRM_Project.collection_period
         <where>
             <if test="collectionId != null">
@@ -65,43 +88,34 @@
             <if test="remarks != null and remarks != ''">
                 and remarks = #{remarks}
             </if>
-            <if test="bmountMoeny != null">
-                and bmount_moeny = #{bmountMoeny}
-            </if>
-            <if test="billing != null">
-                and billing = #{billing}
-            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="collectionId" useGeneratedKeys="true">
-        insert into CRM_Project.collection_period(emp_id, beriod_name, blanned_moeny, blanned_date, remarks, bmount_moeny, billing)
-        values (#{empId}, #{beriodName}, #{blannedMoeny}, #{blannedDate}, #{remarks}, #{bmountMoeny}, #{billing})
+        insert into CRM_Project.collection_period(emp_id, beriod_name,sale_order_id, blanned_moeny, blanned_date, remarks)
+        values (#{empId}, #{beriodName},#{saleorderIid}, #{blannedMoeny}, #{blannedDate}, #{remarks})
     </insert>
 
     <insert id="insertBatch" keyProperty="collectionId" useGeneratedKeys="true">
-        insert into CRM_Project.collection_period(emp_id, beriod_name, blanned_moeny, blanned_date, remarks,
-        bmount_moeny, billing)
+        insert into CRM_Project.collection_period(emp_id, beriod_name, blanned_moeny, blanned_date, remarks
+        )
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.empId}, #{entity.beriodName}, #{entity.blannedMoeny}, #{entity.blannedDate}, #{entity.remarks},
-            #{entity.bmountMoeny}, #{entity.billing})
+            (#{entity.empId}, #{entity.beriodName}, #{entity.blannedMoeny}, #{entity.blannedDate}, #{entity.remarks}
+           )
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="collectionId" useGeneratedKeys="true">
-        insert into CRM_Project.collection_period(emp_id, beriod_name, blanned_moeny, blanned_date, remarks,
-        bmount_moeny, billing)
+        insert into CRM_Project.collection_period(emp_id, beriod_name, blanned_moeny, blanned_date, remarks)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.empId}, #{entity.beriodName}, #{entity.blannedMoeny}, #{entity.blannedDate}, #{entity.remarks},
-            #{entity.bmountMoeny}, #{entity.billing})
+            (#{entity.empId}, #{entity.beriodName}, #{entity.blannedMoeny}, #{entity.blannedDate}, #{entity.remarks})
         </foreach>
         on duplicate key update
         emp_id = values(emp_id) , beriod_name = values(beriod_name) , blanned_moeny = values(blanned_moeny) ,
-        blanned_date = values(blanned_date) , remarks = values(remarks) , bmount_moeny = values(bmount_moeny) , billing
-        = values(billing)
+        blanned_date = values(blanned_date) , remarks = values(remarks)
     </insert>
 
     <!--通过主键修改数据-->
@@ -138,5 +152,39 @@
         delete from CRM_Project.collection_period where collection_id = #{collectionId}
     </delete>
 
+<!--  根据订单id查询该订单的所有回款  -->
+    <select id="queryByOrderid_all" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT so.`sale_order_amount` AS a,SUM(cr.payment_money) AS b,(so.`sale_order_amount` - SUM(cr.payment_money)) AS c,rt.receipt_money AS d FROM `sale_order` so
+        LEFT JOIN `collection_period` cp ON cp.`sale_order_id` = so.`sale_order_id`
+        LEFT JOIN `collection_record` cr ON cr.collection_id = cp.`collection_id`
+        LEFT JOIN `receipt` rt ON rt.`sale_order_id` = cp.`sale_order_id` AND rt.`apply` = 1
+        WHERE so.`sale_order_id` = #{id}
+    </select>
+<!--  查询订单汇总  -->
+    <select id="selectorders" resultType="com.alibaba.fastjson.JSONObject">
+        select so.`sale_order_id`,so.`sale_order_name`,kh.Clue_Name,el.emp_id,el.`emp_name`,kh.Clue_Company,so.`sale_order_amount`,ret.return_amount,
+        (select sum(payment_money) from `collection_record` where sale_order_id = so.`sale_order_id`) as hkje,(so.`sale_order_amount` - (SELECT SUM(payment_money) FROM `collection_record` WHERE sale_order_id = so.`sale_order_id`)) as qkje,
+        rt.`receipt_money` as kpje,rt.`apply`,so.`create_date`
+        from sale_order so
+        left join `collection_period` cp on cp.`sale_order_id` = so.`sale_order_id`
+        left join `collection_record` cr on cr.collection_id = cp.collection_id
+        left join `employee` el on el.`emp_id` = so.`emp_id`
+        left join `record_static` rs on rs.record_static_id = cr.record_static_id
+        left join `receipt` rt on rt.`sale_order_id` = so.`sale_order_id`
+        left join `clue` kh ON kh.Clue_Id = so.Customer_Id
+        left join `sale_return` ret on ret.sale_order_id = so.`sale_order_id`
+        group by so.`sale_order_id`
+    </select>
+<!--  查询订单的回款金额  -->
+    <select id="queryhkjeandorderje" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT so.`sale_order_amount` AS a,SUM(cr.payment_money) AS b FROM sale_order so
+        LEFT JOIN collection_record cr ON cr.sale_order_id = so.`sale_order_id`
+        WHERE so.`sale_order_id` = #{id}
+    </select>
+    <select id="querykpje" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT SUM(rt.`receipt_money`) AS c FROM sale_order so
+        LEFT JOIN `receipt` rt ON rt.`sale_order_id` = so.`sale_order_id`
+        WHERE so.`sale_order_id` = #{id} AND rt.`apply` = 1
+    </select>
 </mapper>
 

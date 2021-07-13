@@ -97,7 +97,7 @@
 <el-dialog
       title="订单详情"
       v-model="jd1"
-      width="52%"
+      width="65%"
       >
   <el-tabs v-model="activeName1" >
     <el-tab-pane label="回款" name="first">
@@ -265,7 +265,7 @@
             <el-table :header-cell-style="{ background: '#d6e1ec', color: '#000000' }" class="qwe" :data="tableData"  style="width: 100%;height:389px">
               <el-table-column fixed prop="qx" :label="qc" > </el-table-column>
               <el-table-column prop="emp_name" label="负责人"> </el-table-column>
-              <el-table-column prop="blanned_date" width="200" :formatter="dateFormat" label="计划回款日期">
+              <el-table-column prop="blanned_date"  :formatter="dateFormat" label="计划回款日期">
               </el-table-column>
               <el-table-column prop="blanned_moeny" label="计划回款"> </el-table-column>
               <el-table-column label="实际回款">
@@ -294,7 +294,7 @@
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column fixed="right" label="操作" width="280">
+              <el-table-column fixed="right" label="操作" width="230">
                 <template #default="scope">
                   <el-button
                     @click="ckck(scope.row)"
@@ -324,7 +324,7 @@
       <el-dialog
         title="新建回款期次"
         v-model="dialogVisible"
-        width="26%"
+        width="31%"
         custom-class="xubox_title"
       >
         <el-form :model="form" label-width="80px">
@@ -348,22 +348,22 @@
             <el-input
               disabled
               size="mini"
-              style="width: 300px; margin-left: 33px"
+              style="width: 300px; margin-left: 25px"
               v-model="form.fzr"
             ></el-input>
           </el-form-item>
-          <el-form-item label="计划回款金额" class="itemlabel forms">
+          <el-form-item label="计划回款金额" label-width="80" class="itemlabel forms">
             <el-input
               size="mini"
-              style="width: 300px"
+              style="width: 300px;margin-left: 11px;"
               v-model="form.blannedMoeny"
             ></el-input>
           </el-form-item>
-          <el-form-item label="计划回款日期" class="itemlabel forms">
+          <el-form-item label="计划回款日期"  label-width="80" class="itemlabel forms">
             <el-date-picker
               v-model="form.blannedDate"
               size="mini"
-              style="width: 300px"
+              style="width: 300px;margin-left: 11px;"
               type="date"
               placeholder="选择日期"
             >
@@ -373,7 +373,7 @@
             <el-input
               type="textarea"
               size="mini"
-              style="width: 300px; margin-left: 43px"
+              style="width: 300px; margin-left: 27px"
               v-model="form.remarks"
             ></el-input>
           </el-form-item>
@@ -390,7 +390,7 @@
       <el-dialog
         title="添加回款记录"
         v-model="dialogVisible1"
-        width="26%"
+        width="31%"
         custom-class="xubox_title"
       >
         <el-form :model="form1" label-width="80px">
@@ -463,7 +463,7 @@
       <el-dialog
         title="新建开票申请"
         v-model="dialogVisiblekp"
-        width="26%"
+        width="31%"
         custom-class="xubox_title"
       >
         <el-form :model="form2" label-width="80px">
@@ -620,7 +620,7 @@ export default {
     },
     rowsclicks(row){
 	this.orderid=row.sale_order_id
-	this.empids = row.emp_id
+	this.empids = this.$store.getters.empId
 	this.empnames = row.emp_name
 	this.ordernames = row.sale_order_name
 	this.queryByOrderid_all();
@@ -645,7 +645,7 @@ export default {
           return false;
       }
       this.form.saleorderIid = this.orderid;
-      this.form.empId = this.empids;
+      this.form.empId = this.$store.getters.empId;
       const _this = this;
       console.log("from:",this.form)
       this.axios({
@@ -703,7 +703,7 @@ export default {
         this.form1.ddmc = this.ordernames;
         this.form1.beriodName = row.qx+"("+this.qc+")";
         this.form1.collectionId = row.collection_id;
-        this.form1.empId = this.empids;
+        this.form1.empId = this.$store.getters.empId
         if(row.bmount_moeny == null){
           row.bmount_moeny = 0;
         }
@@ -753,7 +753,7 @@ export default {
             this.form2.ddmc = this.ordernames;
             this.form2.beriodName = row.qx+"("+this.max+")";
             this.form2.collectionId = row.collection_id;
-            this.form2.empId = this.empids;
+            this.form2.empId = this.$store.getters.empId
             this.form2.sale_order_id = this.orderid;
             this.form2.receiptMoney = row.bmount_moeny;
             this.dialogVisiblekp = true;
