@@ -28,11 +28,9 @@
 						<div class="mx-auto max-w-xs">
 							<input
 								class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-								type="email" placeholder="用户名" v-model="form.username">
 								type="email" placeholder="用户名" v-model="form.empName">
 							<input
 								class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-								type="password" placeholder="密码" v-model="form.password">
 								type="password" placeholder="密码" v-model="form.empPwd">
 							<button @click="onSubmit()"
 								class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
@@ -57,8 +55,6 @@
 		data() {
 			return {
 				form: {
-					username: "",
-					password: ""
 					empName: "",
 					empPwd: ""
 				}
@@ -66,13 +62,6 @@
 		},
 		methods: {
 			onSubmit() {
-				this.$router.push({
-					name: 'SaleLead'
-				})
-				
-				//const _this = this;
-
-				/* this.axios({
 				this.axios({
 					url: 'http://localhost:8089/login',
 					method: 'post',
@@ -81,11 +70,9 @@
 					console.log(res);
 					
 					if (res.data.success) {
-						console.log("登录成功")
-						this.$store.commit("updateUserInfo", res.data.data)
 						this.$store.commit("updateUserInfo", res.data.record)
+						console.log(this.$store.getters.empName);
 						this.$router.push({
-							name: 'PurchaseList'
 							name: 'SaleLead'
 						})
 					} else {
@@ -96,7 +83,6 @@
 					}
 				}).catch(err => {
 
-				}) */
 				})
 			}
 		}

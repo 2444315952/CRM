@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.TaskDao">
+
+    <resultMap id="BaseResultMap" type="com.crm.vo.TaskVo">
+        <!--@Table task-->
+        <result property="taskId" column="task_id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="clueId" column="Clue_Id" jdbcType="INTEGER"/>
+        <result property="closingtime" column="closingtime" jdbcType="TIMESTAMP"/>
+        <result property="task" column="task" jdbcType="VARCHAR"/>
+        <result property="taskState" column="task_state" jdbcType="INTEGER"/>
+        <result property="endtime" column="endtime" jdbcType="TIMESTAMP"/>
+        <result property="clueName" column="Clue_Name" jdbcType="VARCHAR"/>
+        <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
+        <result property="taskName" column="task_name" jdbcType="VARCHAR"></result>
+        <result property="taskPerson" column="task_person" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <!--查询所有任务-->
+    <select id="selectAllTask" resultMap="BaseResultMap">
+        select  t.task_id,t.emp_id,t.Clue_Id,t.closingtime,
+                t.task_name,t.task_person,t.task,t.task_state,t.endtime,
+                e.emp_name,c.Clue_Id,c.Clue_Name
+          from task t
+          left join employee e on t.emp_id = e.emp_id
+          left join clue c on t.Clue_Id = c.Clue_Id
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          task_id, emp_id, closingtime, task, task_state, endtime
+        from CRM_Project.task
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          task_id, emp_id, closingtime, task, task_state, endtime
+        from CRM_Project.task
+        <where>
+            <if test="taskId != null">
+                and task_id = #{taskId}
+            </if>
+            <if test="empId != null">
+                and emp_id = #{empId}
+            </if>
+            <if test="closingtime != null">
+                and closingtime = #{closingtime}
+            </if>
+            <if test="task != null and task != ''">
+                and task = #{task}
+            </if>
+            <if test="taskState != null">
+                and task_state = #{taskState}
+            </if>
+            <if test="endtime != null">
+                and endtime = #{endtime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="addTask" keyProperty="taskId" useGeneratedKeys="true">
+        insert into task(emp_id,Clue_Id,closingtime,task_person,task_name,task)
+        values (#{empId}, #{clueId},#{closingtime}, #{taskPerson},#{taskName},#{task})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateTask">
+        update task
+        set
+                emp_id=#{empId},
+                closingtime=CURRENT_TIMESTAMP,
+                task_name = #{taskName},
+                task = #{task}
+        where task_id = #{taskId}
+    </update>
+
+    <update id="updateState">
+        update task
+        set
+                endtime=CURRENT_TIMESTAMP,
+                 taskState=1
+        where task_id = #{taskId}
+    </update>
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from CRM_Project.task where task_id = #{taskId}
+    </delete>
+
+</mapper>

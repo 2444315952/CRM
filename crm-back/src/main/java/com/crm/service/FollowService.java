@@ -1,6 +1,8 @@
 package com.crm.service;
 
 import com.crm.entity.Follow;
+import com.crm.vo.FollowPlanVo;
+
 import java.util.List;
 
 /**
@@ -12,13 +14,10 @@ import java.util.List;
 public interface FollowService {
 
     /**
-     * 通过ID查询单条数据
-     *
-     * @param followId 主键
-     * @return 实例对象
+     * 查询所有数据
      */
-    Follow queryById(Integer followId);
-
+    List<FollowPlanVo> selectAllFollow();
+    List<FollowPlanVo>  selectAllRecord();
     /**
      * 查询多条数据
      *
@@ -31,18 +30,11 @@ public interface FollowService {
     /**
      * 新增数据
      *
-     * @param follow 实例对象
+     * @param
      * @return 实例对象
      */
-    Follow insert(Follow follow);
+    void addFollow(FollowPlanVo followPlanVo);
 
-    /**
-     * 修改数据
-     *
-     * @param follow 实例对象
-     * @return 实例对象
-     */
-    Follow update(Follow follow);
 
     /**
      * 通过主键删除数据
@@ -51,5 +43,5 @@ public interface FollowService {
      * @return 是否成功
      */
     boolean deleteById(Integer followId);
-
+    int updateRecprd(FollowPlanVo followPlanVo);
 }

@@ -1,6 +1,7 @@
 package com.crm.dao;
 
 import com.crm.entity.Follow;
+import com.crm.vo.FollowPlanVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
@@ -16,12 +17,13 @@ import java.util.List;
 public interface FollowDao {
 
     /**
-     * 通过ID查询单条数据
+     * 查询所有数据
      *
-     * @param followId 主键
+     * @param
      * @return 实例对象
      */
-    Follow queryById(Integer followId);
+    List<FollowPlanVo> selectAllFollow();
+    List<FollowPlanVo>  selectAllRecord();
 
     /**
      * 查询指定行数据
@@ -44,10 +46,10 @@ public interface FollowDao {
     /**
      * 新增数据
      *
-     * @param follow 实例对象
+     * @param
      * @return 影响行数
      */
-    int insert(Follow follow);
+    void addFollow(FollowPlanVo followPlanVo);
 
     /**
      * 修改数据
@@ -55,7 +57,7 @@ public interface FollowDao {
      * @param follow 实例对象
      * @return 影响行数
      */
-    int update(Follow follow);
+
 
     /**
      * 通过主键删除数据
@@ -64,5 +66,5 @@ public interface FollowDao {
      * @return 影响行数
      */
     int deleteById(Integer followId);
-
+    int updateRecprd(FollowPlanVo followPlanVo);
 }
