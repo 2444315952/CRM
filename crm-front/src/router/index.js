@@ -29,6 +29,16 @@ const routes = [{
 		path:'/product',
 		name:"product",
 		component:product
+		name:"Product",
+		component:Product
+	},{
+		path: '/outInStoreBill',
+		name: "outInStoreBill",
+		component: outInStoreBill
+	},{
+		path: '/outInStoreWater',
+		name: "outInStoreWater",
+		component: outInStoreWater
 	}
 ]
 
