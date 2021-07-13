@@ -98,9 +98,7 @@
         <el-table-column fixed="right" label="操作" width="150">
           <template #default="scope">
             <el-button size="mini" type="primary" @click="handleEdit(scope.row)"
-              >编辑</el-button
-            >
-            <el-button type="primary" size="mini">查看</el-button>
+              >编辑</el-button>
           </template>
         </el-table-column>
       </el-table>

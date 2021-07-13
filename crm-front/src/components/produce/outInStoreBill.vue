@@ -324,9 +324,9 @@ export default {
     findAllProduct() {
       const _this = this;
       this.axios
-        .get("http://localhost:8089/product")
+        .get("http://localhost:8089/common/product")
         .then((res) => {
-          _this.products = res.data;
+          _this.products = res.data.record.list;
           console.log("所有的产品", _this.products);
         })
         .catch((err) => {});
