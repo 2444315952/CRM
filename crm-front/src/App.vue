@@ -64,10 +64,14 @@
 						<el-menu-item index="5-2">
 							<router-link to="/outInStore">出入库办理</router-link>
 						</el-menu-item>
-						<el-menu-item index="5-3">出入库单</el-menu-item>
-						<el-menu-item index="5-4">出入库流水</el-menu-item>
+						<el-menu-item index="5-3">
+							<router-link to="/outInStoreBill">出入库单</router-link>
+						</el-menu-item>
+						<el-menu-item index="5-4">
+							<router-link to="/outInStoreWater">出入库流水</router-link>
+						</el-menu-item>
 						<el-menu-item index="5-1">
-					  	<router-link to="/product">产品库</router-link>
+					  		<router-link to="/product">产品库</router-link>
 						</el-menu-item>
 						
 		  			</el-menu-item-group>

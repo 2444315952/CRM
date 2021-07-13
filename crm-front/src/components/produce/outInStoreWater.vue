@@ -10,14 +10,14 @@
             >
               <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
               <el-breadcrumb-item
-                ><a href="/outInStore">出入库办理</a></el-breadcrumb-item
+                ><a href="/outInStoreWater">出入库流水</a></el-breadcrumb-item
               >
             </el-breadcrumb>
           </el-col>
           <el-col :span="6">
             <el-input
               style="width: 290px; float: left"
-              placeholder="请输入出入库单编号"
+              placeholder="请输入产品名称"
               v-model="searchInput"
             >
               <template #append>
@@ -74,58 +74,68 @@
       >
         <el-table-column type="index" label="No" :index="index">
         </el-table-column>
-        <el-table-column label="出入库单编号" width="162" prop="hand_id">
-        </el-table-column>
-        <el-table-column label="库存动作" prop="hand_action" width="135">
-        </el-table-column>
-        <el-table-column label="数量合计" prop="sum_num"> </el-table-column>
-        <el-table-column label="发起方式" prop="hand_way"> </el-table-column>
+        <el-table-column label="产品名称" prop="pro_name"> </el-table-column>
+        <el-table-column label="产品单位" prop="pro_unit"> </el-table-column>
         <el-table-column
-          label="关联单据名称"
-          width="120px"
-          prop="sale_order_name"
-        >
-        </el-table-column>
-        <el-table-column label="关联产品" prop="pro_name"> </el-table-column>
-        <el-table-column
-          label="创建时间"
-          prop="createTime"
+          label="出入库日期"
+          prop="hand_date"
           width="150px"
           :formatter="dateFormat"
-        >
-        </el-table-column>
-        <el-table-column label="办理状态" prop="hand_stauts"> </el-table-column>
-        <el-table-column fixed="right" label="操作" width="150">
+        ></el-table-column>
+        <el-table-column label="库存动作" prop="hand_action"> </el-table-column>
+        <el-table-column
+          label="出入库数量"
+          prop="hand_num"
+          width="120px"
+        ></el-table-column>
+        <el-table-column label="发起方式" prop="hand_way"></el-table-column>
+        <el-table-column
+          label="关联单据"
+          width="120px"
+          prop="sale_order_name"
+        ></el-table-column>
+        <el-table-column label="发起人员" prop="hand_emp"></el-table-column>
+        <el-table-column
+          label="办理时间"
+          prop="hand_date"
+          width="150px"
+          :formatter="dateFormat"
+        ></el-table-column>
+        <el-table-column fixed="right" label="操作" width="100">
           <template #default="scope">
-            <el-button size="mini" type="primary" @click="handleEdit(scope.row)"
-              >编辑</el-button
+            <el-button size="mini" type="primary" @click="seeWater(scope.row)"
+              >查看</el-button
             >
-            <el-button type="primary" size="mini">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :page-size="requestParameters.size"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="counts"
+      >
+      </el-pagination>
     </el-card>
-    <el-dialog title="出入库办理" v-model="dialogFormVisible">
-      <el-form :model="inOutStore" label-width="100px">
-        <el-form-item label="出入库时间">
-          <el-date-picker
-            v-model="inOutStore.handDate"
-            type="date"
-            placeholder="请选择出入库日期"
-            format="YYYY-MM-DD"
-            value-format="YYYY-MM-DD"
-          >
-          </el-date-picker>
+    <el-dialog title="查看流水" v-model="dialogFormIn">
+      <el-form :model="outInStoreRowData">
+        <el-form-item label="产品名称：">
+          <b>{{ outInStoreRowData.pro_name }}</b>
+        </el-form-item>
+        <el-form-item label="单位名称：">
+          <b>{{ outInStoreRowData.pro_unit }}</b>
+        </el-form-item>
+        <el-form-item label="发起方式：">
+          <b>{{ outInStoreRowData.hand_way }}</b>
+        </el-form-item>
+        <el-form-item label="入库日期：">
+          <b>{{ outInStoreRowData.hand_date.slice(0, 10) }}</b>
+        </el-form-item>
+        <el-form-item label="办理时间：">
+          <b>{{ outInStoreRowData.hand_time.slice(0, 10) }}</b>
         </el-form-item>
       </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleInOutStore()"
-            >确 定</el-button
-          >
-        </span>
-      </template>
     </el-dialog>
   </div>
 </template>
@@ -133,45 +143,45 @@
 <script>
 import qs from "qs";
 import moment from "moment";
-import { ElMessage } from 'element-plus'
+import { ElMessage } from "element-plus";
 
 export default {
   name: "outInStore",
   data() {
     return {
+      outInStoreRowData: {}, //保存出入库流水当前行的数据
       searchInput: "",
       requestParameters: {
         page: 1,
-        size: 2,
+        size: 3,
       },
-      counts: "", //保存数据的总条数
-      inOutStore: {
+      counts: 0, //保存数据的总条数
+      inOutStoreBill: {
         handDate: "",
         hid: "",
-        proId:'',
-        handProId:'',
-        sumNum:''
+        proId: "",
       },
-      dialogFormVisible: false,
+      dialogFormIn: false,
       index: 1,
       inOutData: {
         actions: [],
         methods: [],
       },
       tableData: [], //保存未办理的出入库记录
-      handleOutInStore: "", //保存出入库的时间
     };
   },
   computed: {},
   methods: {
-    //查询未完成的出入库单记录
+    //查询出入库单下产品的明细
     doQuery() {
       var _this = this;
       this.axios
-        .get("http://localhost:8089/handle")
+        .get("http://localhost:8089/handlePro", {
+          params: _this.requestParameters,
+        })
         .then((res) => {
-          _this.tableData = res.data.record;
-          console.log(res.data.record);
+          _this.tableData = res.data.record.list;
+          _this.counts = res.data.record.total;
         })
         .catch((err) => {});
     },
@@ -179,7 +189,7 @@ export default {
     handleSizeChange(size) {
       this.requestParameters.size = size;
       if (this.requestParameters.page === 1) {
-        this.doQuery(this.requestParameters);
+        this.doQuery();
       }
     },
     // 进入某一页
@@ -187,38 +197,11 @@ export default {
       this.requestParameters.page = val;
       this.doQuery();
     },
-    //弹出对话框输入出入库时间处理未完成的出入库单
-    handleEdit(row) {
-      this.dialogFormVisible = true;
-      this.inOutStore.hid = row.hId;
-      this.inOutStore.proId=row.pro_id;
-      this.inOutStore.handProId=row.handle_product_id;
-      this.inOutStore.sumNum=row.sum_num;
-    },
-    //对未出入库单进行办理
-    handleInOutStore() {
-      var _this = this;
-      console.log("对未出入库单的办理：",_this.inOutStore);
-      this.axios
-        .post("http://localhost:8089/handle", _this.inOutStore)
-        .then(res=> {
-           _this.dialogFormVisible = false;
-          if (res.data.success == true) {
-            _this.doQuery();
-            ElMessage({
-              showClose: true,
-             message: '办理成功！',
-              type: 'success'
-             });
-             
-          }else{
-            ElMessage({
-             showClose: true,
-              message: res.data.message
-            });
-          }
-        }).catch((err) => {});
-        
+    //查看某一出入库单流水记录
+    seeWater(row) {
+      console.log("对未出入库单的办理：", row);
+      this.outInStoreRowData = row;
+      this.dialogFormIn = true;
     },
     checkChange() {
       console.log(this.inOutData);
