@@ -7,6 +7,11 @@ import Login from '../components/Login.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
 import outInStore from '../components/produce/outInStore.vue'
 import product from '../components/product/Product.vue'
+import outInStoreBill from '../components/produce/outInStoreBill.vue'
+import outInStoreWater from '../components/produce/outInStoreWater.vue'
+import Product from '../components/product/Product.vue'
+
+
 const routes = [{
 		path: '/',
 		redirect: '/Login'
@@ -29,6 +34,14 @@ const routes = [{
 		path:'/product',
 		name:"product",
 		component:product
+	},{
+		path: '/outInStoreBill',
+		name: "outInStoreBill",
+		component: outInStoreBill
+	},{
+		path: '/outInStoreWater',
+		name: "outInStoreWater",
+		component: outInStoreWater
 	}
 ]
 

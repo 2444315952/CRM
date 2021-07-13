@@ -74,45 +74,44 @@
       >
         <el-table-column type="index" label="No" :index="index">
         </el-table-column>
-        <el-table-column label="出入库单编号" width="162"> </el-table-column>
-        <el-table-column label="库存动作" prop="documentDate" width="135">
+        <el-table-column label="出入库单编号" width="162" prop="hand_id">
         </el-table-column>
-        <el-table-column label="数量合计" prop="supplierName">
+        <el-table-column label="库存动作" prop="hand_action" width="135">
         </el-table-column>
-        <el-table-column label="发起方式" prop="employeeName">
+        <el-table-column label="数量合计" prop="sum_num"> </el-table-column>
+        <el-table-column label="发起方式" prop="hand_way"> </el-table-column>
+        <el-table-column
+          label="关联单据名称"
+          width="120px"
+          prop="sale_order_name"
+        >
         </el-table-column>
-        <el-table-column label="关联单据名称" width="120px"> </el-table-column>
-        <el-table-column label="关联产品" prop="warehouseName">
+        <el-table-column label="关联产品" prop="pro_name"> </el-table-column>
+        <el-table-column
+          label="创建时间"
+          prop="createTime"
+          width="150px"
+          :formatter="dateFormat"
+        >
         </el-table-column>
-        <el-table-column label="发起人" prop="audited"> </el-table-column>
-        <el-table-column label="创建时间" prop="paymentStatus">
-        </el-table-column>
-        <el-table-column label="退货状态" prop="returnState"> </el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column label="办理状态" prop="hand_stauts"> </el-table-column>
+        <el-table-column fixed="right" label="操作" width="150">
           <template #default="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+            <el-button size="mini" type="primary" @click="handleEdit(scope.row)"
               >编辑</el-button
             >
+            <el-button type="primary" size="mini">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
-	  <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :currentPage="requestParameters.page"
-      :page-size="requestParameters.size"
-      layout="total, prev, pager, next"
-      :total="counts">
-    </el-pagination>
     </el-card>
-    <el-button @click="handleEdit">办理</el-button>
     <el-dialog title="出入库办理" v-model="dialogFormVisible">
       <el-form :model="inOutStore" label-width="100px">
         <el-form-item label="出入库时间">
           <el-date-picker
-            v-model="handTime"
+            v-model="inOutStore.handDate"
             type="date"
-            placeholder="选择日期"
+            placeholder="请选择出入库日期"
             format="YYYY-MM-DD"
             value-format="YYYY-MM-DD"
           >
@@ -122,7 +121,9 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editInOutStore()">确 定</el-button>
+          <el-button type="primary" @click="handleInOutStore()"
+            >确 定</el-button
+          >
         </span>
       </template>
     </el-dialog>
@@ -132,12 +133,25 @@
 <script>
 import qs from "qs";
 import moment from "moment";
+import { ElMessage } from 'element-plus'
+
 export default {
   name: "outInStore",
   data() {
     return {
-	  counts: '',//保存数据的总条数
-      inOutStore: "",
+      searchInput: "",
+      requestParameters: {
+        page: 1,
+        size: 2,
+      },
+      counts: "", //保存数据的总条数
+      inOutStore: {
+        handDate: "",
+        hid: "",
+        proId:'',
+        handProId:'',
+        sumNum:''
+      },
       dialogFormVisible: false,
       index: 1,
       inOutData: {
@@ -145,53 +159,72 @@ export default {
         methods: [],
       },
       tableData: [], //保存未办理的出入库记录
-	  handleOutInStore:'',//保存出入库的时间
-      tableTotal: 0,
-      multipleSelection: [],
-      pageParam: {
-        pageNum: 1,
-        pageSize: 10,
-      },
+      handleOutInStore: "", //保存出入库的时间
     };
   },
-  computed: {
-    searchCondition() {
-      return {
-        purchDocunum: this.searchInput,
-        supplierName: this.searchInput,
-        warehouseName: this.searchInput,
-        employeeName: this.searchInput,
-      };
-    },
-  },
+  computed: {},
   methods: {
-	//查询未完成的出入库单记录
-	doQuery(){
-		this.axios.get("http://localhost").
-  		then(res => {
-			console.log(res.data)
-		}).catch((err) => {})
-	},
-	// 每页显示信息条数
+    //查询未完成的出入库单记录
+    doQuery() {
+      var _this = this;
+      this.axios
+        .get("http://localhost:8089/handle")
+        .then((res) => {
+          _this.tableData = res.data.record;
+          console.log(res.data.record);
+        })
+        .catch((err) => {});
+    },
+    // 每页显示信息条数
     handleSizeChange(size) {
-      this.requestParameters.size = size
+      this.requestParameters.size = size;
       if (this.requestParameters.page === 1) {
         this.doQuery(this.requestParameters);
       }
     },
     // 进入某一页
     handleCurrentChange(val) {
-      this.requestParameters.page = val
+      this.requestParameters.page = val;
       this.doQuery();
     },
-	//处理未完成的出入库单
-    handleEdit() {
+    //弹出对话框输入出入库时间处理未完成的出入库单
+    handleEdit(row) {
       this.dialogFormVisible = true;
+      this.inOutStore.hid = row.hId;
+      this.inOutStore.proId=row.pro_id;
+      this.inOutStore.handProId=row.handle_product_id;
+      this.inOutStore.sumNum=row.sum_num;
+    },
+    //对未出入库单进行办理
+    handleInOutStore() {
+      var _this = this;
+      console.log("对未出入库单的办理：",_this.inOutStore);
+      this.axios
+        .post("http://localhost:8089/handle", _this.inOutStore)
+        .then(res=> {
+           _this.dialogFormVisible = false;
+          if (res.data.success == true) {
+            _this.doQuery();
+            ElMessage({
+              showClose: true,
+             message: '办理成功！',
+              type: 'success'
+             });
+             
+          }else{
+            ElMessage({
+             showClose: true,
+              message: res.data.message
+            });
+          }
+        }).catch((err) => {});
+        
     },
     checkChange() {
       console.log(this.inOutData);
     },
-	//------
+    handleSearch() {},
+    //------
     dateFormat(row, column) {
       var date = row[column.property];
       if (date == undefined) {
@@ -199,182 +232,9 @@ export default {
       }
       return moment(date).format("YYYY-MM-DD HH:mm");
     },
-    loadData() {
-      this.axios({
-        url: "http://localhost:8089/eims/purchase",
-        method: "get",
-        params: this.pageParam,
-      })
-        .then((response) => {
-          this.tableData = response.data.list;
-          this.tableTotal = response.data.total;
-        })
-        .catch((error) => {});
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-
-      if (val.length > 0) this.showDeleteButton = true;
-      else this.showDeleteButton = false;
-    },
-    handleSizeChange(val) {
-      this.pageParam.pageSize = val;
-
-      if (this.queryType == "all") this.loadData();
-      else if (this.queryType == "search") this.handleSearch();
-      else if (this.queryType == "screen") this.handleScreen();
-    },
-    handleCurrentChange(val) {
-      this.pageParam.pageNum = val;
-
-      if (this.queryType == "all") this.loadData();
-      else if (this.queryType == "search") this.handleSearch();
-      else if (this.queryType == "screen") this.handleScreen();
-    },
-    handleAudit(val) {
-      this.$confirm("此操作将通过审核，是否继续？", "提示", {
-        confirmButtonTest: "确定",
-        cancelButtonTest: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          this.axios({
-            url: "http://localhost:8089/eims/purchase",
-            method: "put",
-            data: { purchId: val, audited: 1 },
-          })
-            .then((response) => {
-              this.loadData();
-              this.$message({
-                type: "success",
-                message: "审核成功",
-              });
-            })
-            .catch((error) => {});
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消操作",
-          });
-        });
-    },
-    handleDelete() {
-      var isHaveAudited = false;
-
-      for (var i = 0; i < this.multipleSelection.length; i++) {
-        if (this.multipleSelection[i].audited == 1) {
-          this.$message({
-            type: "info",
-            message: "已审核的数据无法删除",
-          });
-          return false;
-        } else if (this.multipleSelection[i].inStorage == 1) {
-          this.$message({
-            type: "info",
-            message: "已入库的数据无法删除",
-          });
-          return false;
-        } else if (this.multipleSelection[i].paymentStatus == 1) {
-          this.$message({
-            type: "info",
-            message: "已付款的数据无法删除",
-          });
-          return false;
-        } else if (
-          this.multipleSelection[i].returnState == 1 ||
-          this.multipleSelection[i].returnState == 2
-        ) {
-          this.$message({
-            type: "info",
-            message: "已退货的数据无法删除",
-          });
-          return false;
-        }
-      }
-
-      this.$confirm("此操作将永久删除文件，是否继续？", "提示", {
-        confirmButtonTest: "确定",
-        cancelButtonTest: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          var ids = new Array();
-          for (let i = 0; i < this.multipleSelection.length; i++)
-            ids.push(this.multipleSelection[i].purchId);
-
-          this.axios({
-            url: "http://localhost:8089/eims/purchase/batch",
-            method: "delete",
-            data: ids,
-          })
-            .then((response) => {
-              this.loadData();
-              this.$message({
-                type: "success",
-                message: "删除成功",
-              });
-            })
-            .catch((error) => {});
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消操作",
-          });
-        });
-    },
-    handleSearch() {
-      this.queryType = "search";
-
-      var searchForm = Object.assign(this.searchCondition, this.pageParam);
-      console.log(this.pageParam);
-      this.axios({
-        url: "http://localhost:8089/eims/purchase/search",
-        method: "get",
-        params: searchForm,
-      })
-        .then((response) => {
-          this.tableData = response.data.list;
-          this.tableTotal = response.data.total;
-        })
-        .catch((error) => {});
-    },
-    handleScreen() {
-      this.queryType = "screen";
-
-      var screenForm = Object.assign(this.screenCondition, this.pageParam);
-      console.log(this.pageParam);
-      this.axios({
-        url: "http://localhost:8089/eims/purchase/screen",
-        method: "get",
-        params: screenForm,
-      })
-        .then((response) => {
-          this.tableData = response.data.list;
-          this.tableTotal = response.data.total;
-        })
-        .catch((error) => {});
-
-      this.screenDialogVisible = false;
-    },
-    toDetail() {
-      this.$router.push({
-        name: "Purchase",
-      });
-    },
   },
   created() {
-	this.doQuery();
-
-    this.axios({
-      url: "http://localhost:8089/eims/warehouse",
-      method: "get",
-    })
-      .then((response) => {
-        console.log(response.data.list);
-      })
-      .catch((error) => {});
+    this.doQuery();
   },
 };
 </script>
