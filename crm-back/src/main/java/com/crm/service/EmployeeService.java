@@ -24,11 +24,9 @@ public interface EmployeeService {
 
     /**
      * 查询所有数据
-     *
-     * @param employee 实例对象
      * @return 实例对象
      */
-    PageInfo<Employee> queryAll(Employee employee, Integer pageNum, Integer pageSize);
+    PageInfo<Employee> queryAll(Integer pageNum, Integer pageSize);
 
     /**
      * 新增数据

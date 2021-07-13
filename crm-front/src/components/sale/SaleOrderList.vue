@@ -1,11 +1,11 @@
 <template>
 
-	<div id="SaleLeadList">
+	<div id="SaleOrderList">
 
 		<el-row>
 			<el-breadcrumb separator-class="el-icon-arrow-right" style="padding-bottom: 16px">
 				<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-				<el-breadcrumb-item><a href="/PurchaseList">销售机会列表</a></el-breadcrumb-item>
+				<el-breadcrumb-item><a href="/PurchaseList">销售订单列表</a></el-breadcrumb-item>
 			</el-breadcrumb>
 		</el-row>
 
@@ -27,7 +27,7 @@
 					<el-col :span="3">
 
 						<el-button style="float: right;" icon="el-icon-plus" size="medium" type="primary"
-							@click="toDetail()">新增销售机会</el-button>
+							@click="toDetail()">新增销售订单</el-button>
 
 					</el-col>
 				</el-row>
@@ -35,22 +35,26 @@
 
 			<el-main style="background-color: white;">
 				<el-table :data="tableData" max-height="477" style="width: 100%;height:477px;"
-					highlight-current-row @current-change="currentRowChange">
-					<el-table-column label="机会名称" prop="leadName">
+					highlight-current-row @current-change="handleCurrentChange">
+					<el-table-column label="订单名称" prop="saleOrderName">
 					</el-table-column>
 					<el-table-column label="负责人" prop="empName">
 					</el-table-column>
 					<el-table-column label="所属客户" prop="customerName">
 					</el-table-column>
-					<el-table-column label="机会金额" prop="leadAmount">
+					<el-table-column label="订单金额" prop="saleOrderAmount">
 					</el-table-column>
-					<el-table-column label="预计成交日" prop="transactionDate" :formatter="dateFormat">
+					<el-table-column label="回款金额" prop="collectionAmount">
 					</el-table-column>
-					<el-table-column label="销售阶段" prop="leadStage">
+					<el-table-column label="欠款金额" prop="owedAmount">
 					</el-table-column>
-					<el-table-column label="机会类型" prop="leadType">
+					<el-table-column label="开票金额" prop="receiptAmount">
 					</el-table-column>
-					<el-table-column label="机会来源" prop="leadSource">
+					<el-table-column label="回款状态" prop="collectionState">
+					</el-table-column>
+					<el-table-column label="开票状态" prop="receiptState">
+					</el-table-column>
+					<el-table-column label="成交日期" prop="transactionDate" :formatter="dateFormat">
 					</el-table-column>
 				</el-table>
 
@@ -74,7 +78,7 @@
 	import moment from 'moment'
 
 	export default {
-		name: "SaleLeadList",
+		name: "SaleOrderList",
 		data() {
 			return {
 				tableData: [],
@@ -94,29 +98,29 @@
 			}
 		},
 		methods: {
-			currentRowChange(row){
-				this.$router.push({
-					name: 'SaleLead',
-					params:{leadId:row.leadId}
-				})
-			},
 			dateFormat(row, column) {
 				var date = row[column.property];
 				if (date == undefined) {
 					return ''
 				};
-				return moment(date).format("YYYY-MM-DD HH:mm")
+				return moment(date).format("YYYY-MM-DD")
 			},
 			loadData() {
 				this.axios({
-					url: "http://localhost:8089/saleLead",
+					url: "http://localhost:8089/saleOrder",
 					method: 'get',
 					params: this.pageParam
 				}).then((response) => {
 					console.log(response)
 					this.tableData = response.data.record.list
 					this.tableTotal = response.data.record.total
-				}).catch((error) => {
+					
+					this.tableData.forEach(t=>{
+						t.owedAmount = t.saleOrderAmount - t.collectionAmount
+						t.collectionState = t.saleOrderAmount == t.collectionAmount ? '全部回款':(t.collectionAmount>0? '部分回款':'未回款')
+						t.receiptState = t.saleOrderAmount == t.receiptAmount ? '全部开票':(t.receiptAmount>0? '部分开票':'未开票')
+					})
+				}).catch((error) => {receiptAmount
 
 				})
 			},
@@ -153,9 +157,9 @@
 				this.queryType = 'search'
 
 				this.axios({
-					url: "http://localhost:8089/saleLead/search",
+					url: "http://localhost:8089/saleOrder/search",
 					method: "get",
-					params: {"leadName":this.searchInput}
+					params: {"saleOrderName":this.searchInput}
 				}).then(response => {
 					this.tableData = response.data.record.list
 					this.tableTotal = response.data.record.total
@@ -165,7 +169,7 @@
 			},
 			toDetail() {
 				this.$router.push({
-					name: 'SaleLead'
+					name: 'SaleOrder'
 				})
 			}
 		},
@@ -176,7 +180,7 @@
 </script>
 
 <style>
-	#SaleLeadList .el-table .cell .el-button {
+	#SaleOrderList .el-table .cell .el-button {
 		padding: 0px;
 		min-height: 22px;
 		height: 22px;

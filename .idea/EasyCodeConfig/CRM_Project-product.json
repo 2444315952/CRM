@@ -1,8 +1,8 @@
 {
   "name" : "Product",
-  "preName" : null,
+  "preName" : "",
   "comment" : null,
-  "templateGroupName" : null,
+  "templateGroupName" : "Mysql",
   "fullColumn" : [ {
     "name" : "proId",
     "comment" : null,
@@ -83,7 +83,7 @@
   } ],
   "pkColumn" : null,
   "otherColumn" : null,
-  "savePackageName" : "",
-  "savePath" : "./crm-back/src/main/java",
+  "savePackageName" : "com.crm",
+  "savePath" : "./crm-back/src/main/java/com/crm",
   "saveModelName" : "crm-back"
 }

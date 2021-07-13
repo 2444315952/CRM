@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -38,4 +39,18 @@ public class SaleContract implements Serializable {
     private Date startDate;
 
     private Date endDate;
+
+
+    private BigDecimal contractAmount;
+
+    private String customerName;
+
+    private String empName;
+
+    public BigDecimal getContractAmount() {
+        if(contractAmount==null)
+            return new BigDecimal(0);
+
+        return contractAmount;
+    }
 }

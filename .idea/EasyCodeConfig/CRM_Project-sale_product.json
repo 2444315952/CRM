@@ -1,8 +1,8 @@
 {
   "name" : "SaleProduct",
-  "preName" : null,
+  "preName" : "",
   "comment" : null,
-  "templateGroupName" : null,
+  "templateGroupName" : "Mysql",
   "fullColumn" : [ {
     "name" : "saleProductId",
     "comment" : null,
@@ -19,6 +19,27 @@
     "ext" : { }
   }, {
     "name" : "proId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "unitPrice",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "quantity",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "subtotal",
     "comment" : null,
     "type" : null,
     "shortType" : null,

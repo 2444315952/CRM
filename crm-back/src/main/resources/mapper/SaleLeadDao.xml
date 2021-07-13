@@ -16,7 +16,7 @@
         <result property="leadRemark" column="lead_remark" jdbcType="VARCHAR"/>
 
         <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
-        <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
+        <result property="customerName" column="clue_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="SaleLeadCol">
@@ -25,17 +25,18 @@
     <!--查询单个-->
     <select id="queryById" resultMap="SaleLeadMap">
         select
-        <include refid="SaleLeadCol"></include>
-        from CRM_Project.sale_lead i
+        <include refid="SaleLeadCol"></include>,e.emp_name,c.clue_name
+        from CRM_Project.sale_lead i left join employee e on i.emp_id = e.emp_id
+        left join clue c on i.customer_id = c.clue_id
         where lead_id = #{leadId}
     </select>
 
     <!--查询所有-->
     <select id="queryAll" resultMap="SaleLeadMap">
         select
-        <include refid="SaleLeadCol"></include>,e.emp_name,c.customer_name
+        <include refid="SaleLeadCol"></include>,e.emp_name,c.clue_name
         from sale_lead i left join employee e on i.emp_id = e.emp_id
-        left join customer c on i.customer_id = c.customer_id order by lead_id desc
+        left join clue c on i.customer_id = c.clue_id order by lead_id desc
     </select>
 
     <!--通过实体作为或者条件查询-->

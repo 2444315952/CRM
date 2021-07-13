@@ -1,8 +1,8 @@
 {
   "name" : "QuotationProduct",
-  "preName" : null,
+  "preName" : "",
   "comment" : null,
-  "templateGroupName" : null,
+  "templateGroupName" : "Mysql",
   "fullColumn" : [ {
     "name" : "quotationProductId",
     "comment" : null,

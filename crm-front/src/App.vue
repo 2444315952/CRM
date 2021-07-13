@@ -45,6 +45,8 @@
 		  			</template>
 		  			<el-menu-item-group>	
 		  				<el-menu-item index="3-1"><router-link :to="{name:'SaleLeadList'}">销售机会</router-link></el-menu-item>
+						<el-menu-item index="3-2"><router-link :to="{name:'SaleOrderList'}">销售订单</router-link></el-menu-item>
+						<el-menu-item index="3-3"><router-link :to="{name:'SaleContract'}">销售合同</router-link></el-menu-item>
 		  			</el-menu-item-group>
 		  		  </el-submenu>
 		  		  <el-submenu index="4">
