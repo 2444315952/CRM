@@ -1,5 +1,6 @@
 package com.crm.dao;
 
+import com.crm.entity.Activity;
 import com.crm.entity.Employee;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -44,5 +45,8 @@ public interface EmployeeDao {
      * @return 影响行数
      */
     int insert(Employee employee);
+
+    List<Employee> selectAllEmpName();
+
 }
 

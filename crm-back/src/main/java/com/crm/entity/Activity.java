@@ -1,41 +1,38 @@
 package com.crm.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.math.BigDecimal;
-import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 
-/**
- * (Activity)实体类
- *
- * @author makejava
- * @since 2021-07-11 14:45:21
- * @since 2021-07-11 17:51:17
- */
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@ToString
 public class Activity implements Serializable {
-    private static final long serialVersionUID = -26085757277589739L;
-
     private Integer activityId;
 
     private Integer empId;
+    private Employee employee;
 
     private String activityName;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
     private String address;
-
-    private Integer activityType;
 
     private Integer activityState;
 
@@ -46,4 +43,8 @@ public class Activity implements Serializable {
     private BigDecimal profitloss;
 
     private String activityPlan;
+
+    private Integer timeliness;
+
+    private static final long serialVersionUID = 1L;
 }

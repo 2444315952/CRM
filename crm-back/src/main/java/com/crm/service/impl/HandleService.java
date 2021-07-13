@@ -1,4 +1,4 @@
-package com.crm.service;
+package com.crm.service.impl;
 
 import com.crm.dao.HandleDao;
 import com.crm.entity.Handle;
@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class HandleService {
     @Autowired
+    @Resource
     private HandleDao handleDao;//出入库办理的dao层
 
     /**

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.ClueDao">
+  <resultMap id="BaseResultMap" type="com.crm.entity.Clue">
+    <id column="Clue_Id" jdbcType="INTEGER" property="clueId" />
+    <result column="Activity_Id" jdbcType="INTEGER" property="activityId" />
+    <result column="PublicPond_Id" jdbcType="INTEGER" property="publicpondId" />
+    <result column="emp_id" jdbcType="INTEGER" property="empId" />
+    <result column="Clue_Name" jdbcType="VARCHAR" property="clueName" />
+    <result column="Clue_Company" jdbcType="VARCHAR" property="clueCompany" />
+    <result column="Clue_Contacts" jdbcType="VARCHAR" property="clueContacts" />
+    <result column="Clue_Phone" jdbcType="VARCHAR" property="cluePhone" />
+    <result column="Conversion_Type" jdbcType="INTEGER" property="conversionType" />
+    <result column="TimeLiness" jdbcType="INTEGER" property="timeliness" />
+    <association property="employee" javaType="com.crm.entity.Employee">
+      <id column="emp_id" jdbcType="INTEGER" property="empId" />
+      <result column="emp_name" jdbcType="VARCHAR" property="empName"/>
+    </association>
+    <association property="publicpond" javaType="com.crm.entity.Publicpond">
+      <id column="PublicPond_Id" jdbcType="INTEGER" property="publicpondId" />
+      <result column="PublicPond_Name" jdbcType="VARCHAR" property="publicpondName"/>
+    </association>
+    <association property="activity" javaType="com.crm.entity.Activity">
+      <id column="Activity_Id" jdbcType="INTEGER" property="activityId" />
+      <result column="Activity_Name" jdbcType="VARCHAR" property="activityName"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    cl.Clue_Id, cl.Activity_Id, cl.PublicPond_Id, cl.emp_id, cl.Clue_Name, cl.Clue_Company, cl.Clue_Contacts,
+    cl.Clue_Phone, cl.Conversion_Type, cl.TimeLiness
+  </sql>
+  <select id="selectByClueKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />,e.empName,p.publicpondName,a.activityName
+    from clue cl
+    inner join employee e on e.emp_id = cl.emp_id
+    inner join publicpond p on p.PublicPond_Id = cl.PublicPond_Id
+    inner join activity a on a.Activity_Id = cl.Activity_Id
+    where cl.Clue_Id = #{clueId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByClues" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from employee e
+    right join clue cl on cl.emp_id=e.emp_id
+    left join activity a on a.Activity_Id = cl.Activity_Id
+    where cl.TimeLiness=0 and cl.PublicPond_Id=1
+  </select>
+  <select id="selectByCustomer" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from employee e
+    right join clue cl on cl.emp_id=e.emp_id
+    left join activity a on a.Activity_Id = cl.Activity_Id
+    where cl.TimeLiness=0 and cl.PublicPond_Id=2
+  </select>
+  <select id="selectByMyClues" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from employee e
+    right join clue cl on cl.emp_id=e.emp_id
+    left join activity a on a.Activity_Id = cl.Activity_Id
+    where cl.TimeLiness=0 and cl.emp_id=1 and cl.PublicPond_Id=1
+  </select>
+  <select id="selectByMyCustomer" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from employee e
+    right join clue cl on cl.emp_id=e.emp_id
+    left join activity a on a.Activity_Id = cl.Activity_Id
+    where cl.TimeLiness=0 and cl.emp_id=1 and cl.PublicPond_Id=2
+  </select>
+  <select id="selectByContacts" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from employee e
+    right join clue cl on cl.emp_id=e.emp_id
+    where cl.TimeLiness=0
+  </select>
+  <select id="selectByMyContacts" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from employee e
+    right join clue cl on cl.emp_id=e.emp_id
+    where cl.TimeLiness=0 and cl.emp_Id=1
+  </select>
+  <insert id="addClue" keyColumn="Clue_Id" keyProperty="clueId" parameterType="com.crm.entity.Clue" useGeneratedKeys="true">
+    insert into clue (Activity_Id, PublicPond_Id, emp_id,
+      Clue_Name, Clue_Company, Clue_Contacts,
+      Clue_Phone,Conversion_Type,TimeLiness
+      )
+    values (#{activityId,jdbcType=INTEGER}, #{publicpondId,jdbcType=INTEGER}, #{empId,jdbcType=INTEGER},
+      #{clueName,jdbcType=VARCHAR}, #{clueCompany,jdbcType=VARCHAR},#{clueContacts,jdbcType=VARCHAR},
+      #{cluePhone,jdbcType=VARCHAR}, #{conversionType,jdbcType=INTEGER},#{timeliness,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <update id="updateByClueKeySelective" parameterType="com.crm.entity.Clue">
+    update clue
+    <set>
+      <if test="activityId != null">
+        Activity_Id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="publicpondId != null">
+        PublicPond_Id = #{publicpondId,jdbcType=INTEGER},
+      </if>
+      <if test="empId != null">
+        emp_id = #{empId,jdbcType=INTEGER},
+      </if>
+      <if test="clueName != null">
+        Clue_Name = #{clueName,jdbcType=VARCHAR},
+      </if>
+      <if test="clueCompany != null">
+        Clue_Company = #{clueCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="clueContacts != null">
+        Clue_Contacts = #{clueContacts,jdbcType=VARCHAR},
+      </if>
+      <if test="cluePhone != null">
+        Clue_Phone = #{cluePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="conversionType != null">
+        Conversion_Type = #{conversionType,jdbcType=INTEGER},
+      </if>
+      <if test="timeliness != null">
+        TimeLiness = #{timeliness,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Clue_Id = #{clueId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByClueKey" parameterType="com.crm.entity.Clue">
+    update clue
+    set
+      TimeLiness = #{timeliness,jdbcType=INTEGER}
+    where Clue_Id = #{clueId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByConversion" parameterType="com.crm.entity.Clue">
+    update clue
+    set
+    PublicPond_Id = #{publicpondId,jdbcType=INTEGER},
+    Conversion_Type = #{conversionType,jdbcType=INTEGER}
+    where Clue_Id = #{clueId,jdbcType=INTEGER}
+  </update>
+  <update id="TakeItByEmpName" parameterType="com.crm.entity.Clue">
+    update clue
+    set
+    emp_id = #{empId,jdbcType=INTEGER}
+    where Clue_Id = #{clueId,jdbcType=INTEGER}
+  </update>
+</mapper>

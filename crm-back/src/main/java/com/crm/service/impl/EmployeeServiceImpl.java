@@ -70,4 +70,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return this.employeeDao.loginAuth(empName,empPwd);
     }
 
+    @Override
+    public List<Employee> selectAllEmpName() {
+        return employeeDao.selectAllEmpName();
+    }
+
 }
