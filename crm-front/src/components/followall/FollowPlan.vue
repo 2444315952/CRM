@@ -16,7 +16,6 @@
 			</el-table-column>
 			<el-table-column label="查看" align="center">
 				<template #default="scope">
-					<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
 					<el-button @click="showEdit(scope.row)" type="text" size="small">填写跟进计划</el-button>
 				</template>
 				
@@ -29,6 +28,13 @@
 				<el-select v-model="follow.followType" placeholder="请选择跟进类型">
 					<el-option v-for="item in optiontype" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="所属客户" prop="clueId">
+				<el-select @click="clickCustomerSelect()"
+					v-model="follow.clueId" placeholder="请选择负责人">
+					<el-option v-for="c in customerSelectValue" :label="c.clueName"
+						:value="c.clueId"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="跟进内容" prop="followContent">
@@ -101,10 +107,23 @@
 					followTime: "",
 					addtime: ""
 				},
-
+				customerSelectValue: []
 			}
 		},
 		methods: {
+			clickCustomerSelect() {
+				if (this.customerSelectValue.length > 0)
+					return false
+			
+				this.axios({
+					url: 'http://localhost:8089/common/customer',
+					method: 'get'
+				}).then(response => {
+					this.customerSelectValue = response.data.record.list
+				}).catch(error => {
+			
+				})
+			},
 			handleClose(done) {
 				this.$confirm('确定关闭？')
 					.then(_ => {
@@ -132,7 +151,6 @@
 
 			},
 			addFollow2(follow) {
-				this.follow.clueId = 10002
 				const _this = this
 				console.log(this.follow)
 				this.axios.post("http://localhost:8089/follow/addFollow", this.follow)
@@ -158,7 +176,8 @@
 				
 				this.follow.followId = row.followId
 				this.follow.clueId=row.clueId
-				this.follow.empId=1
+				this.follow.empId=this.$store.getters.empId
+
 				this.follow.followType=row.followType
 				this.follow.followContent=row.followContent
 				this.dialogVisible2 = true

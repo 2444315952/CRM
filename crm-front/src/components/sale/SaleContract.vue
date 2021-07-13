@@ -105,6 +105,14 @@
 				    				v-model="ruleForm.endDate" style="width: 206px;"></el-date-picker>
 				    		</el-form-item>
 							
+							<el-form-item label="关联机会" style="float: left;" prop="customerName">
+								<el-select @click="clickSaleLeadSelect()"
+									v-model="ruleForm.leadId" style="width: 206px;" placeholder="请选择负责人">
+									<el-option v-for="s in saleLeadSelectValue" :label="s.leadName"
+										:value="s.leadId"></el-option>
+								</el-select>
+							</el-form-item>
+							
 				    	</el-col>
 						
 				    </el-row>
@@ -182,7 +190,8 @@
 				queryType: 'all',
 				dialogFormVisible:false,
 				employeeSelectValue: [],
-				customerSelectValue: []
+				customerSelectValue: [],
+				saleLeadSelectValue: []
 			}
 		},
 		methods: {
@@ -289,6 +298,19 @@
 						this.ruleForm.customerContacts = e.clueContacts
 						this.ruleForm.customerPhone = e.cluePhone
 					}
+				})
+			},
+			clickSaleLeadSelect(){
+				if (this.customerSelectValue.length > 0)
+					return false
+							
+				this.axios({
+					url: 'http://localhost:8089/saleLead',
+					method: 'get'
+				}).then(response => {
+					this.saleLeadSelectValue = response.data.record.list
+				}).catch(error => {
+							
 				})
 			},
 			submitForm(formName) {

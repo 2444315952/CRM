@@ -39,4 +39,9 @@ public class Quotation implements Serializable {
     private Date quotationDate;
 
     private String quotationRemark;
+
+
+    private String customerName;
+
+    private String empName;
 }

@@ -18,13 +18,6 @@
 			</el-table-column>
 			<el-table-column prop="addtime" label="完成时间" align="center">
 			</el-table-column>
-			<el-table-column label="查看" align="center">
-				<template #default="scope">
-					<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-					<el-button @click="updataState(scope.row)" type="text" size="small">删除</el-button>
-				</template>
-
-			</el-table-column>
 		</el-table>
 	</div>
 </template>

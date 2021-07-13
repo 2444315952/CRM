@@ -42,8 +42,8 @@ public class SaleContractController {
      * @return 实例对象
      */
     @GetMapping("/saleContract")
-    public AjaxResponse queryAll(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "0") Integer pageSize) {
-        return AjaxResponse.success(this.saleContractService.queryAll(pageNum, pageSize));
+    public AjaxResponse queryAll(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "0") Integer pageSize,Integer leadId) {
+        return AjaxResponse.success(this.saleContractService.queryAll(pageNum, pageSize,leadId));
     }
 
     /**

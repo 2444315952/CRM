@@ -83,7 +83,7 @@
         update task
         set
                 endtime=CURRENT_TIMESTAMP,
-                 taskState=1
+                 task_state=1
         where task_id = #{taskId}
     </update>
     <!--通过主键删除-->

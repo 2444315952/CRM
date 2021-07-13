@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.QuotationDao">
+
+    <resultMap type="com.crm.entity.Quotation" id="QuotationMap">
+        <result property="quotationId" column="quotation_id" jdbcType="INTEGER"/>
+        <result property="leadId" column="lead_id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="customerId" column="Customer_Id" jdbcType="INTEGER"/>
+        <result property="quotationName" column="quotation_name" jdbcType="VARCHAR"/>
+        <result property="quotationStage" column="quotation_stage" jdbcType="VARCHAR"/>
+        <result property="quotationAmount" column="quotation_amount" jdbcType="VARCHAR"/>
+        <result property="effectiveDate" column="effective_date" jdbcType="TIMESTAMP"/>
+        <result property="quotationDate" column="quotation_date" jdbcType="TIMESTAMP"/>
+        <result property="quotationRemark" column="quotation_remark" jdbcType="VARCHAR"/>
+
+        <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
+        <result property="customerName" column="clue_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="QuotationCol">
+        i.quotation_id ,i.lead_id ,i.emp_id ,i.Customer_Id ,i.quotation_name ,i.quotation_stage ,i.quotation_amount ,i.effective_date ,i.quotation_date ,i.quotation_remark     </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QuotationMap">
+        select
+        <include refid="QuotationCol"></include>
+        from CRM_Project.quotation i
+        where quotation_id = #{quotationId}
+    </select>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="QuotationMap">
+        select
+        <include refid="QuotationCol"></include>,e.emp_name,c.clue_name
+        from CRM_Project.quotation i left join employee e on i.emp_id = e.emp_id
+        left join clue c on i.customer_id = c.clue_id order by quotation_id desc
+    </select>
+
+    <!--通过实体作为或者条件查询-->
+    <select id="queryOrByPojo" resultMap="QuotationMap">
+        select
+        <include refid="QuotationCol"></include>
+        from CRM_Project.quotation i
+
+        <where>
+            <if test="quotationId != null">
+                or quotation_id like '%'||#{quotationId}||'%'
+            </if>
+            <if test="leadId != null">
+                or lead_id like '%'||#{leadId}||'%'
+            </if>
+            <if test="empId != null">
+                or emp_id like '%'||#{empId}||'%'
+            </if>
+            <if test="customerId != null">
+                or Customer_Id like '%'||#{customerId}||'%'
+            </if>
+            <if test="quotationName != null and quotationName != ''">
+                or quotation_name like '%'||#{quotationName}||'%'
+            </if>
+            <if test="quotationStage != null and quotationStage != ''">
+                or quotation_stage like '%'||#{quotationStage}||'%'
+            </if>
+            <if test="quotationAmount != null">
+                or quotation_amount like '%'||#{quotationAmount}||'%'
+            </if>
+            <if test="effectiveDate != null">
+                or effective_date like '%'||#{effectiveDate}||'%'
+            </if>
+            <if test="quotationDate != null">
+                or quotation_date like '%'||#{quotationDate}||'%'
+            </if>
+            <if test="quotationRemark != null and quotationRemark != ''">
+                or quotation_remark like '%'||#{quotationRemark}||'%'
+            </if>
+        </where>
+        order by quotation_id desc
+    </select>
+
+    <!--通过实体作为并且条件查询-->
+    <select id="queryAndByPojo" resultMap="QuotationMap">
+        select
+        <include refid="QuotationCol"></include>
+        from CRM_Project.quotation i
+
+        <where>
+            <if test="quotationId != null">
+                and quotation_id = #{quotationId}
+            </if>
+            <if test="leadId != null">
+                and lead_id = #{leadId}
+            </if>
+            <if test="empId != null">
+                and emp_id = #{empId}
+            </if>
+            <if test="customerId != null">
+                and Customer_Id = #{customerId}
+            </if>
+            <if test="quotationName != null and quotationName != ''">
+                and quotation_name = #{quotationName}
+            </if>
+            <if test="quotationStage != null and quotationStage != ''">
+                and quotation_stage = #{quotationStage}
+            </if>
+            <if test="quotationAmount != null">
+                and quotation_amount = #{quotationAmount}
+            </if>
+            <if test="effectiveDate != null">
+                and effective_date = #{effectiveDate}
+            </if>
+            <if test="quotationDate != null">
+                and quotation_date = #{quotationDate}
+            </if>
+            <if test="quotationRemark != null and quotationRemark != ''">
+                and quotation_remark = #{quotationRemark}
+            </if>
+        </where>
+        order by quotation_id desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="quotationId" useGeneratedKeys="true">
+        insert into CRM_Project.quotation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            quotation_id,
+            <if test="leadId != null">
+                lead_id,
+            </if>
+            <if test="empId != null">
+                emp_id,
+            </if>
+            <if test="customerId != null">
+                Customer_Id,
+            </if>
+            <if test="quotationName != null">
+                quotation_name,
+            </if>
+            <if test="quotationStage != null">
+                quotation_stage,
+            </if>
+            <if test="quotationAmount != null">
+                quotation_amount,
+            </if>
+            <if test="effectiveDate != null">
+                effective_date,
+            </if>
+            <if test="quotationDate != null">
+                quotation_date,
+            </if>
+            <if test="quotationRemark != null">
+                quotation_remark,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{quotationId},
+            <if test="leadId != null">
+                #{leadId},
+            </if>
+            <if test="empId != null">
+                #{empId},
+            </if>
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="quotationName != null">
+                #{quotationName},
+            </if>
+            <if test="quotationStage != null">
+                #{quotationStage},
+            </if>
+            <if test="quotationAmount != null">
+                #{quotationAmount},
+            </if>
+            <if test="effectiveDate != null">
+                #{effectiveDate},
+            </if>
+            <if test="quotationDate != null">
+                #{quotationDate},
+            </if>
+            <if test="quotationRemark != null">
+                #{quotationRemark},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.quotation
+        <set>
+            <if test="leadId != null">
+                lead_id = #{leadId},
+            </if>
+            <if test="empId != null">
+                emp_id = #{empId},
+            </if>
+            <if test="customerId != null">
+                Customer_Id = #{customerId},
+            </if>
+            <if test="quotationName != null">
+                quotation_name = #{quotationName},
+            </if>
+            <if test="quotationStage != null">
+                quotation_stage = #{quotationStage},
+            </if>
+            <if test="quotationAmount != null">
+                quotation_amount = #{quotationAmount},
+            </if>
+            <if test="effectiveDate != null">
+                effective_date = #{effectiveDate},
+            </if>
+            <if test="quotationDate != null">
+                quotation_date = #{quotationDate},
+            </if>
+            <if test="quotationRemark != null">
+                quotation_remark = #{quotationRemark},
+            </if>
+        </set>
+        where quotation_id = #{quotationId}
+    </update>
+
+    <!--通过主键删除数据-->
+    <delete id="deleteById">
+        delete from CRM_Project.quotation where quotation_id = #{quotationId}
+    </delete>
+
+    <!--通过主键列表批量删除数据-->
+    <delete id="deleteBatch">
+        delete from CRM_Project.quotation where quotation_id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--通过实体列表批量删除数据-->
+    <delete id="deleteBatchByEntities">
+        delete from CRM_Project.quotation where quotation_id in
+        <foreach collection="list" item="entity" open="(" separator="," close=")">
+            #{entity.quotationId}
+        </foreach>
+    </delete>
+</mapper>
+

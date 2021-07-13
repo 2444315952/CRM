@@ -200,7 +200,27 @@
 								</el-table-column>
 							</el-table>
 						</el-tab-pane>
-						<el-tab-pane label="销售合同" name="second">销售合同</el-tab-pane>
+						<el-tab-pane label="销售合同" name="second">
+							<el-table :data="contractTableData" max-height="477" style="width: 100%;height:477px;"
+								highlight-current-row @current-change="handleCurrentChange">
+								<el-table-column label="合同名称" prop="contractName">
+								</el-table-column>
+								<el-table-column label="负责人" prop="empName">
+								</el-table-column>
+								<el-table-column label="所属客户" prop="customerName">
+								</el-table-column>
+								<el-table-column label="合同金额" prop="contractAmount">
+								</el-table-column>
+								<el-table-column label="签订时间" prop="contractDate" :formatter="dateFormat">
+								</el-table-column>
+								<el-table-column label="合同状态" prop="contractSate">
+								</el-table-column>
+								<el-table-column label="开始时间" prop="startDate" :formatter="dateFormat">
+								</el-table-column>
+								<el-table-column label="结束时间" prop="endDate" :formatter="dateFormat">
+								</el-table-column>
+							</el-table>
+						</el-tab-pane>
 						<el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
 						<el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
 					</el-tabs>
@@ -290,7 +310,8 @@
 					sourceRowIndex: 0
 				},
 				activeName:'first',
-				saleTableData:[]
+				saleTableData:[],
+				contractTableData:[]
 			}
 		},
 		methods: {
@@ -331,6 +352,19 @@
 				}).catch(error => {
 				
 				})
+				
+				this.axios({
+					url: "http://localhost:8089/saleContract",
+					method: "get",
+					params: {
+						"leadId": this.ruleForm.leadId
+					}
+				}).then(response => {
+					this.contractTableData = response.data.record.list
+				}).catch(error => {
+				
+				})
+				
 			},
 			handleClick(tab, event) {
 				console.log(this.activeName);

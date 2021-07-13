@@ -25,10 +25,9 @@
 		  			  <span>协作事务</span>
 		  			</template>
 		  			<el-menu-item-group>
-						<!-- <el-menu-item index="1-1"><router-link :to="{name:'PurchaseList'}">采购单</router-link></el-menu-item> -->
-		  				<el-menu-item index="1-1">跟进计划</el-menu-item>
-		  				<el-menu-item index="1-2">跟进记录</el-menu-item>
-		  				<el-menu-item index="1-3">CRM任务</el-menu-item>
+		  				<el-menu-item index="1-1"><router-link :to="{name:'FollowPlan'}">跟进计划</router-link></el-menu-item>
+		  				<el-menu-item index="1-2"><router-link :to="{name:'FollowRecord'}">跟进记录</router-link></el-menu-item>
+		  				<el-menu-item index="1-3"><router-link :to="{name:'Task'}">CRM任务</router-link></el-menu-item>
 					</el-menu-item-group>
 		  		  </el-submenu>
 		  		  <el-submenu index="2">

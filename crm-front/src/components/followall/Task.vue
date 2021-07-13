@@ -23,7 +23,7 @@
 			<el-table-column prop="taskState" label="状态" align="center">
 				<template #default="scope">
 					<span v-if="scope.row.taskState==0">进行中</span>
-					<span style="color:red" v-if="scope.row.taskState==1">已完成</span>
+					<span style="color: green" v-if="scope.row.taskState==1">已完成</span>
 				</template>
 			</el-table-column>
 			<el-table-column label="操作" align="center">
@@ -40,7 +40,14 @@
 				<el-input v-model="task.taskName" placeholder="请输入任务名称"></el-input>
 			</el-form-item>
 			<el-form-item label="负责人" prop="taskPerson">
-				<el-input v-model="task.taskPerson" placeholder="请输入跟进内容"></el-input>
+				<el-input v-model="task.taskPerson" placeholder="请输入跟进内容" disabled></el-input>
+			</el-form-item>
+			<el-form-item label="所属客户" prop="clueId">
+				<el-select @click="clickCustomerSelect()"
+					v-model="task.clueId" placeholder="请选择负责人">
+					<el-option v-for="c in customerSelectValue" :label="c.clueName"
+						:value="c.clueId"></el-option>
+				</el-select>
 			</el-form-item>
 			<el-form-item label="截止日期" prop="closingtime">
 				<el-date-picker v-model="task.closingtime" type="date" placeholder="选择日期">
@@ -50,7 +57,7 @@
 				<el-input v-model="task.task" placeholder="请输入跟进内容"></el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="primary" @click="addTask2('task')">保存</el-button>
+				<el-button type="primary" @click="addTask2(task)">保存</el-button>
 			</el-form-item>
 		</el-form>
 	</el-dialog>
@@ -61,10 +68,15 @@
 				<el-input v-model="task.taskName" placeholder="请输入任务名称"></el-input>
 			</el-form-item>
 			<el-form-item label="负责人" prop="taskPerson">
-				<el-input v-model="task.taskPerson"></el-input>
+				<el-input v-model="task.taskPerson" disabled></el-input>
 			</el-form-item>
-			<el-form-item label="参与人" prop="empId">
-				<el-input v-model="task.empId" placeholder="请输入跟进内容"></el-input>
+			
+			<el-form-item label="参与人" prop="empName">
+				<el-select @click="clickEmployeeSelect()" @change="changeEmployeeSelect"
+					v-model="task.empId" placeholder="请选择负责人">
+					<el-option v-for="e in employeeSelectValue" :label="e.empName"
+						:value="e.empId"></el-option>
+				</el-select>
 			</el-form-item>
 			<el-form-item label="截止日期" prop="closingtime">
 				<el-date-picker v-model="task.closingtime" type="date" placeholder="选择日期">
@@ -101,10 +113,37 @@
 					task: "",
                     taskState:"",
 				},
-
+				employeeSelectValue: [],
+				customerSelectValue: []
 			}
 		},
 		methods: {
+			clickEmployeeSelect() {
+				if (this.employeeSelectValue.length > 0)
+					return false
+			
+				this.axios({
+					url: 'http://localhost:8089/employee',
+					method: 'get'
+				}).then(response => {
+					this.employeeSelectValue = response.data.record.list
+				}).catch(error => {
+			
+				})
+			},
+			clickCustomerSelect() {
+				if (this.customerSelectValue.length > 0)
+					return false
+			
+				this.axios({
+					url: 'http://localhost:8089/common/customer',
+					method: 'get'
+				}).then(response => {
+					this.customerSelectValue = response.data.record.list
+				}).catch(error => {
+			
+				})
+			},
 			handleClose(done) {
 				this.$confirm('确定关闭？')
 					.then(_ => {
@@ -130,12 +169,11 @@
 				this.dialogVisible = true;
 				Object.keys(this.task).forEach((key) => (this.task[key] = ""))
 
+				//this.task.taskPerson = this.$store.getters.empName
+				this.task.empId = this.$store.getters.empId
+
 			},
 			addTask2(task) {
-				this.task.taskId=row.taskId
-				this.task.clueId = 10002
-				this.task.taskPerson = 123
-				this.task.empId = 2
 				const _this = this
 				console.log(this.task)
 				this.axios.post("http://localhost:8089/task/addTask", this.task)

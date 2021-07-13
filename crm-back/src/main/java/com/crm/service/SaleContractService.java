@@ -26,7 +26,7 @@ public interface SaleContractService {
      *
      * @return 实例对象
      */
-    PageInfo<SaleContract> queryAll(Integer pageNum, Integer pageSize);
+    PageInfo<SaleContract> queryAll(Integer pageNum, Integer pageSize,Integer leadId);
 
     /**
      * 根据查询条件搜索数据

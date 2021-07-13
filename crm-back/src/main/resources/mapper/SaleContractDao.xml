@@ -35,7 +35,9 @@
         <include refid="SaleContractCol"></include>,e.emp_name,c.clue_name,
         (select sum(sale_order_amount) from sale_order where sale_contract_id = i.sale_contract_id) as contractAmount
         from CRM_Project.sale_contract i left join employee e on i.emp_id = e.emp_id
-        left join clue c on i.customer_id = c.clue_id order by sale_contract_id desc
+        left join clue c on i.customer_id = c.clue_id
+        <if test="leadId != null"> where i.lead_id = #{leadId} </if>
+        order by sale_contract_id desc
     </select>
 
     <!--通过实体作为或者条件查询-->

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.QuotationProductDao">
+
+    <resultMap type="com.crm.entity.QuotationProduct" id="QuotationProductMap">
+        <result property="quotationProductId" column="quotation_product_id" jdbcType="INTEGER"/>
+        <result property="quotationId" column="quotation_id" jdbcType="INTEGER"/>
+        <result property="proId" column="pro_id" jdbcType="INTEGER"/>
+        <result property="unitPrice" column="unit_price" jdbcType="VARCHAR"/>
+        <result property="quantity" column="quantity" jdbcType="INTEGER"/>
+        <result property="subtotal" column="subtotal" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="QuotationProductCol">
+        i.quotation_product_id ,i.quotation_id ,i.pro_id     </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QuotationProductMap">
+        select
+        <include refid="QuotationProductCol"></include>
+        from CRM_Project.quotation_product i
+        where quotation_product_id = #{quotationProductId}
+    </select>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="QuotationProductMap">
+        select
+        <include refid="QuotationProductCol"></include>
+        from CRM_Project.quotation_product i order by quotation_product_id desc
+    </select>
+
+    <!--通过实体作为或者条件查询-->
+    <select id="queryOrByPojo" resultMap="QuotationProductMap">
+        select
+        <include refid="QuotationProductCol"></include>
+        from CRM_Project.quotation_product i
+
+        <where>
+            <if test="quotationProductId != null">
+                or quotation_product_id like '%'||#{quotationProductId}||'%'
+            </if>
+            <if test="quotationId != null">
+                or quotation_id like '%'||#{quotationId}||'%'
+            </if>
+            <if test="proId != null">
+                or pro_id like '%'||#{proId}||'%'
+            </if>
+            <if test="unitPrice != null">
+                or unit_price like '%'||#{unitPrice}||'%'
+            </if>
+            <if test="quantity != null">
+                or quantity like '%'||#{quantity}||'%'
+            </if>
+            <if test="subtotal != null">
+                or subtotal like '%'||#{subtotal}||'%'
+            </if>
+        </where>
+        order by quotation_product_id desc
+    </select>
+
+    <!--通过实体作为并且条件查询-->
+    <select id="queryAndByPojo" resultMap="QuotationProductMap">
+        select
+        <include refid="QuotationProductCol"></include>
+        from CRM_Project.quotation_product i
+
+        <where>
+            <if test="quotationProductId != null">
+                and quotation_product_id = #{quotationProductId}
+            </if>
+            <if test="quotationId != null">
+                and quotation_id = #{quotationId}
+            </if>
+            <if test="proId != null">
+                and pro_id = #{proId}
+            </if>
+            <if test="unitPrice != null">
+                and unit_price = #{unitPrice}
+            </if>
+            <if test="quantity != null">
+                and quantity = #{quantity}
+            </if>
+            <if test="subtotal != null">
+                and subtotal = #{subtotal}
+            </if>
+        </where>
+        order by quotation_product_id desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="quotationProductId" useGeneratedKeys="true">
+        insert into CRM_Project.quotation_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            quotation_product_id,
+            <if test="quotationId != null">
+                quotation_id,
+            </if>
+            <if test="proId != null">
+                pro_id,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{quotationProductId},
+            <if test="quotationId != null">
+                #{quotationId},
+            </if>
+            <if test="proId != null">
+                #{proId},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.quotation_product
+        <set>
+            <if test="quotationId != null">
+                quotation_id = #{quotationId},
+            </if>
+            <if test="proId != null">
+                pro_id = #{proId},
+            </if>
+        </set>
+        where quotation_product_id = #{quotationProductId}
+    </update>
+
+    <!--通过主键删除数据-->
+    <delete id="deleteById">
+        delete from CRM_Project.quotation_product where quotation_product_id = #{quotationProductId}
+    </delete>
+
+    <!--通过主键列表批量删除数据-->
+    <delete id="deleteBatch">
+        delete from CRM_Project.quotation_product where quotation_product_id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--通过实体列表批量删除数据-->
+    <delete id="deleteBatchByEntities">
+        delete from CRM_Project.quotation_product where quotation_product_id in
+        <foreach collection="list" item="entity" open="(" separator="," close=")">
+            #{entity.quotationProductId}
+        </foreach>
+    </delete>
+</mapper>
+

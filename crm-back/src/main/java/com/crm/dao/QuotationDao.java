@@ -1,74 +1,74 @@
 package com.crm.dao;
 
-import com.crm.entity.SaleContract;
+import com.crm.entity.Quotation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * (SaleContract)表数据库访问层
+ * (Quotation)表数据库访问层
  *
  * @author makejava
- * @since 2021-07-13 16:02:47
+ * @since 2021-07-14 04:26:18
  */
 @Mapper
-public interface SaleContractDao {
+public interface QuotationDao {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param saleContractId 主键
+     * @param quotationId 主键
      * @return 实例对象
      */
-    SaleContract queryById(Integer saleContractId);
+    Quotation queryById(Integer quotationId);
 
     /**
      * 查询所有数据
      *
      * @return 实例对象
      */
-    List<SaleContract> queryAll(Integer leadId);
+    List<Quotation> queryAll();
 
     /**
      * 通过实体作为或者条件查询
      *
-     * @param saleContract 实例对象
+     * @param quotation 实例对象
      * @return 对象列表
      */
-    List<SaleContract> queryOrByPojo(SaleContract saleContract);
+    List<Quotation> queryOrByPojo(Quotation quotation);
 
     /**
      * 通过实体作为并且条件查询
      *
-     * @param saleContract 实例对象
+     * @param quotation 实例对象
      * @return 对象列表
      */
-    List<SaleContract> queryAndByPojo(SaleContract saleContract);
+    List<Quotation> queryAndByPojo(Quotation quotation);
 
     /**
      * 新增数据
      *
-     * @param saleContract 实例对象
+     * @param quotation 实例对象
      * @return 影响行数
      */
-    int insert(SaleContract saleContract);
+    int insert(Quotation quotation);
 
     /**
      * 修改数据
      *
-     * @param saleContract 实例对象
+     * @param quotation 实例对象
      * @return 影响行数
      */
-    int update(SaleContract saleContract);
+    int update(Quotation quotation);
 
     /**
      * 通过主键删除数据
      *
-     * @param saleContractId 主键
+     * @param quotationId 主键
      * @return 影响行数
      */
-    int deleteById(Integer saleContractId);
+    int deleteById(Integer quotationId);
 
     /**
      * 通过主键列表删除数据
@@ -81,9 +81,9 @@ public interface SaleContractDao {
     /**
      * 批量对象列表删除数据
      *
-     * @param saleContractList 实例对象列表
+     * @param quotationList 实例对象列表
      * @return 影响行数
      */
-    int deleteBatchByEntities(List<SaleContract> saleContractList);
+    int deleteBatchByEntities(List<Quotation> quotationList);
 }
 

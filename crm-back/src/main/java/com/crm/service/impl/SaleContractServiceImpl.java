@@ -41,9 +41,9 @@ public class SaleContractServiceImpl implements SaleContractService {
      * @return 对象列表
      */
     @Override
-    public PageInfo<SaleContract> queryAll(Integer pageNum, Integer pageSize) {
+    public PageInfo<SaleContract> queryAll(Integer pageNum, Integer pageSize,Integer leadId) {
         Page<SaleContract> page = PageHelper.startPage(pageNum, pageSize);
-        List<SaleContract> saleContractList = this.saleContractDao.queryAll();
+        List<SaleContract> saleContractList = this.saleContractDao.queryAll(leadId);
         return new PageInfo<>(saleContractList);
     }
 
