@@ -8,6 +8,7 @@ import SaleLeadList from '../components/sale/SaleLeadList.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
 import outInStore from '../components/produce/outInStore.vue'
 import product from '../components/product/Product.vue'
+<<<<<<< HEAD
 import outInStoreBill from '../components/produce/outInStoreBill.vue'
 import outInStoreWater from '../components/produce/outInStoreWater.vue'
 import test1 from '../components/collection/test1.vue'
@@ -16,6 +17,15 @@ import test3 from '../components/collection/test3.vue'
 import SaleOrderList from '../components/sale/SaleOrderList.vue'
 import SaleOrder from '../components/sale/SaleOrder.vue'
 import SaleContract from '../components/sale/SaleContract.vue'
+=======
+import SaleOrderList from '../components/sale/SaleOrderList.vue'
+import SaleOrder from '../components/sale/SaleOrder.vue'
+import SaleContract from '../components/sale/SaleContract.vue'
+import outInStoreBill from '../components/produce/outInStoreBill.vue'
+import outInStoreWater from '../components/produce/outInStoreWater.vue'
+import Product from '../components/product/Product.vue'
+
+>>>>>>> 0552b9a1f07fd47f835e7502ff89891899866782
 
 const routes = [{
 		path: '/',
@@ -45,6 +55,7 @@ const routes = [{
 		name:"product",
 		component:product
 	},{
+<<<<<<< HEAD
 		path: '/outInStoreBill',
 		name: "outInStoreBill",
 		component: outInStoreBill
@@ -65,6 +76,8 @@ const routes = [{
 		name: "test3",
 		component: test3
 	},{
+=======
+>>>>>>> 0552b9a1f07fd47f835e7502ff89891899866782
 		path: '/SaleOrderList',
 		name: "SaleOrderList",
 		component: SaleOrderList
@@ -76,6 +89,19 @@ const routes = [{
 		path: '/SaleContract',
 		name: "SaleContract",
 		component: SaleContract
+<<<<<<< HEAD
+=======
+		name:"Product",
+		component:Product
+	},{
+		path: '/outInStoreBill',
+		name: "outInStoreBill",
+		component: outInStoreBill
+	},{
+		path: '/outInStoreWater',
+		name: "outInStoreWater",
+		component: outInStoreWater
+>>>>>>> 0552b9a1f07fd47f835e7502ff89891899866782
 	}
 ]
 

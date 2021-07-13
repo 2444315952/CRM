@@ -9,12 +9,16 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
+ * (Clue)实体类
  * 单位表(Clue)实体类
  *
  * @author makejava
  * @since 2021-07-11 14:45:23
  * @since 2021-07-11 17:51:24
+<<<<<<< HEAD
  * @since 2021-07-13 15:08:56
+=======
+>>>>>>> 0552b9a1f07fd47f835e7502ff89891899866782
  */
 @AllArgsConstructor
 @NoArgsConstructor

@@ -38,7 +38,10 @@ public class SaleOrder {
 
     private BigDecimal saleOrderAmount;
 
+<<<<<<< HEAD
     private Date createdate;
+=======
+>>>>>>> 0552b9a1f07fd47f835e7502ff89891899866782
     private Date createDate;
 
     private Date transactionDate;
