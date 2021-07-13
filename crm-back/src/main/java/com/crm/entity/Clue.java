@@ -19,11 +19,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Clue implements Serializable {
-    private static final long serialVersionUID = -50495695225016762L;
-
-    private Integer activityId;
-
 public class Clue {
     /**
      * 线索及客户编号

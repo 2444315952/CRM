@@ -39,6 +39,7 @@ const routes = [{
 		path:'/product',
 		name:"product",
 		component:product
+	},{
 		path: '/SaleOrderList',
 		name: "SaleOrderList",
 		component: SaleOrderList
