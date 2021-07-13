@@ -1,5 +1,6 @@
 package com.crm.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.crm.entity.Receipt;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface ReceiptService {
      * @return 实例对象
      */
     Receipt queryById(Integer receiptId);
-
+    JSONArray selectReceipt();
     /**
      * 查询多条数据
      *
@@ -36,7 +37,10 @@ public interface ReceiptService {
      * @return 实例对象
      */
     Receipt insert(Receipt receipt);
-
+    JSONArray queryreceipt(int id);
+    void updatesreceiptone(int id);
+    void updatesreceipttwo(int id);
+    void updatesreceiptzero(int id);
     /**
      * 修改数据
      *
@@ -44,7 +48,9 @@ public interface ReceiptService {
      * @return 实例对象
      */
     Receipt update(Receipt receipt);
+    JSONArray selectReceiptapplyone();
 
+    JSONArray selectReceiptapplytwo();
     /**
      * 通过主键删除数据
      *

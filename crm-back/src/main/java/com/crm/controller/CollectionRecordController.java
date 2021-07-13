@@ -42,6 +42,12 @@ public class CollectionRecordController {
         JSONObject jsonObject = JSON.parseObject(a);
         String pd = jsonObject.getString("record");
         CollectionRecord collectionRecord = JSON.parseObject(pd,CollectionRecord.class);
+        this.collectionRecordService.insert(collectionRecord);
         return AjaxResponse.success("新增成功回款记录成功！");
+    }
+    @GetMapping("deleterecord")
+    public AjaxResponse delRecord(int id){
+        this.collectionRecordService.deleteById(id);
+        return AjaxResponse.success("删除成功！");
     }
 }

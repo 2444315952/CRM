@@ -1,5 +1,6 @@
 package com.crm.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.crm.dao.ReceiptDao;
 import com.crm.entity.Receipt;
 import com.crm.service.ReceiptService;
@@ -30,6 +31,11 @@ public class ReceiptServiceImpl implements ReceiptService {
         return this.receiptDao.queryById(receiptId);
     }
 
+    @Override
+    public JSONArray selectReceipt() {
+        return this.receiptDao.selectReceipt();
+    }
+
     /**
      * 查询多条数据
      *
@@ -54,6 +60,26 @@ public class ReceiptServiceImpl implements ReceiptService {
         return receipt;
     }
 
+    @Override
+    public JSONArray queryreceipt(int id) {
+        return this.receiptDao.queryreceipt(id);
+    }
+
+    @Override
+    public void updatesreceiptone(int id) {
+        this.receiptDao.updatesreceiptone(id);
+    }
+
+    @Override
+    public void updatesreceipttwo(int id) {
+        this.receiptDao.updatesreceipttwo(id);
+    }
+
+    @Override
+    public void updatesreceiptzero(int id) {
+        this.receiptDao.updatesreceiptzero(id);
+    }
+
     /**
      * 修改数据
      *
@@ -64,6 +90,16 @@ public class ReceiptServiceImpl implements ReceiptService {
     public Receipt update(Receipt receipt) {
         this.receiptDao.update(receipt);
         return this.queryById(receipt.getReceiptId());
+    }
+
+    @Override
+    public JSONArray selectReceiptapplyone() {
+        return this.receiptDao.selectReceiptapplyone();
+    }
+
+    @Override
+    public JSONArray selectReceiptapplytwo() {
+        return this.receiptDao.selectReceiptapplytwo();
     }
 
     /**

@@ -12,6 +12,8 @@
         <result property="payTaxes" column="pay_taxes" jdbcType="VARCHAR"/>
         <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
         <result property="apply" column="apply" jdbcType="INTEGER"/>
+        <result property="sale_order_id" column="sale_order_id" jdbcType="INTEGER"/>
+        <result property="create_date" column="create_date" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--查询单个-->
@@ -21,7 +23,30 @@
         from CRM_Project.receipt
         where receipt_id = #{receiptId}
     </select>
-
+<!--  查询状态为待审批的票据  -->
+    <select id="selectReceipt" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT rt.apply,rt.`create_date`,rt.`receipt_id`,so.`sale_order_name`,cst.`Clue_Name`,cp.`beriod_name`,el.`emp_name`,rt.`receipt_money`,rt.`pay_taxes`,rt.`remarks`,(SELECT COUNT(*) FROM collection_period cp WHERE cp.`sale_order_id` = so.sale_order_id) AS counts FROM `receipt` rt
+        LEFT JOIN `sale_order` so ON so.`sale_order_id` = rt.`sale_order_id`
+        LEFT JOIN `clue` cst ON cst.`Clue_Id` = so.`Customer_Id`
+        LEFT JOIN `collection_period` cp ON cp.`collection_id` = rt.`collection_id`
+        LEFT JOIN employee el ON el.`emp_id` = rt.`emp_id` where rt.apply = 0 ORDER BY rt.`create_date` DESC
+    </select>
+    <!--  查询状态为已审批的票据  -->
+    <select id="selectReceiptapplyone" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT rt.apply,rt.`create_date`,rt.`receipt_id`,so.`sale_order_name`,cst.`Clue_Name`,cp.`beriod_name`,el.`emp_name`,rt.`receipt_money`,rt.`pay_taxes`,rt.`remarks`,(SELECT COUNT(*) FROM collection_period cp WHERE cp.`sale_order_id` = so.sale_order_id) AS counts FROM `receipt` rt
+        LEFT JOIN `sale_order` so ON so.`sale_order_id` = rt.`sale_order_id`
+        LEFT JOIN `clue` cst ON cst.`Clue_Id` = so.`Customer_Id`
+        LEFT JOIN `collection_period` cp ON cp.`collection_id` = rt.`collection_id`
+        LEFT JOIN employee el ON el.`emp_id` = rt.`emp_id` where rt.apply = 1 ORDER BY rt.`create_date` DESC
+    </select>
+    <!--  查询状态为已驳回的票据  -->
+    <select id="selectReceiptapplytwo" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT rt.apply,rt.`create_date`,rt.`receipt_id`,so.`sale_order_name`,cst.`Clue_Name`,cp.`beriod_name`,el.`emp_name`,rt.`receipt_money`,rt.`pay_taxes`,rt.`remarks`,(SELECT COUNT(*) FROM collection_period cp WHERE cp.`sale_order_id` = so.sale_order_id) AS counts FROM `receipt` rt
+        LEFT JOIN `sale_order` so ON so.`sale_order_id` = rt.`sale_order_id`
+        LEFT JOIN `clue` cst ON cst.`Clue_Id` = so.`Customer_Id`
+        LEFT JOIN `collection_period` cp ON cp.`collection_id` = rt.`collection_id`
+        LEFT JOIN employee el ON el.`emp_id` = rt.`emp_id` where rt.apply = 2 ORDER BY rt.`create_date` DESC
+    </select>
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ReceiptMap">
         select
@@ -63,12 +88,31 @@
 
         </where>
     </select>
-
+<!--  根据期次id查询该期次的开票申请  -->
+    <select id="queryreceipt" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT rt.receipt_id,so.sale_order_name,el.emp_name,rt.receipt_name,rt.`receipt_money`,rt.`Bill_title`,rt.`pay_taxes`,rt.`remarks`,rt.`apply` FROM `receipt` rt
+        LEFT JOIN `sale_order` so ON so.sale_order_id = rt.sale_order_id
+        LEFT JOIN `employee` el ON el.emp_id = rt.emp_id
+        WHERE rt.collection_id = #{id}
+    </select>
+<!--  根据票据id将状态改为已审批  -->
+    <update id="updatesreceiptone">
+        update receipt set apply=1 where receipt_id = #{id}
+    </update>
+<!--  根据票据id将状态改为已审批  -->
+    <update id="updatesreceipttwo">
+        update receipt set apply=2 where receipt_id = #{id}
+    </update>
+<!--  根据票据id将状态改为待审批  -->
+    <update id="updatesreceiptzero">
+        update receipt set apply=0 where receipt_id = #{id}
+    </update>
     <!--新增所有列-->
     <insert id="insert" keyProperty="receiptId" useGeneratedKeys="true">
-        insert into CRM_Project.receipt(collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes, remarks)
-        values (#{collectionId}, #{empId}, #{receiptName}, #{receiptMoney}, #{billTitle}, #{payTaxes}, #{remarks})
+        insert into CRM_Project.receipt(sale_order_id,collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes, remarks)
+        values (#{sale_order_id},#{collectionId}, #{empId}, #{receiptName}, #{receiptMoney}, #{billTitle}, #{payTaxes}, #{remarks})
     </insert>
+
 
     <insert id="insertBatch" keyProperty="receiptId" useGeneratedKeys="true">
         insert into CRM_Project.receipt(collection_id, emp_id, receipt_name, receipt_money, Bill_title, pay_taxes,

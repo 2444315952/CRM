@@ -38,6 +38,9 @@ public interface CollectionPeriodService {
      */
     CollectionPeriod insert(CollectionPeriod collectionPeriod);
     JSONArray selectorderandperiodAll();
+    JSONArray queryreceiptByorderid(int id);
+    JSONArray queryByorder_idas(int id);
+    JSONArray queryByhuikjl(int id);
     /**
      * 修改数据
      *
@@ -53,5 +56,8 @@ public interface CollectionPeriodService {
      * @return 是否成功
      */
     boolean deleteById(Integer collectionId);
-
+    JSONArray queryByOrderid_all(int id);
+    JSONArray selectorders();
+    JSONArray queryhkjeandorderje(int id);
+    JSONArray querykpje(int id);
 }
