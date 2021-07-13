@@ -4,6 +4,7 @@ import {
 } from 'vue-router'
 
 import Login from '../components/Login.vue'
+import SaleLeadList from '../components/sale/SaleLeadList.vue'
 import SaleLead from '../components/sale/SaleLead.vue'
 import outInStore from '../components/produce/outInStore.vue'
 import product from '../components/product/Product.vue'
@@ -12,6 +13,10 @@ import outInStoreWater from '../components/produce/outInStoreWater.vue'
 import test1 from '../components/collection/test1.vue'
 import test2 from '../components/collection/test2.vue'
 import test3 from '../components/collection/test3.vue'
+import SaleOrderList from '../components/sale/SaleOrderList.vue'
+import SaleOrder from '../components/sale/SaleOrder.vue'
+import SaleContract from '../components/sale/SaleContract.vue'
+
 const routes = [{
 		path: '/',
 		redirect: '/Login'
@@ -22,7 +27,12 @@ const routes = [{
 		component: Login
 	},
 	{
-		path: '/SaleLead',
+		path: '/SaleLeadList',
+		name: "SaleLeadList",
+		component: SaleLeadList
+	},
+	{
+		path: '/SaleLead/:leadId?',
 		name: "SaleLead",
 		component: SaleLead
 	},{
@@ -55,6 +65,18 @@ const routes = [{
 		name: "test3",
 		component: test3
 	},
+		path: '/SaleOrderList',
+		name: "SaleOrderList",
+		component: SaleOrderList
+	},{
+		path: '/SaleOrder',
+		name: "SaleOrder",
+		component: SaleOrder
+	},{
+		path: '/SaleContract',
+		name: "SaleContract",
+		component: SaleContract
+	}
 ]
 
 const router = createRouter({

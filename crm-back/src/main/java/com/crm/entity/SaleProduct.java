@@ -1,6 +1,7 @@
 package com.crm.entity;
 
 import java.math.BigDecimal;
+import java.math.BigDecimal;
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -14,16 +15,24 @@ import lombok.ToString;
  * @author makejava
  * @since 2021-07-11 14:45:33
  * @since 2021-07-11 17:51:33
+ * @since 2021-07-12 20:48:52
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class SaleProduct implements Serializable {
     private static final long serialVersionUID = -99372214166813590L;
+public class SaleProduct {
 
     private Integer saleProductId;
 
     private Integer saleOrderId;
 
     private Integer proId;
+
+    private BigDecimal unitPrice;
+
+    private Integer quantity;
+
+    private BigDecimal subtotal;
 }

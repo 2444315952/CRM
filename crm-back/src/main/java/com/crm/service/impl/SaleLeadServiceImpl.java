@@ -1,8 +1,11 @@
 package com.crm.service.impl;
 
+import com.crm.dao.SaleProductDao;
 import com.crm.entity.SaleLead;
 import com.crm.dao.SaleLeadDao;
+import com.crm.service.LeadProductService;
 import com.crm.service.SaleLeadService;
+import com.crm.service.SaleProductService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,6 +27,9 @@ public class SaleLeadServiceImpl implements SaleLeadService {
     @Resource
     private SaleLeadDao saleLeadDao;
 
+    @Resource
+    private LeadProductService leadProductService;
+
     /**
      * 通过ID查询单条数据
      *
@@ -37,14 +43,12 @@ public class SaleLeadServiceImpl implements SaleLeadService {
 
     /**
      * 查询所有数据
-     *
-     * @param saleLead 实例对象
      * @return 对象列表
      */
     @Override
-    public PageInfo<SaleLead> queryAll(SaleLead saleLead, Integer pageNum, Integer pageSize) {
+    public PageInfo<SaleLead> queryAll(Integer pageNum, Integer pageSize) {
         Page<SaleLead> page = PageHelper.startPage(pageNum, pageSize);
-        List<SaleLead> saleLeadList = this.saleLeadDao.queryAll(saleLead);
+        List<SaleLead> saleLeadList = this.saleLeadDao.queryAll();
         return new PageInfo<>(saleLeadList);
     }
 
@@ -84,6 +88,11 @@ public class SaleLeadServiceImpl implements SaleLeadService {
     @Transactional(rollbackFor = Exception.class)
     public SaleLead insert(SaleLead saleLead) {
         this.saleLeadDao.insert(saleLead);
+        saleLead.getLeadProductList().forEach(p->{
+            p.setLeadId(saleLead.getLeadId());
+        });
+        leadProductService.insertBatch(saleLead.getLeadProductList());
+
         return this.queryById(saleLead.getLeadId());
     }
 

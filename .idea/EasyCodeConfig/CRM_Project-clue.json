@@ -1,31 +1,10 @@
 {
   "name" : "Clue",
   "preName" : "",
-  "comment" : null,
+  "comment" : "单位表",
   "templateGroupName" : "Mysql",
   "fullColumn" : [ {
-    "name" : "activityId",
-    "comment" : null,
-    "type" : null,
-    "shortType" : null,
-    "custom" : false,
-    "ext" : { }
-  }, {
     "name" : "clueId",
-    "comment" : null,
-    "type" : null,
-    "shortType" : null,
-    "custom" : false,
-    "ext" : { }
-  }, {
-    "name" : "publicpondId",
-    "comment" : null,
-    "type" : null,
-    "shortType" : null,
-    "custom" : false,
-    "ext" : { }
-  }, {
-    "name" : "empId",
     "comment" : null,
     "type" : null,
     "shortType" : null,
@@ -60,14 +39,42 @@
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "clueType",
+    "name" : "conversionType",
     "comment" : null,
     "type" : null,
     "shortType" : null,
     "custom" : false,
     "ext" : { }
   }, {
-    "name" : "conversionType",
+    "name" : "timeliness",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "activityId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "publicpondId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "contactsId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "empId",
     "comment" : null,
     "type" : null,
     "shortType" : null,

@@ -1,8 +1,8 @@
 {
   "name" : "Customer",
-  "preName" : null,
+  "preName" : "",
   "comment" : null,
-  "templateGroupName" : null,
+  "templateGroupName" : "Mysql",
   "fullColumn" : [ {
     "name" : "activityId",
     "comment" : null,
@@ -69,7 +69,7 @@
   } ],
   "pkColumn" : null,
   "otherColumn" : null,
-  "savePackageName" : "",
-  "savePath" : "./crm-back/src/main/java",
+  "savePackageName" : "com.crm",
+  "savePath" : "./crm-back/src/main/java/com/crm",
   "saveModelName" : "crm-back"
 }

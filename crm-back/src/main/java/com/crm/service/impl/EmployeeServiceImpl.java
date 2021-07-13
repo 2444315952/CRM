@@ -37,14 +37,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * 查询所有数据
-     *
-     * @param employee 实例对象
      * @return 对象列表
      */
     @Override
-    public PageInfo<Employee> queryAll(Employee employee, Integer pageNum, Integer pageSize) {
+    public PageInfo<Employee> queryAll(Integer pageNum, Integer pageSize) {
         Page<Employee> page = PageHelper.startPage(pageNum, pageSize);
-        List<Employee> employeeList = this.employeeDao.queryAll(employee);
+        List<Employee> employeeList = this.employeeDao.queryAll();
         return new PageInfo<>(employeeList);
     }
 

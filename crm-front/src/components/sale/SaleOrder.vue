@@ -1,5 +1,5 @@
 <template>
-	<div id="SaleLead">
+	<div id="SaleOrder">
 
 		<el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"
 			class="demo-ruleForm">
@@ -8,8 +8,8 @@
 				<el-col :span="12">
 					<el-breadcrumb separator-class="el-icon-arrow-right" style="padding-bottom: 16px">
 						<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-						<el-breadcrumb-item><a href="/SaleLeadList">销售机会列表</a></el-breadcrumb-item>
-						<el-breadcrumb-item><a href="/">销售机会</a></el-breadcrumb-item>
+						<el-breadcrumb-item><a href="/SaleOrderList">销售订单列表</a></el-breadcrumb-item>
+						<el-breadcrumb-item><a href="/">销售订单</a></el-breadcrumb-item>
 					</el-breadcrumb>
 				</el-col>
 
@@ -25,27 +25,27 @@
 				<el-main style="background-color: white;">
 					<el-row>
 						<el-col :span="8">
-							<el-form-item label="机会名称" style="float: left;" prop="leadName">
-								<el-input v-model="ruleForm.leadName" size="medium"></el-input>
+							<el-form-item label="订单名称" style="float: left;" prop="saleOrderName">
+								<el-input v-model="ruleForm.saleOrderName" size="medium"></el-input>
+							</el-form-item>
+							
+							<el-form-item label="关联机会" style="float: left;" prop="leadName">
+								<el-input v-model="ruleForm.leadName" size="medium" disabled>
+									<template #append>
+										<el-button icon="el-icon-plus" size="small"
+											@click="supplier.dialogVisible = true;supplierLoadData()">
+										</el-button>
+									</template>
+								</el-input>
+							</el-form-item>
+							
+							<el-form-item label="订单金额" style="float: left;" prop="saleOrderAmount">
+								<el-input v-model="ruleForm.saleOrderAmount" size="medium" :disabled="inputLeadAmount"></el-input>
 							</el-form-item>
 							
 							<el-form-item label="联系人" style="float: left;" prop="customerContacts">
-								<el-input v-model="ruleForm.customerContacts" size="medium" disabled></el-input>
+								<el-input v-model="ruleForm.customerContacts" size="medium"></el-input>
 							</el-form-item>
-							
-							<el-form-item label="销售阶段" style="float: left;" prop="leadStage">
-								<el-select v-model="ruleForm.leadStage" style="width: 206px;" placeholder="请选择销售阶段">
-									<el-option label="初期(10%)" value="初期(10%)"></el-option>
-									<el-option label="承报方案(30%)" value="承报方案(30%)"></el-option>
-									<el-option label="立项跟踪(50%)" value="立项跟踪(50%)"></el-option>
-									<el-option label="商务谈判(80%)" value="商务谈判(80%)"></el-option>
-								</el-select>
-							</el-form-item>
-							
-							<el-form-item label="机会金额" style="float: left;" prop="leadAmount">
-								<el-input v-model="ruleForm.leadAmount" size="medium" :disabled="inputLeadAmount"></el-input>
-							</el-form-item>
-							
 							
 						</el-col>
 
@@ -58,21 +58,6 @@
 								</el-select>
 							</el-form-item>
 							
-							<el-form-item label="机会类型" style="float: left;" prop="employeeId">
-								<el-select v-model="ruleForm.leadType" style="width: 206px;" placeholder="请选择负责人">
-									<el-option label="普通机会" value="普通机会"></el-option>
-									<el-option label="关键机会" value="关键机会"></el-option>
-									<el-option label="重大机会" value="重大机会"></el-option>
-									<el-option label="特别机会" value="特别机会"></el-option>
-									<el-option label="其他机会" value="其他机会"></el-option>
-								</el-select>
-							</el-form-item>
-							
-							<el-form-item label="预计成交日" style="float: left;" prop="transactionDate">
-								<el-date-picker type="datetime" placeholder="选择日期" size="medium"
-									v-model="ruleForm.transactionDate" style="width: 206px;"></el-date-picker>
-							</el-form-item>
-							
 							<el-form-item label="关联产品" style="float: left;" prop="leadProductString">
 								<el-input v-model="ruleForm.leadProductString" size="medium" disabled>
 									<template #append>
@@ -81,6 +66,19 @@
 										</el-button>
 									</template>
 								</el-input>
+							</el-form-item>
+							
+							<el-form-item label="付款方式" style="float: left;" prop="employeeId">
+								<el-select v-model="ruleForm.leadType" style="width: 206px;" placeholder="请选择支付方式">
+									<el-option label="现金" value="现金"></el-option>
+									<el-option label="转账" value="转账"></el-option>
+									<el-option label="网银" value="网银"></el-option>
+									<el-option label="其他" value="其他"></el-option>
+								</el-select>
+							</el-form-item>
+							
+							<el-form-item label="联系电话" style="float: left;" prop="customerPhone">
+								<el-input v-model="ruleForm.customerPhone" size="medium"></el-input>
 							</el-form-item>
 							
 						</el-col>
@@ -94,24 +92,21 @@
 								</el-select>
 							</el-form-item>
 							
-							<el-form-item label="机会来源" style="float: left;" prop="leadSource">
-								<el-select v-model="ruleForm.leadSource" style="width: 206px;" placeholder="请选择负责人">
-									<el-option label="独立开发" value="独立开发"></el-option>
-									<el-option label="促销活动" value="促销活动"></el-option>
-									<el-option label="自主来访" value="自主来访"></el-option>
-									<el-option label="广告营销" value="广告营销"></el-option>
-									<el-option label="客户转介绍" value="客户转介绍"></el-option>
-									<el-option label="其他" value="其他"></el-option>
-								</el-select>
+							<el-form-item label="关联合同" style="float: left;" prop="contractName">
+								<el-input v-model="ruleForm.contractName" size="medium" disabled>
+									<template #append>
+										<el-button icon="el-icon-plus" size="small"
+											@click="warehouse.dialogVisible = true;warehouseLoadData()">
+										</el-button>
+									</template>
+								</el-input>
 							</el-form-item>
 							
-							<el-form-item label="关联活动" style="float: left;" prop="activityId">
-								<el-select @click="clickEmployeeSelect()" @change="changeEmployeeSelect"
-									v-model="ruleForm.activityId" style="width: 206px;" placeholder="请选择负责人">
-									<!-- <el-option v-for="e in employeeSelectValue" :label="e.employeeName"
-										:value="e.employeeName"></el-option> -->
-								</el-select>
+							<el-form-item label="成交日期" style="float: left;" prop="transactionDate">
+								<el-date-picker type="datetime" placeholder="选择日期" size="medium"
+									v-model="ruleForm.transactionDate" style="width: 206px;"></el-date-picker>
 							</el-form-item>
+							
 						</el-col>
 						
 						<el-dialog title="产品" v-model="product.dialogVisible">
@@ -172,61 +167,108 @@
 							</template>
 						</el-dialog>
 						
-					</el-row>
-					
-					<el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
-						<el-tab-pane label="销售订单" name="first">
-							<el-table :data="ruleForm.purchaseDetailList" show-summary max-height="402"
-								style="width: 100%;height:402px;">
-								<el-table-column label="产品名称" prop="productName">
-									<template #default="scope">
-										<el-input v-model="ruleForm.purchaseDetailList[scope.$index].productName"
-											style="width: 170px" size="small" disabled>
-											<template #append>
-												<el-button icon="el-icon-plus" size="mini"
-													@click="productOpenDialog(scope.$index)">
-												</el-button>
-											</template>
-										</el-input>
-									</template>
+						<el-dialog title="销售机会" v-model="supplier.dialogVisible">
+							<el-row type="flex" justify="end" style="padding-bottom: 12px;">
+								<el-col :span="7.5">
+									<el-input v-model="supplier.searchInput" placeholder="请搜索销售机会名称" size="small">
+										<template #append>
+											<el-button @click="supplierLoadData()" icon="el-icon-search" size="mini">
+											</el-button>
+										</template>
+									</el-input>
+								</el-col>
+						
+							</el-row>
+						
+							<el-table :data="supplier.tableData" max-height="477" style="width: 100%;height:477px;"
+								highlight-current-row @current-change="supplierSelectionChange">
+								<el-table-column label="机会名称" prop="leadName">
 								</el-table-column>
-								<el-table-column label="规格型号" prop="specModel">
+								<el-table-column label="负责人" prop="empName">
 								</el-table-column>
-								<el-table-column label="产品单位" prop="productUnit">
+								<el-table-column label="所属客户" prop="customerName">
 								</el-table-column>
-								<el-table-column label="采购价" prop="purchasePrice">
-									<template #default="scope">
-										<el-input-number v-model="ruleForm.purchaseDetailList[scope.$index].purchasePrice"
-											@change="changePriceOrQuantity(scope.$index)" controls-position="right" size="small"
-											style="width: 130px;" :precision="2">
-										</el-input-number>
-									</template>
+								<el-table-column label="机会金额" prop="leadAmount">
 								</el-table-column>
-								<el-table-column label="采购数量" prop="purchaseQuantity">
-									<template #default="scope">
-										<el-input-number v-model="ruleForm.purchaseDetailList[scope.$index].purchaseQuantity"
-											@change="changePriceOrQuantity(scope.$index)" size="small" :min="1" :precision="0">
-										</el-input-number>
-									</template>
+								<el-table-column label="销售阶段" prop="leadStage">
 								</el-table-column>
-								<el-table-column label="小计" prop="purchaseSubtotal">
+								<el-table-column label="机会类型" prop="leadType">
 								</el-table-column>
-								<el-table-column label="操作" width="100">
-									<template #default="scope">
-										<el-button type="primary" icon="el-icon-plus" size="mini" @click="addRow()" circle>
-										</el-button>
-										<el-button type="primary" icon="el-icon-minus" size="mini"
-											@click="removeRow(scope.$index)" circle></el-button>
-									</template>
+								<el-table-column label="机会来源" prop="leadSource">
 								</el-table-column>
 							</el-table>
-						</el-tab-pane>
-						<el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-						<el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-						<el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
-					</el-tabs>
+							<el-row>
+								<el-col :span="24">
+									<el-pagination style="float: right;margin-top: 15px;"
+										@size-change="supplierSizeChange" @current-change="supplierCurrentChange"
+										:page-sizes="[10,20,40,80]" :page-size="supplier.pageParam.pageSize"
+										layout="total, sizes, prev, pager, next, jumper" :total="supplier.tableTotal">
+									</el-pagination>
+								</el-col>
+							</el-row>
+						
+							<template #footer>
+								<span class="dialog-footer">
+									<el-button @click="supplier.dialogVisible = false" size="medium">取 消</el-button>
+									<el-button type="primary" @click="supplierConfirmButton" size="medium">确 定
+									</el-button>
+								</span>
+							</template>
+						</el-dialog>
+						
+						<el-dialog title="销售合同" v-model="warehouse.dialogVisible">
+							<el-row type="flex" justify="end" style="padding-bottom: 12px;">
+								<el-col :span="7.5">
+									<el-input v-model="warehouse.searchInput" placeholder="请搜索仓库名称" size="small">
+										<template #append>
+											<el-button icon="el-icon-search" @click="warehouseLoadData()" size="mini">
+											</el-button>
+										</template>
+									</el-input>
+								</el-col>
+						
+							</el-row>
+						
+							<el-table :data="warehouse.tableData" max-height="286" style="height: 286px;"
+								highlight-current-row @current-change="warehouseSelectionChange">
+								<el-table-column label="合同名称" prop="contractName">
+								</el-table-column>
+								<el-table-column label="负责人" prop="empName">
+								</el-table-column>
+								<el-table-column label="所属客户" prop="customerName" width="140">
+								</el-table-column>
+								<el-table-column label="合同金额" prop="contractAmount">
+								</el-table-column>
+								<el-table-column label="签订时间" prop="contractDate" :formatter="dateFormat">
+								</el-table-column>
+								<el-table-column label="合同状态" prop="contractSate">
+								</el-table-column>
+								<!-- <el-table-column label="开始时间" prop="startDate" :formatter="dateFormat">
+								</el-table-column>
+								<el-table-column label="结束时间" prop="endDate" :formatter="dateFormat">
+								</el-table-column> -->
+							</el-table>
+							<el-row>
+								<el-col :span="24">
+									<el-pagination style="float: right;margin-top: 15px;"
+										@size-change="warehouseSizeChange" @current-change="warehouseCurrentChange"
+										:page-sizes="[10,20,40,80]" :page-size="warehouse.pageParam.pageSize"
+										layout="total, sizes, prev, pager, next, jumper" :total="warehouse.tableTotal">
+									</el-pagination>
+								</el-col>
+							</el-row>
+						
+							<template #footer>
+								<span class="dialog-footer">
+									<el-button @click="warehouse.dialogVisible = false" size="medium">取 消</el-button>
+									<el-button type="primary" @click="warehouseConfirmButton" size="medium">确 定
+									</el-button>
+								</span>
+							</template>
+						</el-dialog>
+						
+					</el-row>
 					
-					<!--  -->
 
 				</el-main>
 				<el-footer style="height: 56;">
@@ -239,20 +281,22 @@
 </template>
 
 <script>
+	import moment from 'moment'
+	
 	export default {
-		name: "SaleLead",
+		name: "SaleOrder",
 		data() {
 			return {
 				isAdd: true,
 				ruleForm: {
-					leadProductList: [],
+					saleProductList: [],
 					leadProductString:''
 				},
 				inputLeadAmount:false,
 				rules: {
-					leadName: [{
+					saleOrderName: [{
 						required: true,
-						message: '请输入机会名称',
+						message: '请输入订单名称',
 						trigger: 'blur'
 					}],
 					empName: [{
@@ -265,9 +309,9 @@
 						message: '请选择所属客户',
 						trigger: 'blur'
 					}],
-					leadAmount: [{
+					saleOrderAmount: [{
 						required: true,
-						message: '请输入机会金额',
+						message: '请输入订单金额',
 						trigger: 'change'
 					}]
 				},
@@ -275,17 +319,6 @@
 				employeeSelectValue: [],
 				customerSelectValue: [],
 				supplier: {
-					dialogVisible: false,
-					searchInput: '',
-					tableData: [],
-					tableTotal: '',
-					singleSelection: {},
-					pageParam: {
-						"pageNum": 1,
-						"pageSize": 10
-					}
-				},
-				warehouse: {
 					dialogVisible: false,
 					searchInput: '',
 					tableData: [],
@@ -307,32 +340,39 @@
 						"pageSize": 10
 					},
 					sourceRowIndex: 0
-				},
-				activeName:'first'
+				},warehouse: {
+					dialogVisible: false,
+					searchInput: '',
+					tableData: [],
+					tableTotal: '',
+					singleSelection: {},
+					pageParam: {
+						"pageNum": 1,
+						"pageSize": 10
+					}
+				}
 			}
 		},
 		methods: {
+			dateFormat(row, column) {
+				var date = row[column.property];
+				if (date == undefined) {
+					return ''
+				};
+				return moment(date).format("YYYY-MM-DD")
+			},
 			loadData(){
 				this.axios({
-					url: "http://localhost:8089/saleLead/one",
+					url: "http://localhost:8089/eims/purchase/one",
 					method: "get",
 					params: {
-						"id": this.ruleForm.leadId
+						"id": this.ruleForm.purchId
 					}
 				}).then(response => {
 					this.ruleForm = response.data
-					
-					
-					
-					console.log(response.data)
-					
 				}).catch(error => {
 				
 				})
-			},
-			handleClick(tab, event) {
-				console.log(this.activeName);
-				console.log(tab, event);
 			},
 			clickEmployeeSelect() {
 				if (this.employeeSelectValue.length > 0)
@@ -342,6 +382,7 @@
 					url: 'http://localhost:8089/employee',
 					method: 'get'
 				}).then(response => {
+					console.log(response)
 					this.employeeSelectValue = response.data.record.list
 				}).catch(error => {
 
@@ -361,6 +402,7 @@
 					url: 'http://localhost:8089/common/customer',
 					method: 'get'
 				}).then(response => {
+					console.log(response)
 					this.customerSelectValue = response.data.record.list
 				}).catch(error => {
 			
@@ -368,22 +410,22 @@
 			},
 			changeCustomerSelect() {
 				this.customerSelectValue.forEach(e => {
-					if (e.clueName == this.ruleForm.customerName){
-						this.ruleForm.customerId = e.customerId
+					if (e.customerName == this.ruleForm.clueName){
+						this.ruleForm.customerId = e.clueId
 						this.ruleForm.customerContacts = e.clueContacts
+						this.ruleForm.customerPhone = e.cluePhone
 					}
 				})
 			},
 			supplierLoadData() {
 				this.axios({
-					url: 'http://localhost:8089/eims/supplier/search',
-					method: 'get',
-					params: Object.assign({
-						'supplierName': this.supplier.searchInput
-					}, this.supplier.pageParam)
+					url: 'http://localhost:8089/saleLead',
+					method: 'get'
 				}).then(response => {
-					this.supplier.tableData = response.data.list
-					this.supplier.tableTotal = response.data.total
+					console.log(response)
+					
+					this.supplier.tableData = response.data.record.list
+					this.supplier.tableTotal = response.data.record.total
 				}).catch(error => {
 
 				})
@@ -401,8 +443,8 @@
 			},
 			supplierConfirmButton() {
 				this.supplier.dialogVisible = false
-				this.ruleForm.supplierId = this.supplier.singleSelection.supplierId
-				this.ruleForm.supplierName = this.supplier.singleSelection.supplierName
+				this.ruleForm.leadId = this.supplier.singleSelection.leadId
+				this.ruleForm.leadName = this.supplier.singleSelection.leadName
 			},
 			productOpenDialog(index) {
 				this.product.sourceRowIndex = index
@@ -443,7 +485,7 @@
 				
 				var str = "";
 				this.product.multipleSelection.forEach(m=>{
-					this.ruleForm.leadProductList.push(m)
+					this.ruleForm.saleProductList.push(m)
 					str += (m.proName+",")
 				})
 				
@@ -455,23 +497,21 @@
 					this.inputLeadAmount = false
 				}
 				
-				var leadAmount = 0
+				var saleOrderAmount = 0
 				this.product.multipleSelection.forEach(m => {
-					leadAmount += m.subtotal
+					saleOrderAmount += m.subtotal
 				})
-				this.ruleForm.leadAmount = leadAmount
+				this.ruleForm.saleOrderAmount = saleOrderAmount
 
 			},
 			warehouseLoadData() {
 				this.axios({
-					url: 'http://localhost:8089/eims/warehouse/search',
+					url: 'http://localhost:8089/saleContract',
 					method: 'get',
-					params: Object.assign({
-						'warehouseName': this.warehouse.searchInput
-					}, this.warehouse.pageParam)
+					params: this.warehouse.pageParam
 				}).then(response => {
-					this.warehouse.tableData = response.data.list
-					this.warehouse.tableTotal = response.data.total
+					this.warehouse.tableData = response.data.record.list
+					this.warehouse.tableTotal = response.data.record.total
 				}).catch(error => {
 
 				})
@@ -489,8 +529,8 @@
 			},
 			warehouseConfirmButton() {
 				this.warehouse.dialogVisible = false
-				this.ruleForm.warehouseId = this.warehouse.singleSelection.warehouseId
-				this.ruleForm.warehouseName = this.warehouse.singleSelection.warehouseName
+				this.ruleForm.saleContractId = this.warehouse.singleSelection.saleContractId
+				this.ruleForm.contractName = this.warehouse.singleSelection.contractName
 			},
 			addRow() {
 				this.ruleForm.purchaseDetailList.push({});
@@ -510,18 +550,20 @@
 					if (valid) {
 
 						if (this.isAdd) {
+							console.log(this.ruleForm)
+							
 							this.axios({
-								url: 'http://localhost:8089/saleLead',
+								url: 'http://localhost:8089/saleOrder',
 								method: 'post',
 								data: this.ruleForm
 							}).then(response => {
 								this.$message({
 									type: 'success',
-									message: '销售机会数据新增成功！'
+									message: '销售订单数据新增成功！'
 								})
 
 								this.$router.push({
-									name: 'SaleLeadList'
+									name: 'SaleOrderList'
 								})
 							}).catch(error => {
 
@@ -584,11 +626,9 @@
 			}
 		},
 		created() {
-			this.ruleForm.leadId = this.$route.params.leadId
-			this.isAdd = typeof(this.ruleForm.leadId) == "undefined" || this.ruleForm.leadId == ""
+			this.ruleForm.purchId = this.$route.params.purchId
+			this.isAdd = typeof(this.ruleForm.purchId) == "undefined" || this.ruleForm.purchId == ""
 
-			this.clickEmployeeSelect()
-			this.clickCustomerSelect()
 			if (this.isAdd){
 				
 			}else{

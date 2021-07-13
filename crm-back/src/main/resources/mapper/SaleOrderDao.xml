@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.SaleOrderDao">
+
+    <resultMap type="com.crm.entity.SaleOrder" id="SaleOrderMap">
+        <result property="saleOrderId" column="sale_order_id" jdbcType="INTEGER"/>
+        <result property="leadId" column="lead_id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="customerId" column="Customer_Id" jdbcType="INTEGER"/>
+        <result property="activityId" column="Activity_Id" jdbcType="INTEGER"/>
+        <result property="saleOrderName" column="sale_order_name" jdbcType="VARCHAR"/>
+        <result property="saleOrderAmount" column="sale_order_amount" jdbcType="VARCHAR"/>
+        <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+        <result property="transactionDate" column="transaction_date" jdbcType="TIMESTAMP"/>
+        <result property="startDate" column="start_date" jdbcType="TIMESTAMP"/>
+        <result property="endDate" column="end_date" jdbcType="TIMESTAMP"/>
+        <result property="paymentMothod" column="payment_mothod" jdbcType="VARCHAR"/>
+        <result property="saleOrderState" column="sale_order_state" jdbcType="VARCHAR"/>
+        <result property="saleOrderRemark" column="sale_order_remark" jdbcType="VARCHAR"/>
+
+        <result property="collectionAmount" column="collection_amount" jdbcType="VARCHAR"/>
+        <result property="receiptAmount" column="receipt_amount" jdbcType="VARCHAR"/>
+        <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
+        <result property="customerName" column="clue_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="SaleOrderCol">
+        i.sale_order_id ,i.lead_id ,i.emp_id ,i.Customer_Id ,i.Activity_Id ,i.sale_order_name ,i.sale_order_amount ,i.create_date ,i.transaction_date ,i.start_date ,i.end_date ,i.payment_mothod ,i.sale_order_state ,i.sale_order_remark     </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SaleOrderMap">
+        select
+        <include refid="SaleOrderCol"></include>
+        from CRM_Project.sale_order i
+        where sale_order_id = #{saleOrderId}
+    </select>
+
+    <!--查询所有-->
+    <select id="queryAll" resultMap="SaleOrderMap">
+        select
+        <include refid="SaleOrderCol"></include>,e.emp_name,c.clue_name,
+        (select sum(cr.payment_money) from collection_record cr where cr.sale_order_id = i.sale_order_id) as collection_amount,
+        (select sum(r.receipt_money) from receipt r where r.sale_order_id = i.sale_order_id) as receipt_amount
+        from CRM_Project.sale_order i left join employee e on i.emp_id = e.emp_id
+        left join clue c on i.customer_id = c.clue_id
+        left join collection_record cr on i.sale_order_id = cr.sale_order_id
+        left join receipt r on i.sale_order_id = r.sale_order_id group by i.sale_order_id order by lead_id desc
+    </select>
+
+    <!--通过实体作为或者条件查询-->
+    <select id="queryOrByPojo" resultMap="SaleOrderMap">
+        select
+        <include refid="SaleOrderCol"></include>
+        from CRM_Project.sale_order i
+
+        <where>
+            <if test="saleOrderId != null">
+                or sale_order_id like '%'||#{saleOrderId}||'%'
+            </if>
+            <if test="leadId != null">
+                or lead_id like '%'||#{leadId}||'%'
+            </if>
+            <if test="empId != null">
+                or emp_id like '%'||#{empId}||'%'
+            </if>
+            <if test="customerId != null">
+                or Customer_Id like '%'||#{customerId}||'%'
+            </if>
+            <if test="activityId != null">
+                or Activity_Id like '%'||#{activityId}||'%'
+            </if>
+            <if test="saleOrderName != null and saleOrderName != ''">
+                or sale_order_name like '%'||#{saleOrderName}||'%'
+            </if>
+            <if test="saleOrderAmount != null">
+                or sale_order_amount like '%'||#{saleOrderAmount}||'%'
+            </if>
+            <if test="createDate != null">
+                or create_date like '%'||#{createDate}||'%'
+            </if>
+            <if test="transactionDate != null">
+                or transaction_date like '%'||#{transactionDate}||'%'
+            </if>
+            <if test="startDate != null">
+                or start_date like '%'||#{startDate}||'%'
+            </if>
+            <if test="endDate != null">
+                or end_date like '%'||#{endDate}||'%'
+            </if>
+            <if test="paymentMothod != null and paymentMothod != ''">
+                or payment_mothod like '%'||#{paymentMothod}||'%'
+            </if>
+            <if test="saleOrderState != null and saleOrderState != ''">
+                or sale_order_state like '%'||#{saleOrderState}||'%'
+            </if>
+            <if test="saleOrderRemark != null and saleOrderRemark != ''">
+                or sale_order_remark like '%'||#{saleOrderRemark}||'%'
+            </if>
+        </where>
+        order by sale_order_id desc
+    </select>
+
+    <!--通过实体作为并且条件查询-->
+    <select id="queryAndByPojo" resultMap="SaleOrderMap">
+        select
+        <include refid="SaleOrderCol"></include>
+        from CRM_Project.sale_order i
+
+        <where>
+            <if test="saleOrderId != null">
+                and sale_order_id = #{saleOrderId}
+            </if>
+            <if test="leadId != null">
+                and lead_id = #{leadId}
+            </if>
+            <if test="empId != null">
+                and emp_id = #{empId}
+            </if>
+            <if test="customerId != null">
+                and Customer_Id = #{customerId}
+            </if>
+            <if test="activityId != null">
+                and Activity_Id = #{activityId}
+            </if>
+            <if test="saleOrderName != null and saleOrderName != ''">
+                and sale_order_name = #{saleOrderName}
+            </if>
+            <if test="saleOrderAmount != null">
+                and sale_order_amount = #{saleOrderAmount}
+            </if>
+            <if test="createDate != null">
+                and create_date = #{createDate}
+            </if>
+            <if test="transactionDate != null">
+                and transaction_date = #{transactionDate}
+            </if>
+            <if test="startDate != null">
+                and start_date = #{startDate}
+            </if>
+            <if test="endDate != null">
+                and end_date = #{endDate}
+            </if>
+            <if test="paymentMothod != null and paymentMothod != ''">
+                and payment_mothod = #{paymentMothod}
+            </if>
+            <if test="saleOrderState != null and saleOrderState != ''">
+                and sale_order_state = #{saleOrderState}
+            </if>
+            <if test="saleOrderRemark != null and saleOrderRemark != ''">
+                and sale_order_remark = #{saleOrderRemark}
+            </if>
+        </where>
+        order by sale_order_id desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="saleOrderId" useGeneratedKeys="true">
+        insert into CRM_Project.sale_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            sale_order_id,
+            <if test="leadId != null">
+                lead_id,
+            </if>
+            <if test="empId != null">
+                emp_id,
+            </if>
+            <if test="customerId != null">
+                Customer_Id,
+            </if>
+            <if test="activityId != null">
+                Activity_Id,
+            </if>
+            <if test="saleOrderName != null">
+                sale_order_name,
+            </if>
+            <if test="saleOrderAmount != null">
+                sale_order_amount,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="transactionDate != null">
+                transaction_date,
+            </if>
+            <if test="startDate != null">
+                start_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="paymentMothod != null">
+                payment_mothod,
+            </if>
+            <if test="saleOrderState != null">
+                sale_order_state,
+            </if>
+            <if test="saleOrderRemark != null">
+                sale_order_remark,
+            </if>
+            <if test="saleContractId != null">
+                sale_contract_id,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{saleOrderId},
+            <if test="leadId != null">
+                #{leadId},
+            </if>
+            <if test="empId != null">
+                #{empId},
+            </if>
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="activityId != null">
+                #{activityId},
+            </if>
+            <if test="saleOrderName != null">
+                #{saleOrderName},
+            </if>
+            <if test="saleOrderAmount != null">
+                #{saleOrderAmount},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+            <if test="transactionDate != null">
+                #{transactionDate},
+            </if>
+            <if test="startDate != null">
+                #{startDate},
+            </if>
+            <if test="endDate != null">
+                #{endDate},
+            </if>
+            <if test="paymentMothod != null">
+                #{paymentMothod},
+            </if>
+            <if test="saleOrderState != null">
+                #{saleOrderState},
+            </if>
+            <if test="saleOrderRemark != null">
+                #{saleOrderRemark},
+            </if>
+            <if test="saleContractId != null">
+                #{saleContractId},
+            </if>
+        </trim>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update CRM_Project.sale_order
+        <set>
+            <if test="leadId != null">
+                lead_id = #{leadId},
+            </if>
+            <if test="empId != null">
+                emp_id = #{empId},
+            </if>
+            <if test="customerId != null">
+                Customer_Id = #{customerId},
+            </if>
+            <if test="activityId != null">
+                Activity_Id = #{activityId},
+            </if>
+            <if test="saleOrderName != null">
+                sale_order_name = #{saleOrderName},
+            </if>
+            <if test="saleOrderAmount != null">
+                sale_order_amount = #{saleOrderAmount},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+            <if test="transactionDate != null">
+                transaction_date = #{transactionDate},
+            </if>
+            <if test="startDate != null">
+                start_date = #{startDate},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate},
+            </if>
+            <if test="paymentMothod != null">
+                payment_mothod = #{paymentMothod},
+            </if>
+            <if test="saleOrderState != null">
+                sale_order_state = #{saleOrderState},
+            </if>
+            <if test="saleOrderRemark != null">
+                sale_order_remark = #{saleOrderRemark},
+            </if>
+        </set>
+        where sale_order_id = #{saleOrderId}
+    </update>
+
+    <!--通过主键删除数据-->
+    <delete id="deleteById">
+        delete from CRM_Project.sale_order where sale_order_id = #{saleOrderId}
+    </delete>
+
+    <!--通过主键列表批量删除数据-->
+    <delete id="deleteBatch">
+        delete from CRM_Project.sale_order where sale_order_id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--通过实体列表批量删除数据-->
+    <delete id="deleteBatchByEntities">
+        delete from CRM_Project.sale_order where sale_order_id in
+        <foreach collection="list" item="entity" open="(" separator="," close=")">
+            #{entity.saleOrderId}
+        </foreach>
+    </delete>
+</mapper>
+

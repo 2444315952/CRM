@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.CommonDao">
+
+    <resultMap type="com.crm.entity.Clue" id="ClueMap">
+        <result property="clueId" column="Clue_Id" jdbcType="INTEGER"/>
+        <result property="clueName" column="Clue_Name" jdbcType="VARCHAR"/>
+        <result property="clueCompany" column="Clue_Company" jdbcType="VARCHAR"/>
+        <result property="clueContacts" column="Clue_Contacts" jdbcType="VARCHAR"/>
+        <result property="cluePhone" column="Clue_Phone" jdbcType="VARCHAR"/>
+        <result property="conversionType" column="Conversion_Type" jdbcType="INTEGER"/>
+        <result property="timeliness" column="TimeLiness" jdbcType="INTEGER"/>
+        <result property="activityId" column="Activity_Id" jdbcType="INTEGER"/>
+        <result property="publicpondId" column="PublicPond_Id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap type="com.crm.entity.Product" id="ProductMap">
+        <result property="proId" column="pro_id" jdbcType="INTEGER"/>
+        <result property="empId" column="emp_id" jdbcType="INTEGER"/>
+        <result property="proName" column="pro_name" jdbcType="VARCHAR"/>
+        <result property="proPrice" column="pro_price" jdbcType="VARCHAR"/>
+        <result property="proNum" column="pro_num" jdbcType="INTEGER"/>
+        <result property="proStatus" column="pro_status" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="proType" column="pro_type" jdbcType="VARCHAR"/>
+        <result property="proDes" column="pro_des" jdbcType="VARCHAR"/>
+        <result property="emp" column="emp" jdbcType="VARCHAR"/>
+        <result property="proUnit" column="pro_unit" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="ClueCol">
+        i.Clue_Id ,i.Clue_Name ,i.Clue_Company ,i.Clue_Contacts ,i.Clue_Phone ,i.Conversion_Type ,i.TimeLiness ,i.Activity_Id ,i.PublicPond_Id ,i.emp_id     </sql>
+
+    <sql id="ProductCol">
+        i.pro_id ,i.emp_id ,i.pro_name ,i.pro_price ,i.pro_num ,i.pro_status ,i.createTime ,i.pro_type ,i.pro_des ,i.emp ,i.pro_unit     </sql>
+
+    <!--查询所有客户-->
+    <select id="queryAllCustomer" resultMap="ClueMap">
+        select
+        <include refid="ClueCol"></include>
+        from CRM_Project.clue i where i.Conversion_Type = 1 order by Clue_Id desc
+    </select>
+
+    <!--查询所有产品库-->
+    <select id="queryAllProduct" resultMap="ProductMap">
+        select
+        <include refid="ProductCol"></include>
+        from CRM_Project.product i order by pro_id desc
+    </select>
+</mapper>
+

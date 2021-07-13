@@ -84,9 +84,11 @@
 						console.log("登录成功")
 						this.$store.commit("updateUserInfo", res.data.data)
 						this.$store.commit("updateUserInfo", res.data.record)
+						console.log(this.$store.getters.empName);
 						this.$router.push({
 							name: 'PurchaseList'
 							name: 'SaleLead'
+							name: 'SaleLeadList'
 						})
 					} else {
 						this.$message({
