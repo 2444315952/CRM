@@ -11,6 +11,10 @@ import product from '../components/product/Product.vue'
 import SaleOrderList from '../components/sale/SaleOrderList.vue'
 import SaleOrder from '../components/sale/SaleOrder.vue'
 import SaleContract from '../components/sale/SaleContract.vue'
+import outInStoreBill from '../components/produce/outInStoreBill.vue'
+import outInStoreWater from '../components/produce/outInStoreWater.vue'
+import Product from '../components/product/Product.vue'
+
 
 const routes = [{
 		path: '/',
@@ -51,6 +55,16 @@ const routes = [{
 		path: '/SaleContract',
 		name: "SaleContract",
 		component: SaleContract
+		name:"Product",
+		component:Product
+	},{
+		path: '/outInStoreBill',
+		name: "outInStoreBill",
+		component: outInStoreBill
+	},{
+		path: '/outInStoreWater',
+		name: "outInStoreWater",
+		component: outInStoreWater
 	}
 ]
 
