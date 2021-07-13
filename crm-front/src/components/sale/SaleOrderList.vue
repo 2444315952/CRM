@@ -40,7 +40,7 @@
 					</el-table-column>
 					<el-table-column label="负责人" prop="empName">
 					</el-table-column>
-					<el-table-column label="所属客户" prop="customerName">
+					<el-table-column label="所属客户" prop="customerName" width="140">
 					</el-table-column>
 					<el-table-column label="订单金额" prop="saleOrderAmount">
 					</el-table-column>

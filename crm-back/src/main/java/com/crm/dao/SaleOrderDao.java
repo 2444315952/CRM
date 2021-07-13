@@ -28,7 +28,7 @@ public interface SaleOrderDao {
      *
      * @return 实例对象
      */
-    List<SaleOrder> queryAll();
+    List<SaleOrder> queryAll(Integer leadId);
 
     /**
      * 通过实体作为或者条件查询

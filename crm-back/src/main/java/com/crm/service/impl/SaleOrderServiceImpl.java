@@ -45,9 +45,9 @@ public class SaleOrderServiceImpl implements SaleOrderService {
      * @return 对象列表
      */
     @Override
-    public PageInfo<SaleOrder> queryAll(Integer pageNum, Integer pageSize) {
+    public PageInfo<SaleOrder> queryAll(Integer pageNum, Integer pageSize, Integer leadId) {
         Page<SaleOrder> page = PageHelper.startPage(pageNum, pageSize);
-        List<SaleOrder> saleOrderList = this.saleOrderDao.queryAll();
+        List<SaleOrder> saleOrderList = this.saleOrderDao.queryAll(leadId);
         return new PageInfo<>(saleOrderList);
     }
 

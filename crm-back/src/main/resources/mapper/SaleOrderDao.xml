@@ -44,7 +44,9 @@
         from CRM_Project.sale_order i left join employee e on i.emp_id = e.emp_id
         left join clue c on i.customer_id = c.clue_id
         left join collection_record cr on i.sale_order_id = cr.sale_order_id
-        left join receipt r on i.sale_order_id = r.sale_order_id group by i.sale_order_id order by lead_id desc
+        left join receipt r on i.sale_order_id = r.sale_order_id
+        <if test="leadId != null"> where i.lead_id = #{leadId} </if>
+        group by i.sale_order_id order by lead_id desc
     </select>
 
     <!--通过实体作为或者条件查询-->

@@ -174,54 +174,33 @@
 						
 					</el-row>
 					
-					<el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+					<el-tabs v-if="!isAdd" v-model="activeName" type="border-card" @tab-click="handleClick">
 						<el-tab-pane label="销售订单" name="first">
-							<el-table :data="ruleForm.purchaseDetailList" show-summary max-height="402"
-								style="width: 100%;height:402px;">
-								<el-table-column label="产品名称" prop="productName">
-									<template #default="scope">
-										<el-input v-model="ruleForm.purchaseDetailList[scope.$index].productName"
-											style="width: 170px" size="small" disabled>
-											<template #append>
-												<el-button icon="el-icon-plus" size="mini"
-													@click="productOpenDialog(scope.$index)">
-												</el-button>
-											</template>
-										</el-input>
-									</template>
+							<el-table :data="saleTableData" max-height="477" style="width: 100%;height:477px;"
+								highlight-current-row @current-change="handleCurrentChange">
+								<el-table-column label="订单名称" prop="saleOrderName">
 								</el-table-column>
-								<el-table-column label="规格型号" prop="specModel">
+								<el-table-column label="负责人" prop="empName">
 								</el-table-column>
-								<el-table-column label="产品单位" prop="productUnit">
+								<el-table-column label="所属客户" prop="customerName" width="140">
 								</el-table-column>
-								<el-table-column label="采购价" prop="purchasePrice">
-									<template #default="scope">
-										<el-input-number v-model="ruleForm.purchaseDetailList[scope.$index].purchasePrice"
-											@change="changePriceOrQuantity(scope.$index)" controls-position="right" size="small"
-											style="width: 130px;" :precision="2">
-										</el-input-number>
-									</template>
+								<el-table-column label="订单金额" prop="saleOrderAmount">
 								</el-table-column>
-								<el-table-column label="采购数量" prop="purchaseQuantity">
-									<template #default="scope">
-										<el-input-number v-model="ruleForm.purchaseDetailList[scope.$index].purchaseQuantity"
-											@change="changePriceOrQuantity(scope.$index)" size="small" :min="1" :precision="0">
-										</el-input-number>
-									</template>
+								<el-table-column label="回款金额" prop="collectionAmount">
 								</el-table-column>
-								<el-table-column label="小计" prop="purchaseSubtotal">
+								<el-table-column label="欠款金额" prop="owedAmount">
 								</el-table-column>
-								<el-table-column label="操作" width="100">
-									<template #default="scope">
-										<el-button type="primary" icon="el-icon-plus" size="mini" @click="addRow()" circle>
-										</el-button>
-										<el-button type="primary" icon="el-icon-minus" size="mini"
-											@click="removeRow(scope.$index)" circle></el-button>
-									</template>
+								<el-table-column label="开票金额" prop="receiptAmount">
+								</el-table-column>
+								<el-table-column label="回款状态" prop="collectionState">
+								</el-table-column>
+								<el-table-column label="开票状态" prop="receiptState">
+								</el-table-column>
+								<el-table-column label="成交日期" prop="transactionDate" :formatter="dateFormat">
 								</el-table-column>
 							</el-table>
 						</el-tab-pane>
-						<el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
+						<el-tab-pane label="销售合同" name="second">销售合同</el-tab-pane>
 						<el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
 						<el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
 					</el-tabs>
@@ -239,6 +218,8 @@
 </template>
 
 <script>
+	import moment from 'moment'
+	
 	export default {
 		name: "SaleLead",
 		data() {
@@ -308,10 +289,18 @@
 					},
 					sourceRowIndex: 0
 				},
-				activeName:'first'
+				activeName:'first',
+				saleTableData:[]
 			}
 		},
 		methods: {
+			dateFormat(row, column) {
+				var date = row[column.property];
+				if (date == undefined) {
+					return ''
+				};
+				return moment(date).format("YYYY-MM-DD")
+			},
 			loadData(){
 				this.axios({
 					url: "http://localhost:8089/saleLead/one",
@@ -321,11 +310,24 @@
 					}
 				}).then(response => {
 					this.ruleForm = response.data
+				}).catch(error => {
+				
+				})
+				
+				this.axios({
+					url: "http://localhost:8089/saleOrder",
+					method: "get",
+					params: {
+						"leadId": this.ruleForm.leadId
+					}
+				}).then(response => {
+					this.saleTableData = response.data.record.list
 					
-					
-					
-					console.log(response.data)
-					
+					this.saleTableData.forEach(t=>{
+						t.owedAmount = t.saleOrderAmount - t.collectionAmount
+						t.collectionState = t.saleOrderAmount == t.collectionAmount ? '全部回款':(t.collectionAmount>0? '部分回款':'未回款')
+						t.receiptState = t.saleOrderAmount == t.receiptAmount ? '全部开票':(t.receiptAmount>0? '部分开票':'未开票')
+					})
 				}).catch(error => {
 				
 				})
@@ -659,5 +661,9 @@
 	
 	#SaleLead .el-form-item .el-input{
 		width: 245px;;
+	}
+	
+	.el-table__row{
+		height: 50px;
 	}
 </style>

@@ -26,7 +26,7 @@ public interface SaleOrderService {
      *
      * @return 实例对象
      */
-    PageInfo<SaleOrder> queryAll(Integer pageNum, Integer pageSize);
+    PageInfo<SaleOrder> queryAll(Integer pageNum, Integer pageSize, Integer leadId);
 
     /**
      * 根据查询条件搜索数据

@@ -47,11 +47,11 @@
             <span v-if="scope.row.apply == 0"> 待审批 </span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <!-- <el-table-column label="操作">
           <template #default="scope">
             <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </el-tab-pane>
     <el-tab-pane name="second" label="已审批票据">
