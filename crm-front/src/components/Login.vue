@@ -70,7 +70,6 @@
 				
 				//const _this = this;
 
-				/* this.axios({
 				this.axios({
 					url: 'http://localhost:8089/login',
 					method: 'post',
@@ -80,9 +79,7 @@
 					
 					if (res.data.success) {
 						console.log("登录成功")
-						this.$store.commit("updateUserInfo", res.data.data)
 						this.$store.commit("updateUserInfo", res.data.record)
-						console.log(this.$store.getters.empName);
 						this.$router.push({
 							name: 'SaleLeadList'
 						})
@@ -94,7 +91,7 @@
 					}
 				}).catch(err => {
 
-				}) */
+				}) 
 				
 			}
 		}
